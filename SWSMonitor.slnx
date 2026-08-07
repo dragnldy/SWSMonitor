@@ -1,0 +1,11 @@
+﻿<Solution>
+  <Project Path="SWSMonitor.Android/SWSMonitor.Android.csproj">
+    <Deploy />
+  </Project>
+  <Project Path="SWSMonitor.Browser/SWSMonitor.Browser.csproj" />
+  <Project Path="SWSMonitor.Desktop/SWSMonitor.Desktop.csproj" />
+  <Project Path="SWSMonitor.iOS/SWSMonitor.iOS.csproj">
+    <Deploy />
+  </Project>
+  <Project Path="SWSMonitor/SWSMonitor.csproj" />
+</Solution>
