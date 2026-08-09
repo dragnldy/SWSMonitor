@@ -36,6 +36,27 @@
         <DataTemplate DataType="{x:Type vm:DynamicGridViewModel}">
             <views:DynamicGridView/>    
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:SurveyViewModel}">
+            <views:SurveyView/>    
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:TeamViewModel}">
+            <views:TeamView/>    
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:BeachSettingViewModel}">
+            <views:BeachSettingView/>    
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ConditionViewModel}">
+            <views:ConditionView/>    
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ProfileViewModel}">
+            <views:ProfileView/>    
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:QuadratViewModel}">
+            <views:QuadratView/>    
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:SpeciesListViewModel}">
+            <views:SpeciesListView/>    
+        </DataTemplate>
     </Application.DataTemplates>
 
     <Application.Styles>

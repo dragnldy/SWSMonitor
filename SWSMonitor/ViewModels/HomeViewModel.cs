@@ -1,12 +1,13 @@
 ﻿using Avalonia.Interactivity;
 using Avalonia.Threading;
-using SWSMonitor.Models;
 using DataLibrary.Crud;
 using DataLibrary.ModelExtensions;
 using Models;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
 using ReactiveUI;
+using ReactiveUI.Primitives;
+using SWSMonitor.Models;
 using System;
 using System.ComponentModel;
 using System.Linq;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace SWSMonitor.ViewModels;
 
-public partial class HomeViewModel :ViewModelBase, IScreen, INotifyPropertyChanged
+public partial class HomeViewModel :ViewModelBase, INotifyPropertyChanged
 {
     #region CTOR
     public HomeViewModel()
@@ -30,12 +31,28 @@ public partial class HomeViewModel :ViewModelBase, IScreen, INotifyPropertyChang
 
         Dispatcher.UIThread.Invoke(() =>
         {
-            Router.Navigate.Execute(GetViewModelById(currentPage));
+            GoToWizardPage(currentPage);
         });
     }
 
+    private void GoToWizardPage(WizardPagesEnum currentPageNum)
+    {
+        WizardViewModelBase wizardViewModel = GetViewModelById(currentPageNum) as WizardViewModelBase;
+        if (CurrentWizardPage is not null && wizardViewModel is not null && CurrentWizardPage != wizardViewModel)
+            CurrentWizardPage.OnNavigatingFrom();
+        CurrentWizardPage = wizardViewModel;
+    }
+
+    private WizardViewModelBase _currentWizardPage;
+    public WizardViewModelBase CurrentWizardPage
+    {
+        get => _currentWizardPage;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _currentWizardPage, value);
+        }
+    }
     private const WizardPagesEnum FirstPageToShow = WizardPagesEnum.SurveyViewModel;
-    public RoutingState Router { get; } = new RoutingState();
 
     private string _goBackButtonText = "Go Back";
     public string GoBackButtonText
@@ -51,20 +68,48 @@ public partial class HomeViewModel :ViewModelBase, IScreen, INotifyPropertyChang
         set { this.RaiseAndSetIfChanged(ref _goNextButtonText, value); }
     }
 
-    private IRoutableViewModel GetViewModelById(WizardPagesEnum pageId)
+    private WizardViewModelBase GetViewModelById(WizardPagesEnum pageId)
     {
         var pageName = Enum.GetName(typeof(WizardPagesEnum), pageId);
-
-        var viewModelType = Type.GetType($"SWSMonitor.ViewModels.{pageName}");
-        if (viewModelType is null)
+        WizardViewModelBase vm = null;
+        switch (pageId)
         {
-            // Fallback to SurveyViewModel if type not found
-            if (pageId != FirstPageToShow)
-                return GetViewModelById(FirstPageToShow); // Rewind to first page
-            return null;
+            case WizardPagesEnum.SurveyViewModel:
+                vm = new SurveyViewModel(this);
+                break;
+            case WizardPagesEnum.TeamViewModel:
+                vm = new TeamViewModel(this);
+                break;
+            case WizardPagesEnum.ConditionViewModel:
+                vm = new ConditionViewModel(this);
+                break;
+            case WizardPagesEnum.BeachSettingViewModel:
+                vm = new BeachSettingViewModel(this);
+                break;
+            case WizardPagesEnum.ProfileViewModel:
+                vm = new ProfileViewModel(this);
+                break;
+            case WizardPagesEnum.QuadratViewModel:
+                vm = new QuadratViewModel(this);
+                break;
+            case WizardPagesEnum.SpeciesListViewModel:
+                vm = new SpeciesListViewModel(this);
+                break;
+            default:
+                vm = new SurveyViewModel(this);
+                pageId = FirstPageToShow;
+                break;
         }
-        IRoutableViewModel viewModel =  Activator.CreateInstance(viewModelType, this) as IRoutableViewModel;
-        return viewModel;
+
+        //var viewModelType = Type.GetType($"SWSMonitor.ViewModels.{pageName}");
+        //if (viewModelType is null)
+        //{
+        //    // Fallback to SurveyViewModel if type not found
+        //    if (pageId != FirstPageToShow)
+        //        return GetViewModelById(FirstPageToShow); // Rewind to first page
+        //    return null;
+        vm?.OnNavigatingTo();
+        return vm;
     }
     private bool _canGoBack = false;
     public bool CanGoBack
@@ -129,19 +174,21 @@ public partial class HomeViewModel :ViewModelBase, IScreen, INotifyPropertyChang
 
     public async Task<bool> NavigatePageById(WizardPagesEnum pageid)
     {
-        await Task.Run(async () => await NavigatePagByIdAsync(pageid).ContinueWith(
+        await Task.Run(async () => await NavigatePageByIdAsync(pageid).ContinueWith(
             result => {
                 // Update the UI on the UI thread
                 Dispatcher.UIThread.Invoke(() =>
                 {
-                    Router.NavigateAndReset.Execute(result.Result);
+                    if (CurrentWizardPage is not null)
+                        CurrentWizardPage.OnNavigatingFrom();
+                    CurrentWizardPage = result.Result as WizardViewModelBase;
                 });
             }
         ));
         return true;
     }
 
-    private async Task<IRoutableViewModel> NavigatePagByIdAsync(WizardPagesEnum pageId)
+    private async Task<WizardViewModelBase> NavigatePageByIdAsync(WizardPagesEnum pageId)
     {
         try
         {
@@ -149,7 +196,7 @@ public partial class HomeViewModel :ViewModelBase, IScreen, INotifyPropertyChang
             {
                 if (CanEditSurvey)
                 {
-                    var currentPage = Router.GetCurrentViewModel();
+                    var currentPage = CurrentWizardPage;
                     if (CanEditSurvey && currentPage is WizardViewModelBase wizardPage)
                     {
                         await Dispatcher.UIThread.InvokeAsync(() =>
@@ -171,48 +218,33 @@ public partial class HomeViewModel :ViewModelBase, IScreen, INotifyPropertyChang
             {
                 pageId = WizardPagesEnum.FirstPage; // Go back to first page
             }
-            nextView = GetViewModelById(pageId);
+            return GetViewModelById(pageId);
         }
         catch (Exception ex)
         {
             var message = "Error parsing current page type and converting to enum";
-            nextView = GetViewModelById(FirstPageToShow);
+            return GetViewModelById(FirstPageToShow);
         }
-        return nextView;
     }
 
     public async Task<bool> NavigatePage(bool goForward)
     {
-        await Task.Run(async () => await NavigatePageAsync(goForward).ContinueWith(
-            result => {
-                // Update the UI on the UI thread
-                Dispatcher.UIThread.Invoke(() =>
-                {
-                    Router.Navigate.Execute(result.Result);
-                });
-            }
-        ));
-        return true;
-    }
-
-    private IRoutableViewModel nextView = null;
-
-    private async Task<IRoutableViewModel> NavigatePageAsync(bool goForward)
-    {
-        IRoutableViewModel nextView = null;
-        try
-        { 
-            WizardPagesEnum pageId = GetCurrentPageId();
-            // Increment or decrement pageId based on navigation direction
-            pageId = goForward ? ++pageId : --pageId;
-            nextView = await NavigatePagByIdAsync(pageId);
-        }
-        catch (Exception ex)
+        if (CurrentWizardPage is not null)
         {
-            var message = "Error parsing current page type and converting to enum";
-            nextView = GetViewModelById(FirstPageToShow);
+            WizardPagesEnum currentPageId = GetCurrentPageId();
+            currentPageId = goForward ? ++currentPageId : --currentPageId;
+            Dispatcher.UIThread.Invoke(async () =>
+            {
+                if (CurrentWizardPage is not null)
+                    CurrentWizardPage.OnNavigatingFrom();
+                CurrentWizardPage = await NavigatePageByIdAsync(currentPageId);
+            });
         }
-        return nextView;
+        else
+        {
+            return false;
+        }
+        return true;
     }
 
     private async Task<WizardPagesEnum> CheckForSaveRequired(WizardPagesEnum pageId)
@@ -247,7 +279,7 @@ public partial class HomeViewModel :ViewModelBase, IScreen, INotifyPropertyChang
 
     private WizardPagesEnum GetCurrentPageId()
     {
-        var currentPage = Router.GetCurrentViewModel();
+        var currentPage = CurrentWizardPage;
         if (currentPage is not null)
         {
             var pageName = currentPage.GetType().Name;
@@ -315,7 +347,7 @@ public partial class HomeViewModel :ViewModelBase, IScreen, INotifyPropertyChang
     {
         if (IsSurveyLoaded)
         {
-            WizardViewModelBase currentPage = (Router.GetCurrentViewModel() as WizardViewModelBase);
+            WizardViewModelBase currentPage = CurrentWizardPage;
             if (currentPage is not null)
             {
                 if (CanEditSurvey && LoadedSurvey is not null)

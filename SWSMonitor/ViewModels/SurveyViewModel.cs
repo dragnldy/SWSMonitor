@@ -8,13 +8,14 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Disposables;
+using System.Security.Cryptography.X509Certificates;
 
 namespace SWSMonitor.ViewModels;
 
 /// <summary>
 ///  This is our ViewModel for the first page
 /// </summary>
-public class SurveyViewModel : WizardViewModelBase, IRoutableViewModel, IActivatableViewModel
+public class SurveyViewModel : WizardViewModelBase, IActivatableViewModel
 {
 
     // private readonly IDataService _dataService;
@@ -23,6 +24,8 @@ public class SurveyViewModel : WizardViewModelBase, IRoutableViewModel, IActivat
     public static string LastBeach = "Ala Spit";
     public static string LastSurveyDate = null;
 
+    public ViewModelActivator Activator { get; } = new ViewModelActivator();
+
     #region CTOR
     public SurveyViewModel()
     {
@@ -30,44 +33,50 @@ public class SurveyViewModel : WizardViewModelBase, IRoutableViewModel, IActivat
     }
 
     // Use Dependency Injection Constructor
-    public SurveyViewModel(IScreen screen) //, IDataService dataService)
+    public SurveyViewModel(ViewModelBase screen) //, IDataService dataService)
     {
         HostScreen = screen;
         //_dataService = dataService;
+
+        Activator = new ViewModelActivator();
 
         PageTitle = "Survey Selection";
         PropertyChanged += SurveyViewModel_PropertyChanged;
         CanEditSurvey = false;
 
-        // ReturnToWizardPage the EditSurvey command so it invokes EditSelectedSurvey when executed.
-        this.WhenActivated((Action<IDisposable> disposables) =>
+        if (!StaticData.AllGlobalsLoaded)
         {
-            if (!StaticData.AllGlobalsLoaded)
+            StaticData.PreLoadGlobalsAsync().Wait();
+        }
+        if (StaticData.Beaches is not null && StaticData.Beaches.Any())
+        {
+            if (SurveySites is null)
             {
-                StaticData.PreLoadGlobalsAsync().Wait();
+                LoadIslandBeaches();
             }
-            if (StaticData.Beaches is not null && StaticData.Beaches.Any())
-            {
-                if (SurveySites is null)
-                {
-                    LoadIslandBeaches();
-                }
-                if (!string.IsNullOrEmpty(LastBeach))
-                    SelectedBeach = SurveySites.FirstOrDefault(b => b.BeachName.Equals(LastBeach, StringComparison.InvariantCultureIgnoreCase));
-                
-            }
-            _userCanEdit = StaticData.UserCanEdit;
-            SetUpCommands(_canGoBack, _canGoNext);
-            if (!string.IsNullOrEmpty(StaticData.Editor))
-            {
-                EditorNameText = StaticData.Editor;
-            }
-            if (!string.IsNullOrEmpty(StaticData.EditReason))
-            {
-                EditReasonText = StaticData.EditReason;
-            }
-        });
+            if (!string.IsNullOrEmpty(LastBeach))
+                SelectedBeach = SurveySites.FirstOrDefault(b => b.BeachName.Equals(LastBeach, StringComparison.InvariantCultureIgnoreCase));
 
+        }
+       
+    }
+
+    public override void OnNavigatingTo()
+    {
+        _userCanEdit = StaticData.UserCanEdit;
+        SetUpCommands(_canGoBack, _canGoNext);
+        if (!string.IsNullOrEmpty(StaticData.Editor))
+        {
+            EditorNameText = StaticData.Editor;
+        }
+        if (!string.IsNullOrEmpty(StaticData.EditReason))
+        {
+            EditReasonText = StaticData.EditReason;
+        }
+
+    }
+    public override void OnNavigatingFrom()
+    {
     }
 
     #endregion CTOR
@@ -433,7 +442,5 @@ public class SurveyViewModel : WizardViewModelBase, IRoutableViewModel, IActivat
             SelectedBeach = SurveySites.FirstOrDefault(n => n.BeachName.Equals(LastBeach));
         this.RaisePropertyChanged(nameof(SelectedBeach));
     }
-
-    public ViewModelActivator Activator { get; } = new ViewModelActivator();
 
 }

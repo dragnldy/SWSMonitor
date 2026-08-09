@@ -25,17 +25,9 @@
 					<Label Content="{Binding PageTitle}" FontSize="24" FontWeight="Bold" FontStyle="Italic" HorizontalAlignment="Center" VerticalAlignment="Top"/>
                     <Label Content="{Binding SelectedSurveyInfo}" FontSize="16"  HorizontalAlignment="Center" VerticalAlignment="Top" />
                  </StackPanel>
-                    <rxui:RoutedViewHost Grid.Row="0" Router="{Binding Router}">
-                        <rxui:RoutedViewHost.DefaultContent>
-                            <TextBlock Text="Default content"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center" />
-                        </rxui:RoutedViewHost.DefaultContent>
-                        <rxui:RoutedViewHost.ViewLocator>
-                            <!-- See AppViewLocator.cs section below -->
-                            <app:AppViewLocator />
-                        </rxui:RoutedViewHost.ViewLocator>
-                    </rxui:RoutedViewHost>
+                 <!-- Content area for navigated pages -->
+                <ContentControl Content="{Binding CurrentWizardPage}">
+                </ContentControl>
             </StackPanel>
             </Border>
             </ScrollViewer>

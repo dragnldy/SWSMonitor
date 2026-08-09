@@ -83,7 +83,7 @@ public class Content : ReactiveObject
 /// <summary>
 ///  This is our ViewModel for the first page
 /// </summary>
-public class BeachSettingViewModel : WizardViewModelBase, IRoutableViewModel, IActivatableViewModel, INotifyDataErrorInfo
+public class BeachSettingViewModel : WizardViewModelBase, IActivatableViewModel, INotifyDataErrorInfo
 {
     public static BeachSettingViewModel? Instance = null;
     private readonly ErrorsViewModel _errorsViewModel;
@@ -113,7 +113,7 @@ public class BeachSettingViewModel : WizardViewModelBase, IRoutableViewModel, IA
     {
         // This is just here for design-time support
     }
-    public BeachSettingViewModel(IScreen screen)
+    public BeachSettingViewModel(ViewModelBase screen)
     {
         BeachSettingViewModel.Instance = this;
         _errorsViewModel = new ErrorsViewModel();
@@ -121,21 +121,24 @@ public class BeachSettingViewModel : WizardViewModelBase, IRoutableViewModel, IA
 
         HostScreen = screen;
         PageTitle = "Beach Setting";
-        this.WhenActivated((Action<IDisposable> disposables) =>
-        {
-            SetUpCommands(_canGoBack, _canGoNext);
-            OnActivated();
-        });
-        this.WhenNavigatingFromObservable()
-        .Subscribe(_ =>
-        {
-            // see if the backshore contents have changed
-            SaveChanges();
-        });
 
         PropertyChanged += BeachSettingViewModel_PropertyChanged;
 
     }
+    public override void OnNavigatingTo()
+    {
+        SetUpCommands(_canGoBack, _canGoNext);
+        OnActivated();
+        base.OnNavigatingTo();
+    }
+
+    public override void OnNavigatingFrom()
+    {
+        if (CanEditSurvey)
+            SaveChanges();
+        base.OnNavigatingFrom();
+    }
+
 
     #endregion CTOR
 

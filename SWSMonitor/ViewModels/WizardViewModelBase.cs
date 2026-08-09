@@ -1,5 +1,6 @@
 ﻿using Avalonia.Threading;
 using ReactiveUI;
+using SWSMonitor.Models;
 using System.Linq;
 
 namespace SWSMonitor.ViewModels;
@@ -10,9 +11,14 @@ namespace SWSMonitor.ViewModels;
 public abstract class WizardViewModelBase : ViewModelBase
 {
     // Reference to IScreen that owns the routable view model.
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
-    public IScreen HostScreen { get; set; }
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+    public ViewModelBase? HostScreen { get; set; } = null;
+
+    public virtual void OnNavigatingTo()
+    {
+    }
+    public virtual void OnNavigatingFrom()
+    {
+    }
 
     internal void SetUpCommands(bool? canGoBack, bool? canGoNext)
     {

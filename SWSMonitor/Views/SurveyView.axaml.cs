@@ -9,8 +9,6 @@ public partial class SurveyView : ReactiveUserControl<SurveyViewModel>
 {
     public SurveyView()
     {
-        //        InitializeComponent();
-        this.WhenActivated((ReactiveUI.Primitives.Disposables.MultipleDisposable disposables) => { }); 
         AvaloniaXamlLoader.Load(this);
     }
 

@@ -80,15 +80,8 @@ internal sealed partial class Program
             {
                 await JSHost.ImportAsync("ErrorInterop", "/errorInterop.js");
 
-                // Import the JavaScript module that contains localStorage functions
-                // The path is relative to the HTML page, not the _framework folder
-                // storage.js contains localStorage functions (separated from main.js to avoid circular dependency)
-                await JSHost.ImportAsync("storage.js", "/storage.js");
-
                 // Google identification service
                 await JSHost.ImportAsync("fedCM.js", "/fedCM.js");
-
-                await JSHost.ImportAsync("browserBeep.js", "/browserBeep.js");
 
                 // Import the JS module
                 await JSHost.ImportAsync("downloadHelper", "/downloadHelper.js");
@@ -248,39 +241,6 @@ internal sealed partial class Program
     }
 
 
-    /// <summary>
-    /// Initializes secure storage and loads API key if available
-    /// </summary>
-    //private static async Task InitializeSecureStorageAsync()
-    //{
-    //    try
-    //    {
-    //        var secureStorage = new BrowserSecureStorageService();
-    //            var apiKeyService = new ApiKeyService(secureStorage);
-
-    //            // Try to load existing API key from storage
-    //            var loaded = await apiKeyService.LoadApiKeyAsync();
-
-    //            if (loaded)
-    //            {
-    //                TraceLogger.LogInformation("API Key loaded from secure storage");
-    //            }
-    //            else
-    //            {
-    //                TraceLogger.LogInformation("No API Key found in secure storage");
-
-    //#if DEBUG
-    //                // In debug mode, save the test key to storage for next time
-    //                await apiKeyService.SetApiKeyAsync(ApiClientHelper.API_KEY);
-    //                TraceLogger.LogInformation("Debug: Test API Key saved to secure storage");
-    //#endif
-    //            }
-    //        }
-    //        catch (System.Exception ex)
-    //        {
-    //            TraceLogger.LogErrorAuto($"Error initializing secure storage: {ex.Message}");
-    //        }
-    //    }
 }
 
 public partial class Downloader : IDownloadService

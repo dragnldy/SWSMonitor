@@ -12,7 +12,7 @@ namespace SWSMonitor.ViewModels;
 /// <summary>
 ///  This is our ViewModel for the first page
 /// </summary>
-public class ConditionViewModel : WizardViewModelBase, IRoutableViewModel, IActivatableViewModel, INotifyDataErrorInfo
+public class ConditionViewModel : WizardViewModelBase, IActivatableViewModel, INotifyDataErrorInfo
 {
     public static ConditionViewModel? Instance = null;
     private readonly ErrorsViewModel _errorsViewModel;
@@ -38,7 +38,7 @@ public class ConditionViewModel : WizardViewModelBase, IRoutableViewModel, IActi
     {
         // This is just here for design-time support
     }
-    public ConditionViewModel(IScreen screen)
+    public ConditionViewModel(ViewModelBase screen)
     {
         ConditionViewModel.Instance = this;
         _errorsViewModel = new ErrorsViewModel();
@@ -46,21 +46,25 @@ public class ConditionViewModel : WizardViewModelBase, IRoutableViewModel, IActi
 
         HostScreen = screen;
         PageTitle = "Conditions";
-        this.WhenActivated((Action<IDisposable> disposables) =>
-        {
-            SetUpCommands(_canGoBack, _canGoNext);
-            OnActivated();
-        });
-        this.WhenNavigatingFromObservable()
-        .Subscribe(_ =>
-        {
-            if (CanEditSurvey)
-                SaveChanges();
-        });
-
         PropertyChanged += ConditionViewModel_PropertyChanged;
 
     }
+
+    public override void OnNavigatingTo()
+    {
+        SetUpCommands(_canGoBack, _canGoNext);
+        OnActivated();
+        base.OnNavigatingTo();
+    }
+
+    public override void OnNavigatingFrom()
+    {
+        if (CanEditSurvey)
+            SaveChanges();
+        base.OnNavigatingFrom();
+    }
+
+
     #endregion
 
     private void ConditionViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)

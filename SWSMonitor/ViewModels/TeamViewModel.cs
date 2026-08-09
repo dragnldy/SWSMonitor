@@ -159,7 +159,7 @@ public class SurveyMember : ReactiveObject
     }
 }
 
-public class TeamViewModel : WizardViewModelBase, IRoutableViewModel, IActivatableViewModel, INotifyDataErrorInfo
+public class TeamViewModel : WizardViewModelBase, IActivatableViewModel, INotifyDataErrorInfo
 {
     public static TeamViewModel? Instance = null;
     private readonly ErrorsViewModel _errorsViewModel;
@@ -174,7 +174,7 @@ public class TeamViewModel : WizardViewModelBase, IRoutableViewModel, IActivatab
         // Just here for design time support
     }
 
-    public TeamViewModel(IScreen hostScreen)
+    public TeamViewModel(ViewModelBase hostScreen)
     {
         TeamViewModel.Instance = this;
         _errorsViewModel = new ErrorsViewModel();
@@ -185,20 +185,19 @@ public class TeamViewModel : WizardViewModelBase, IRoutableViewModel, IActivatab
         PropertyChanged += TeamViewModel_PropertyChanged;
         Activator = new ViewModelActivator();
 
-        this.WhenActivated((Action<IDisposable> disposables) =>
-        {
-            SetUpCommands(_canGoBack, _canGoNext);
-            OnActivated();
-        });
-
-        this.WhenNavigatingFromObservable()
-            .Subscribe(_ =>
-            {
-                if (CanEditSurvey)
-                    SaveChanges();
-            });
-
     }
+
+    public override void OnNavigatingTo()
+    {
+        SetUpCommands(_canGoBack, _canGoNext);
+        OnActivated();
+    }
+    public override void OnNavigatingFrom()
+    {
+        if (CanEditSurvey)
+            SaveChanges();
+    }
+
     #endregion CTOR
 
     #region control properties

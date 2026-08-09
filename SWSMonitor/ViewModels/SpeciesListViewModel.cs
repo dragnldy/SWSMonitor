@@ -72,7 +72,7 @@ public class SpeciesObservation : ReactiveObject
         }
     }
 }
-public class SpeciesListViewModel : WizardViewModelBase, IRoutableViewModel, IActivatableViewModel
+public class SpeciesListViewModel : WizardViewModelBase, IActivatableViewModel
 {
     public static SpeciesListViewModel? Current = null;
     #region CTOR
@@ -82,7 +82,7 @@ public class SpeciesListViewModel : WizardViewModelBase, IRoutableViewModel, IAc
         // This is just here for design-time support
     }
 
-    public SpeciesListViewModel(IScreen screen)
+    public SpeciesListViewModel(ViewModelBase screen)
     {
         Current = this;
         HostScreen = screen;
@@ -91,20 +91,20 @@ public class SpeciesListViewModel : WizardViewModelBase, IRoutableViewModel, IAc
         ObservedSpecies = new();
         AddAPlaceholder();
 
-        this.WhenNavigatingFromObservable().Subscribe(_ =>
-        {
-            if (CanEditSurvey)
-                SaveChanges();
-        });
 
-        this.WhenActivated((Action<IDisposable> disposables) =>
-        {
-            _isLoading = true;
-            BeachEventBase? eventinfo = InitBeachInfo();
-            _isLoading = false;
-
-        });
-
+    }
+    public override void OnNavigatingFrom()
+    {
+        if (CanEditSurvey)
+            SaveChanges();
+        base.OnNavigatingFrom();
+    }
+    public override void OnNavigatingTo()
+    {
+        _isLoading = true;
+        BeachEventBase? eventinfo = InitBeachInfo();
+        _isLoading = false;
+        base.OnNavigatingTo();
     }
     #endregion CTOR
 

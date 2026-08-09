@@ -171,7 +171,7 @@ public class SpeciesDetail : ReactiveObject
     }
 }
 
-public class QuadratViewModel : WizardViewModelBase, IRoutableViewModel, IActivatableViewModel
+public class QuadratViewModel : WizardViewModelBase, IActivatableViewModel
 {
     // Unique identifier for the routable view model.
     public string UrlPathSegment => "QuadratView";
@@ -224,24 +224,26 @@ public class QuadratViewModel : WizardViewModelBase, IRoutableViewModel, IActiva
     {
         // This is just here for design-time support
     }
-    public QuadratViewModel(IScreen screen)
+    public QuadratViewModel(ViewModelBase screen)
     {
         HostScreen = screen;
         PageTitle = "Quadrats";
         PropertyChanged += QuadratViewModel_PropertyChanged;
         Activator = new ViewModelActivator();
+    }
 
-        this.WhenActivated((Action<IDisposable> disposables) =>
-        {
-            SetUpCommands(_canGoBack, _canGoNext);
-            OnActivated();
-        });
-        this.WhenNavigatingFromObservable()
-        .Subscribe(_ =>
-        {
-            if (CanEditSurvey)
-                SaveChanges();
-        });
+    public override void OnNavigatingTo()
+    {
+        SetUpCommands(_canGoBack, _canGoNext);
+        OnActivated();
+        base.OnNavigatingTo();
+    }
+
+    public override void OnNavigatingFrom()
+    {
+        if (CanEditSurvey)
+            SaveChanges();
+        base.OnNavigatingFrom();
     }
 
     private void QuadratViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)

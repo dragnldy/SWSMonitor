@@ -126,7 +126,7 @@ public class SurfaceDetail : ReactiveObject
     }
 }
 
-public class ProfileViewModel : WizardViewModelBase, IRoutableViewModel, IActivatableViewModel, INotifyDataErrorInfo
+public class ProfileViewModel : WizardViewModelBase, IActivatableViewModel, INotifyDataErrorInfo
 {
     public static ProfileViewModel? Instance = null;
     private readonly ErrorsViewModel _errorsViewModel;
@@ -293,7 +293,7 @@ public class ProfileViewModel : WizardViewModelBase, IRoutableViewModel, IActiva
         // Just here for design time support
     }
 
-    public ProfileViewModel(IScreen hostScreen)
+    public ProfileViewModel(ViewModelBase hostScreen)
     {
         ProfileViewModel.Instance = this;
         _errorsViewModel = new ErrorsViewModel();
@@ -304,19 +304,22 @@ public class ProfileViewModel : WizardViewModelBase, IRoutableViewModel, IActiva
         PropertyChanged += ProfileViewModel_PropertyChanged;
         Activator = new ViewModelActivator();
 
-        this.WhenActivated((Action<IDisposable> disposables) =>
-        {
-            SetUpCommands(_canGoBack, _canGoNext);
-            OnActivated();
-        });
-        this.WhenNavigatingFromObservable()
-            .Subscribe(_ =>
-            {
-                if (CanEditSurvey)
-                    SaveChanges();
-            });
-
     }
+    public override void OnNavigatingTo()
+    {
+        SetUpCommands(_canGoBack, _canGoNext);
+        OnActivated();
+        base.OnNavigatingTo();
+    }
+
+    public override void OnNavigatingFrom()
+    {
+        if (CanEditSurvey)
+            SaveChanges();
+        base.OnNavigatingFrom();
+    }
+
+
     #endregion CTOR
 
     private void ProfileViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
