@@ -1,0 +1,141 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="450"
+             x:Class="SWSMonitor.BeachView"
+             xmlns:vm="using:SWSMonitor.ViewModels"
+			 xmlns:views="clr-namespace:SWSMonitor"
+             Width="1200" Height="500"
+             x:CompileBindings="True"
+             x:DataType="vm:BeachViewModel">
+    <Design.DataContext>
+        <vm:BeachViewModel/>
+    </Design.DataContext>
+    <ScrollViewer>
+        <StackPanel Orientation="Vertical" Margin="16" MaxWidth="1100">
+            <Label Content="Add/Edit Beach" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,16"/>
+            
+            <!-- Basic Information Section -->
+            <Border BorderBrush="{DynamicResource SystemAccentColor}" BorderThickness="2" CornerRadius="4" Padding="12" Margin="0,0,0,12">
+                <StackPanel Spacing="8">
+                    <TextBlock Text="Basic Information" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                    
+                    <Grid ColumnDefinitions="180,*,180,*" RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="8" ColumnSpacing="12">
+                       
+                        <!-- Beach Name -->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Beach Name:*" VerticalAlignment="Center" FontWeight="Bold"/>
+                        <TextBox Grid.Row="0" Grid.Column="1"
+                                 IsReadOnly="{Binding IsExistingBeach}"
+                                 Text="{Binding BeachName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MaxLength="255" 
+                                 PlaceholderText="Required"/>
+                        
+                        <!-- Island -->
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="Island:" VerticalAlignment="Center"/>
+                        <ComboBox Grid.Row="0" Grid.Column="3" SelectedItem="{Binding Island}" 
+                                  SelectedValue="{Binding Island, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" 
+                                  AutoScrollToSelectedItem="True"
+                                  Width="340" ItemsSource="{Binding IslandOptions}"/>
+                      
+                        <!-- Currently Monitored -->
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Currently Monitored:" VerticalAlignment="Center"/>
+                        <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding IsCurrentlyMonitored}" VerticalAlignment="Center" 
+                                  HorizontalAlignment="Left"/>
+                        
+                        <!-- Has Bulkhead -->
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Has Bulkhead:" VerticalAlignment="Center"/>
+                        <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding HasBulkhead}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                        
+                        <!-- Bulkhead Construction -->
+                        <TextBlock Grid.Row="2" Grid.Column="2" Text="Bulkhead Construction:" VerticalAlignment="Center"/>
+                        <ComboBox Grid.Row="2" Grid.Column="3" 
+                                  SelectedValue="{Binding BulkHeadConstruction, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                  SelectedItem="{Binding BulkHeadConstruction}" 
+                                  IsEnabled="{Binding HasBulkhead}"
+                                  Width="340"
+                                  ItemsSource="{Binding BulkheadConstructionOptions }" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Location & Coordinates Section -->
+            <Border BorderBrush="{DynamicResource SystemAccentColor}" BorderThickness="2" CornerRadius="4" Padding="12" Margin="0,0,0,12">
+                <StackPanel Spacing="8">
+                    <TextBlock Text="Location and Coordinates" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                    
+                    <Grid ColumnDefinitions="180,*,180,*" RowDefinitions="Auto,Auto,Auto" RowSpacing="8" ColumnSpacing="12">
+                        <!-- Latitude -->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Latitude:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Lat, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" 
+                                 PlaceholderText="47.5-48.5" MaxLength="10" KeyDown="NumericTextBox_KeyDown"/>
+                        
+                        <!-- Longitude -->
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="Longitude:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="0" Grid.Column="3" Text="{Binding Long, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" 
+                                 PlaceholderText="-123-> -122" MaxLength="10" KeyDown="NumericTextBox_KeyDown"/>
+                        
+                        <!-- Beach Directions -->
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Beach Directions:" VerticalAlignment="Top" Margin="0,8,0,0"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding BeachDirections}" 
+                                 AcceptsReturn="True" TextWrapping="Wrap" MinHeight="80" MaxLength="1600"
+                                 PlaceholderText="Enter directions to reach the beach..."/>
+                        
+                        <!-- Profile Directions -->
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Profile Directions:" VerticalAlignment="Top" Margin="0,8,0,0"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding ProfileDirections}" 
+                                 AcceptsReturn="True" TextWrapping="Wrap" MinHeight="80" MaxLength="1600"
+                                 PlaceholderText="Enter profile survey directions..."/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Survey Information Section -->
+            <Border BorderBrush="{DynamicResource SystemAccentColor}" BorderThickness="2" CornerRadius="4" Padding="12" Margin="0,0,0,12">
+                <StackPanel Spacing="8">
+                    <TextBlock Text="Survey Information" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                    
+                    <Grid ColumnDefinitions="180,*,180,*" RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="8" ColumnSpacing="12">
+                        <!-- Survey Width -->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Survey Width (m):" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SurveyWidth, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" 
+                                       MaxLength="4" KeyDown="IntegerTextBox_KeyDown"  PlaceholderText="0-50"/>                        
+                        <!-- DNR Class -->
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="DNR Class:" VerticalAlignment="Center"/>
+                        <ComboBox Grid.Row="0" Grid.Column="3" SelectedValue="{Binding DecodedDnr, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" 
+                                  SelectedItem="{Binding DecodedDnr}"
+                                  Width="340"
+                                       ItemsSource="{Binding DnrClassOptions }"/>
+                        
+                        <!-- Profile Line Start -->
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Profile Line Start (m):" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ProfileLineStart, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" 
+                                 MaxLength="5" KeyDown="NumericTextBox_KeyDown" 
+                                 PlaceholderText="0.0-50.0"/>                        
+                        
+                        <!-- Vertical Reference -->
+                        <TextBlock Grid.Row="1" Grid.Column="2" Text="Vertical Reference:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding VertRef}" MaxLength="255"
+                                 PlaceholderText="e.g., NAVD88, MLLW"/>
+                        
+                        <!-- Tide Chart -->
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Tide Chart:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding TideChart}" MaxLength="255"
+                                 PlaceholderText="Tide chart reference or URL"/>
+                        
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Additional Notes Section -->
+            <Border BorderBrush="{DynamicResource SystemAccentColor}" BorderThickness="2" CornerRadius="4" Padding="12" Margin="0,0,0,12">
+                <StackPanel Spacing="8">
+                    <TextBlock Text="Additional Notes" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                    
+                    <TextBox Text="{Binding AdditionalNotes}" 
+                             AcceptsReturn="True" TextWrapping="Wrap" MinHeight="120" MaxLength="1600"
+                             PlaceholderText="Enter any additional notes or observations about this beach..."/>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

@@ -1,0 +1,60 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:rxui="http://reactiveui.net"
+             xmlns:app="clr-namespace:SWSMonitor"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             Width="900"
+             xmlns:vm="using:SWSMonitor.ViewModels"
+             x:DataType="vm:HomeViewModel"
+             x:Class="SWSMonitor.HomeView">
+    <Design.DataContext>
+        <vm:HomeViewModel />
+    </Design.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ScrollViewer>
+		<Border BorderBrush="Black" BorderThickness="2" Width="800">
+			<StackPanel Spacing="5" VerticalAlignment="Top">
+                 <StackPanel Height="50" Background="{DynamicResource ResourceKey=PaneBackground}">
+					<Label Content="{Binding PageTitle}" FontSize="24" FontWeight="Bold" FontStyle="Italic" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <Label Content="{Binding SelectedSurveyInfo}" FontSize="16"  HorizontalAlignment="Center" VerticalAlignment="Top" />
+                 </StackPanel>
+                    <rxui:RoutedViewHost Grid.Row="0" Router="{Binding Router}">
+                        <rxui:RoutedViewHost.DefaultContent>
+                            <TextBlock Text="Default content"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center" />
+                        </rxui:RoutedViewHost.DefaultContent>
+                        <rxui:RoutedViewHost.ViewLocator>
+                            <!-- See AppViewLocator.cs section below -->
+                            <app:AppViewLocator />
+                        </rxui:RoutedViewHost.ViewLocator>
+                    </rxui:RoutedViewHost>
+            </StackPanel>
+            </Border>
+            </ScrollViewer>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="15" HorizontalAlignment="Center" IsVisible="{Binding IsSurveyLoaded}">
+            <Button TabIndex="1000" x:Name="GoBackButton" Content="{Binding GoBackButtonText}" IsVisible="{Binding CanGoBack}" Click="GoBackButton_Click" Margin="0,0,10,0"/>
+            <SplitButton Content="{Binding GoNextButtonText}" IsVisible="{Binding IsSurveyLoaded}" Click="GoNextButton_Click" >
+                <SplitButton.Flyout>
+                    <MenuFlyout>
+                        <MenuItem Header="Teams" Click="NavigateToTeams" />
+                        <MenuItem Header="Conditions" Click="NavigateToConditions" />
+                        <MenuItem Header="Beach Setting" Click="NavigateToBeachSetting" />
+                        <MenuItem Header="Profiles" Click="NavigateToProfiles" />
+                        <MenuItem Header="Quadrats" Click="NavigateToQuadrats" />
+                        <MenuItem Header="Species List" Click="NavigateToSpeciesList" />
+                        <MenuItem Header="Select Different Survey" Click="NavigateToSelectDifferentStudy" />
+                    </MenuFlyout>
+                </SplitButton.Flyout>
+            </SplitButton>
+            <Button TabIndex="1012" x:Name="SaveButton" Content="Save" IsEnabled="{Binding CanEditSurvey}" IsVisible="{Binding IsDirty}" Click="SaveButton_Click" />
+        </StackPanel>
+    </Grid>
+</UserControl>

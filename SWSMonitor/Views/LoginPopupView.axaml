@@ -1,0 +1,59 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:vm="using:SWSMonitor.ViewModels"
+             x:DataType="vm:LoginPopupViewModel"
+             x:Class="SWSMonitor.LoginPopupView">
+    <Design.DataContext>
+        <vm:LoginPopupViewModel />
+    </Design.DataContext>
+
+    <StackPanel Orientation="Vertical" Width="500">
+        <Label Content="Login with Google Credentials" FontSize="16" HorizontalAlignment="Center"/>
+        <StackPanel Orientation="Vertical" Margin="12" Spacing="8">
+            	<Label VerticalContentAlignment="Center" Content="Enter Gmail Account to Sign In" HorizontalAlignment="Center" FontSize="18"/>
+				<TextBox VerticalContentAlignment="Center" MaxLength="50" Width="300" Margin="0,5,0,0"
+				          Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+				<Button HorizontalAlignment="Center" IsVisible="{Binding !GoodToGo}" Click="SignInButton_Click" Margin="0,10,0,0">
+					      <Button.Content>
+                           <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+							 <Image Source="avares://BeachSurvey/Assets/Login-Door.png" 
+	                             Width="20" Height="20" Margin="0"/>
+						      <TextBlock Text=" Sign-In with your GMail Account" Margin="5,0,0,0"/>
+                           </StackPanel>
+					     </Button.Content>
+				   </Button>
+				   <StackPanel Orientation="Vertical" Margin="0,20,0,0" IsVisible="{Binding IsSignedIn}" HorizontalAlignment="Center">
+					   <Label HorizontalAlignment="Center" Content="{Binding SignedInMessage}" FontSize="16" FontWeight="Bold" Foreground="Green"/>
+					   <Label HorizontalAlignment="Center" Content="{Binding RoleMessage}" FontSize="16" Foreground="Green" FontStyle="Italic"/>
+				   </StackPanel>
+				   <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
+						<Label HorizontalAlignment="Center" IsVisible="{Binding IsGuest}"
+			             Content="Feel free to visit public areas as a guest." Foreground="Red" FontStyle="Italic"/>
+						<Label HorizontalAlignment="Center" IsVisible="{Binding IsError}"
+			             Content="Feel free to visit public areas as a guest." Foreground="Red" FontStyle="Italic"/>
+				   </StackPanel>
+
+					<StackPanel IsVisible="{Binding CanEdit}" Orientation="Vertical" HorizontalAlignment="Center">
+							<Label HorizontalAlignment="Center"
+								Content="Please provide a reason if editing an existing survey:" Foreground="Green" FontStyle="Italic"/>
+							<TextBox AcceptsReturn="True" Width="300" Height="60" TextWrapping="Wrap"
+								Text="{Binding EditReasonText, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+					</StackPanel>
+
+					<Button HorizontalAlignment="Center" VerticalContentAlignment="Center" Margin="0,10,0,0"
+				           Click="SignOutButton_Click" IsVisible="{Binding IsSignedIn}">
+						<Button.Content>
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+							<Image Source="avares://BeachSurvey/Assets/Logout-Door.png" 
+								Width="20" Height="20" Margin="0"/>
+							<TextBlock Text=" Sign-Out from GMail Account" Margin="5,0,0,0"/>
+						</StackPanel>
+						</Button.Content>
+					</Button>
+			   </StackPanel>
+
+        </StackPanel>
+</UserControl>

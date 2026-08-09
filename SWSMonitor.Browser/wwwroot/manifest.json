@@ -1,0 +1,26 @@
+﻿{
+  "name": "Beach Survey",
+  "short_name": "Beach Survey",
+  "description": "Sound Water Stewards Beach Survey Application",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0066cc",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "Sound-water-stewards-logo-ic.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "Sound-water-stewards-logo-ic.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": [ "productivity", "education" ],
+  "prefer_related_applications": false
+}

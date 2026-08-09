@@ -1,0 +1,41 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:SWSMonitor.ViewModels"
+             xmlns:views="clr-namespace:SWSMonitor"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:DataType="vm:SplashScreenViewModel"
+             x:Class="SWSMonitor.SplashScreenView">
+    <Design.DataContext>
+        <vm:SplashScreenViewModel />
+        </Design.DataContext>
+    <Border BorderBrush="Black" BorderThickness="2">
+        <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+           <StackPanel Height="50" Background="{DynamicResource ResourceKey=PaneBackground}" VerticalAlignment="Top">
+			    <Button Content="{Binding PageTitle}" IsVisible="{Binding TitleVisible}" FontSize="24" FontWeight="Bold" FontStyle="Italic" HorizontalAlignment="Center" VerticalAlignment="Top"
+                   Click="LoginButton_Click"/>
+           </StackPanel>
+            <Popup IsOpen="{Binding IsPopupOpen}">
+               <Border Background="DarkGray" BorderBrush="{DynamicResource ResourceKey=PaneBackground}" BorderThickness="2" Padding="10">
+					<StackPanel>
+						<views:LoginPopupView />
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+							<Button Content="Cancel" Click="ClosePopup_Click"/>
+						</StackPanel>
+					</StackPanel>
+				</Border>
+
+                </Popup>
+           <StackPanel Orientation="Vertical">
+	    	<Label Content="{Binding SplashMessage}" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,150,0,0"/>
+            <Image Source="avares://BeachSurvey/Assets/Sound-water-stewards-logo-ic.png" HorizontalAlignment="Center"
+               Margin="0,50,0,0" Height="200" />
+               <Label Content="{Binding SplashMessage2}" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,50,0,0"/>
+               <Label Content="{Binding SplashMessage3}" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,15,0,15"/>
+               <HyperlinkButton NavigateUri="{Binding SWSUrl}" Foreground="Red" FontSize="18" FontStyle="Italic" HorizontalAlignment="Center"
+                         Content="{Binding SWSLink}" />
+          </StackPanel>
+        </StackPanel>
+    </Border>
+</UserControl>

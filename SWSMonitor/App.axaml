@@ -1,15 +1,58 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="using:SWSMonitor"
              x:Class="SWSMonitor.App"
-             RequestedThemeVariant="Default">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
-
+             xmlns:local="using:SWSMonitor"
+             xmlns:vm="using:SWSMonitor.ViewModels"
+             xmlns:views="using:SWSMonitor"
+             RequestedThemeVariant="Dark">
     <Application.DataTemplates>
-        <local:ViewLocator />
+        <DataTemplate DataType="{x:Type vm:SplashScreenViewModel}">
+            <views:SplashScreenView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:LoginViewModel}">
+            <views:LoginView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:HomeViewModel}">
+            <views:HomeView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:SettingsViewModel}">
+            <views:SettingsView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:MapsViewModel}">
+            <views:MapsView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:MapWebViewModel}">
+            <views:MapWebView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:PeopleViewModel}">
+            <views:PeopleView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:GlossariesViewModel}">
+            <views:GlossariesView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:BeachesViewModel}">
+            <views:BeachesView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:DynamicGridViewModel}">
+            <views:DynamicGridView/>    
+        </DataTemplate>
     </Application.DataTemplates>
 
     <Application.Styles>
-        <FluentTheme />
+        <FluentTheme/>
+        <StyleInclude Source="Styles/SurveyStyles.axaml"/>
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
     </Application.Styles>
+
+    <Application.Resources>
+        <SolidColorBrush x:Key="ListBoxBorder">#ab19d5</SolidColorBrush>
+        <SolidColorBrush x:Key="PrimaryText">#CFCFCF</SolidColorBrush>
+        <LinearGradientBrush x:Key="PaneBackground" StartPoint="0%,0%" EndPoint="0%,100%">
+            <GradientStop Color="#ab19d5" Offset="0"/>
+            <GradientStop Color="#111214" Offset="1"/>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="PrimaryBackground">#14172D</SolidColorBrush>
+        <SolidColorBrush x:Key="ButtonHoverForeground">White</SolidColorBrush>
+        <SolidColorBrush x:Key="ButtonHoverBackground">#6633dd</SolidColorBrush>
+    </Application.Resources>
 </Application>

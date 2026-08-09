@@ -1,0 +1,211 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:SWSMonitor.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="750" d:DesignHeight="500"
+             x:Class="SWSMonitor.GlossaryView"
+             x:DataType="vm:SpeciesViewModel">
+    <Design.DataContext>
+        <vm:SpeciesViewModel />
+        </Design.DataContext>
+    <ScrollViewer Height="500">
+        <StackPanel Orientation="Vertical" Margin="16" Width="750">
+            <Label Content="Add/Edit Species" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,16"/>
+            
+            <!-- Nomenclature Section -->
+            <Border BorderBrush="{DynamicResource SystemAccentColor}" BorderThickness="2" CornerRadius="4" Padding="12" Margin="0,0,0,12">
+                <StackPanel Spacing="8">
+                    <TextBlock Text="Nomenclature" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                    
+                    <Grid ColumnDefinitions="150,500" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="8">
+                        <!-- Scientific Name -->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Scientific Name:*" VerticalAlignment="Center" FontWeight="Bold"/>
+                        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ScientificName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" 
+                                 IsReadOnly="{Binding IsExistingSpecies}"
+                                 MaxLength="255" PlaceholderText="Required"/>
+                        
+                        <!-- Common Name -->
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Common Name:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding CommonNameOrDescription}" 
+                                 MaxLength="255" PlaceholderText="Optional"/>
+                        
+                        <!-- Taxon Common Name -->
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Taxon Common:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding TaxonCommonName}" 
+                                 MaxLength="255" PlaceholderText="Optional"/>
+
+                        <!-- Former Scientific Name
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Former Name:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding CurrentSpecies.FormerScientificName}"/>
+                         -->
+
+                        <!-- AphiaID -->
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Aphia ID:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding AphiaID}" 
+                                       ToolTip.Tip="from WORMS database, http://www.marinespecies.org"
+                                       MaxLength="7" KeyDown="PositiveIntegerTextBox_KeyDown" />
+
+                        <!-- TSN -->
+                        <TextBlock Grid.Row="5" Grid.Column="0" Text="TSN:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding TSN}" 
+                                 ToolTip.Tip="from ITIS database, https://www.itis.gov"
+                                 MaxLength="7" KeyDown="PositiveIntegerTextBox_KeyDown" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Taxonomy Section -->
+            <Border BorderBrush="{DynamicResource SystemAccentColor}" BorderThickness="2" CornerRadius="4" Padding="12" Margin="0,0,0,12">
+                <StackPanel Spacing="8">
+                    <TextBlock Text="Taxonomy" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                    
+                    <Grid ColumnDefinitions="150,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="8">
+                        <!-- Kingdom -->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Kingdom:" VerticalAlignment="Center"/>
+                        <AutoCompleteBox Grid.Row="0" Grid.Column="1"  Classes="SpeciesSelect"  Width="400" HorizontalAlignment="Left"
+                                    KeyDown="search_KeyDown"
+                                    x:Name="kingdom_search" 
+		                            AsyncPopulator="{Binding KingdomSearchFunction}"
+		                            FilterMode="None"
+		                            PlaceholderText="Search Kingdoms ...."
+                                    MaxLength="80"
+                                    IsTextCompletionEnabled="False"
+                                    MinimumPrefixLength="1"
+		                            Text="{Binding Kingdom, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                    Tag="{Binding .}"
+		                            MaxDropDownHeight="200">
+                              </AutoCompleteBox>
+                                               
+                        
+                        <!-- Phylum -->
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Phylum:" VerticalAlignment="Center"/>
+                        <AutoCompleteBox Grid.Row="1" Grid.Column="1"  Classes="SpeciesSelect"  Width="400"  HorizontalAlignment="Left"
+                                    KeyDown="search_KeyDown"
+                                    x:Name="phylum_search" 
+		                            AsyncPopulator="{Binding PhylumSearchFunction}"
+		                            FilterMode="None"
+		                            PlaceholderText="Search Phyla ...."
+                                    MaxLength="80"
+                                    IsTextCompletionEnabled="False"
+                                    MinimumPrefixLength="1"
+		                            Text="{Binding Phylum, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                    Tag="{Binding .}"
+		                            MaxDropDownHeight="200">
+                              </AutoCompleteBox>
+
+                        <!-- Subphylum -->
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Subphylum:" VerticalAlignment="Center"/>
+                        <AutoCompleteBox Grid.Row="2" Grid.Column="1"  Classes="SpeciesSelect"  Width="400"  HorizontalAlignment="Left"
+                                    KeyDown="search_KeyDown"
+                                    x:Name="subphylum_search" 
+		                            AsyncPopulator="{Binding SubPhylumSearchFunction}"
+		                            FilterMode="None"
+		                            PlaceholderText="Search Subphyla ...."
+                                    MaxLength="80"
+                                    IsTextCompletionEnabled="False"
+                                    MinimumPrefixLength="1"
+		                            Text="{Binding Subphylum, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                    Tag="{Binding .}"
+		                            MaxDropDownHeight="200">
+                              </AutoCompleteBox>
+
+                        <!-- Class -->
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Class:" VerticalAlignment="Center"/>
+                        <AutoCompleteBox Grid.Row="3" Grid.Column="1"  Classes="SpeciesSelect"  Width="400"  HorizontalAlignment="Left"
+                                    KeyDown="search_KeyDown"
+                                    x:Name="class_search" 
+		                            AsyncPopulator="{Binding ClassSearchFunction}"
+		                            FilterMode="None"
+		                            PlaceholderText="Search Classes ...."
+                                    MaxLength="80"
+                                    IsTextCompletionEnabled="False"
+                                    MinimumPrefixLength="1"
+		                            Text="{Binding Class, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                    Tag="{Binding .}"
+		                            MaxDropDownHeight="200">
+                              </AutoCompleteBox>
+
+                        <!-- Order -->
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Order:" VerticalAlignment="Center"/>
+                        <AutoCompleteBox Grid.Row="4" Grid.Column="1"  Classes="SpeciesSelect"  Width="400"  HorizontalAlignment="Left"
+                                    KeyDown="search_KeyDown"
+                                    x:Name="order_search" 
+		                            AsyncPopulator="{Binding OrderSearchFunction}"
+		                            FilterMode="None"
+		                            PlaceholderText="Search Orders ...."
+                                    MaxLength="80"
+                                    IsTextCompletionEnabled="False"
+                                    MinimumPrefixLength="1"
+		                            Text="{Binding Order, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                    Tag="{Binding .}"
+		                            MaxDropDownHeight="200">
+                              </AutoCompleteBox>
+
+                        <!-- Family -->
+                        <TextBlock Grid.Row="5" Grid.Column="0" Text="Family:" VerticalAlignment="Center"/>
+                        <AutoCompleteBox Grid.Row="5" Grid.Column="1"  Classes="SpeciesSelect"  Width="400"  HorizontalAlignment="Left"
+                                    KeyDown="search_KeyDown"
+                                    x:Name="family_search" 
+		                            AsyncPopulator="{Binding FamilySearchFunction}"
+		                            FilterMode="None"
+		                            PlaceholderText="Search Families ...."
+                                    MaxLength="80"
+                                    IsTextCompletionEnabled="False"
+                                    MinimumPrefixLength="1"
+		                            Text="{Binding Family, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                    Tag="{Binding .}"
+		                            MaxDropDownHeight="200">
+                              </AutoCompleteBox>
+
+                        <!-- Genus -->
+                        <TextBlock Grid.Row="6" Grid.Column="0" Text="Genus:" VerticalAlignment="Center"/>
+                        <AutoCompleteBox Grid.Row="6" Grid.Column="1"  Classes="SpeciesSelect"  Width="400"  HorizontalAlignment="Left"
+                                    KeyDown="search_KeyDown"
+                                    x:Name="genus_search" 
+		                            AsyncPopulator="{Binding GenusSearchFunction}"
+		                            FilterMode="None"
+		                            PlaceholderText="Search Genera ...."
+                                    MaxLength="80"
+                                    IsTextCompletionEnabled="False"
+                                    MinimumPrefixLength="1"
+		                            Text="{Binding Genus, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                    Tag="{Binding .}"
+		                            MaxDropDownHeight="200">
+                              </AutoCompleteBox>
+
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Attributes Section -->
+            <Border BorderBrush="{DynamicResource SystemAccentColor}" BorderThickness="2" CornerRadius="4" Padding="12" Margin="0,0,0,12">
+                <StackPanel Spacing="8">
+                    <TextBlock Text="Attributes" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                    
+                        <Grid Grid.ColumnDefinitions="150,150,150,150" RowDefinitions="Auto,Auto, Auto">
+                        <!-- Complexity Rank -->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Complexity Rank:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ComplexityRank}" HorizontalAlignment="Left"
+                                       MaxLength="2" Width="4" KeyDown="PositiveIntegerTextBox_KeyDown" />
+
+                        <!-- Is Invasive -->
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Invasive:" VerticalAlignment="Center"/>
+                        <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding IsInvasive}"/>
+                        
+                        <!-- Is Non-Native -->
+                        <TextBlock Grid.Row="1" Grid.Column="2" Text="Non-Native:" VerticalAlignment="Center"/>
+                        <CheckBox Grid.Row="1" Grid.Column="3" IsChecked="{Binding IsNonNative}"/>
+                        <!-- Profile Data -->
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Use for Profile Data?" VerticalAlignment="Center"/>
+                        <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding UseForProfileData}" />
+
+                        <!-- Used By Surveys -->
+                        <TextBlock Grid.Row="2" Grid.Column="2" Text="Used By Surveys:" VerticalAlignment="Center"/>
+                        <CheckBox Grid.Row="2" Grid.Column="3" IsChecked="{Binding IsUsedBySurveys}" IsEnabled="False"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

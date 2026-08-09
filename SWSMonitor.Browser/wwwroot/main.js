@@ -10,4 +10,17 @@ const dotnetRuntime = await dotnet
 
 const config = dotnetRuntime.getConfig();
 
+// Export googleAuth for JSImport
+import { triggerGoogleFedCM } from './fedCM.js';
+globalThis.googleAuth = triggerGoogleFedCM;
+
+// Import and expose browserBeep
+import { playBeep } from './browserBeep.js';
+globalThis.browserBeep = playBeep;
+
+// ============================================================================
+// Run the .NET application
+// Note: localStorage functions are now in storage.js to avoid circular dependency
+// ============================================================================
+
 await dotnetRuntime.runMain(config.mainAssemblyName, [globalThis.location.href]);

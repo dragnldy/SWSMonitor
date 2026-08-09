@@ -3,6 +3,8 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using SWSMonitor.ViewModels;
 using SWSMonitor.Views;
+using DataLibrary.DataSources;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace SWSMonitor;
 
@@ -11,32 +13,41 @@ public partial class App : Application
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
-#if DEBUG
-        this.AttachDeveloperTools();
-#endif
     }
 
     public override void OnFrameworkInitializationCompleted()
     {
+        var collection = new ServiceCollection();
+        collection.AddSingleton<MainWindowViewModel>();
+        collection.AddTransient<SurveyViewModel>();
+        // Abstract the DataService
+        collection.AddSingleton<IDataService, SurveyDataService>();
+        ServiceProvider services  = collection.BuildServiceProvider();
+
+
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             desktop.MainWindow = new MainWindow
             {
-                DataContext = new MainViewModel()
+                DataContext = services.GetRequiredService<MainWindowViewModel>()
             };
-        }
-        else if (ApplicationLifetime is IActivityApplicationLifetime singleViewFactoryApplicationLifetime)
-        {
-            singleViewFactoryApplicationLifetime.MainViewFactory = () => new MainView { DataContext = new MainViewModel() };
+ 
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
-            singleViewPlatform.MainView = new MainView
+            singleViewPlatform.MainView = new SWSMonitor.MainView
             {
                 DataContext = new MainViewModel()
             };
         }
 
         base.OnFrameworkInitializationCompleted();
+
     }
+    //if (GlobalValues.ImportsDone)
+    //{
+    //    ConsoleLogger.ConsoleLog("App: OnFrameworkInitializationCompleted: Imports already done.");
+    //}
+
+    //base.OnFrameworkInitializationCompleted();
 }

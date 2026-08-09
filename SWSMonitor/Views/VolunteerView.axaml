@@ -1,0 +1,90 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:SWSMonitor.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="500"
+             x:Class="SWSMonitor.VolunteerView"
+             x:DataType="vm:VolunteerViewModel">
+    <Design.DataContext>
+        <vm:VolunteerViewModel />
+    </Design.DataContext>
+    <StackPanel Orientation="Vertical" Width="500">
+        <Label Content="Volunteer Profile" FontSize="16" HorizontalAlignment="Center"/>
+        <StackPanel Orientation="Vertical" Margin="12" Spacing="8">
+                <Grid ColumnDefinitions="125,*"
+                   RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+              <!-- FirstLast -->
+              <TextBlock Text="Name (FirstLast):" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="4"/>
+              <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding FirstLast, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" 
+                       IsReadOnly="{Binding IsExistingVolunteer}" MaxLength="255" Margin="4" 
+                       PlaceholderText="e.g. Mary West"/>
+
+              <!-- First / Last -->
+              <TextBlock Text="First name:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="4"/>
+              <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MaxLength="50" Margin="4"/>
+
+              <TextBlock Text="Last name:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Margin="4"/>
+              <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MaxLength="50" Margin="4"/>
+
+              <!-- Contact -->
+              <TextBlock Text="Email:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Margin="4"/>
+              <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MaxLength="255" Margin="4"
+                       PlaceholderText="e.g. myaccount@gmail.com"/>
+
+              <TextBlock Text="Cell Phone:" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Margin="4"/>
+              <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding CellPhone, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MaxLength="50" Margin="4"
+                       KeyDown="PhoneTextBox_KeyDown"
+                       PlaceholderText="e.g. (360) 555-1212"/>
+
+              <TextBlock Text="Phone:" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" Margin="4"/>
+              <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Phone, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MaxLength="50" Margin="4"
+                       KeyDown="PhoneTextBox_KeyDown"
+                       PlaceholderText="e.g. (360) 555-1212"/>
+
+
+              <!-- Address -->
+              <TextBlock Text="Address:" Grid.Row="7" Grid.Column="0" VerticalAlignment="Center" Margin="4"/>
+              <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding Address, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MaxLength="255" Margin="4"/>
+
+              <TextBlock Text="City / State / Zip:" Grid.Row="8" Grid.Column="0" VerticalAlignment="Center" Margin="4"/>
+
+              <StackPanel Grid.Row="8" Grid.Column="1" Orientation="Horizontal" Spacing="6" Margin="4">
+                <AutoCompleteBox KeyDown="City_KeyDown" Width="150" PlaceholderText="City" Text="{Binding City, Mode=TwoWay}"
+                      ItemsSource="{Binding CityStates}" SelectedItem="{Binding SelectedCityState}"/>
+                <TextBox Width="50" PlaceholderText="'W'" Text="{Binding State, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MaxLength="2"
+                         KeyDown="State_KeyDown"/>
+                <TextBox Width="100" Text="{Binding Zip, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MaxLength="5"
+                         KeyDown="ZipTextBox_KeyDown"
+                         PlaceholderText="e.g. 98249"/>
+
+              </StackPanel>
+
+              <!-- Group / Role -->
+              <TextBlock Text="Island:" Grid.Row="9" Grid.Column="0"  VerticalAlignment="Center" Margin="4"/>
+              <StackPanel Orientation="Horizontal" Grid.Row="9" Grid.Column="1" Spacing="12" Margin="4">
+              <TextBox Text="{Binding Island, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Margin="4" Width="150"
+                       ToolTip.Tip="Enter 'W' for Whidbey or 'C' for Camano" PlaceholderText="'W' or 'C'"
+                       KeyDown="Island_KeyDown"/>
+                <TextBlock Text="Role:" VerticalAlignment="Center" Margin="12,0,0,0"/>
+                <ComboBox Width="100" ItemsSource="{Binding AppRoles}" DisplayMemberBinding="{Binding RoleName}"
+                          SelectedItem="{Binding SelectedAppRole}">
+              </ComboBox>
+              </StackPanel>
+
+              <!-- Notes -->
+              <TextBlock Text="Notes:" Grid.Row="10" Grid.Column="0" VerticalAlignment="Center" Margin="4"/>
+              <TextBox Text="{Binding VolunteerNotes, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Grid.Row="10" Grid.Column="1" 
+                       MaxLength="1600"
+                       Margin="4" AcceptsReturn="True" Height="50"/>
+              <!-- Flags -->
+              <TextBlock Text="Flags:" Grid.Row="11" Grid.Column="0" VerticalAlignment="Top" Margin="4"/>
+              <StackPanel Grid.Row="11" Grid.Column="1" Orientation="Horizontal" Spacing="12" Margin="4">
+                <CheckBox IsChecked="{Binding Lead, Mode=TwoWay}" Content="Lead"/>
+                <CheckBox IsChecked="{Binding SpeciesExpert, Mode=TwoWay}" Content="Species Expert"/>
+                <CheckBox IsChecked="{Binding Active, Mode=TwoWay}" Content="Active"/>
+              </StackPanel>
+            </Grid>
+            </StackPanel>
+        </StackPanel>
+</UserControl>

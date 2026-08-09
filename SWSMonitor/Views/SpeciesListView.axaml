@@ -1,0 +1,144 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:SWSMonitor.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:views="clr-namespace:SWSMonitor"
+             x:DataType="vm:SpeciesListViewModel"
+             x:Class="SWSMonitor.SpeciesListView">
+               
+    <Design.DataContext>
+        <vm:SpeciesListViewModel />
+    </Design.DataContext>
+    <UserControl.Styles>
+        <Style Selector="ItemsPresenter">
+            <Setter Property="(KeyboardNavigation.TabNavigation)" Value="Continue" />
+        </Style>
+		<Style Selector="Label">
+			<Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="FontSize" Value="14"/>
+		</Style>
+		<Style Selector="TextBox.SpeciesSelect">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Padding" Value="0,0,0,0"/>
+            <Setter Property="Margin" Value="0,0,0,0"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Width" Value="190"/>
+            <Setter Property="MaxLength" Value="80"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+		</Style>
+		<Style Selector="AutoCompleteBox.SpeciesSelect">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Padding" Value="0,0,0,0"/>
+            <Setter Property="Margin" Value="0,0,0,0"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Width" Value="190"/>
+            <Setter Property="MaxLength" Value="80"/>
+		</Style>
+		<Style Selector="TextBox.SpeciesNotes">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Padding" Value="0,0,0,0"/>
+            <Setter Property="Margin" Value="0,0,0,0"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Width" Value="190"/>
+            <Setter Property="MaxLength" Value="80"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+		</Style>
+    </UserControl.Styles>
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="800" Margin="0,20,0,0">
+        <Border BorderBrush="Gray" IsVisible="{Binding CanEditSurvey}"
+                BorderThickness="1" 
+                CornerRadius="5" 
+                Padding="10" 
+                Margin="10">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" IsVisible="{Binding CanEditSurvey}">
+				<TextBlock Text="Search Options" FontWeight="Bold" Margin="0,0,0,10" HorizontalAlignment="Center"></TextBlock>
+                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="20" IsVisible="{Binding CanEditSurvey}">
+                          <Label Content="Search As: " FontSize="12" />
+                          <RadioButton Content="Starts With" IsChecked="{Binding SearchStartsWith}" VerticalAlignment="Center"/>
+                          <RadioButton Content="Contains" IsChecked="{Binding !SearchStartsWith}" VerticalAlignment="Center"/>
+                     </StackPanel>
+                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" IsVisible="{Binding CanEditSurvey}" Spacing="10">
+                          <Label Content="Minimum Prefix Characters:" FontSize="12" VerticalAlignment="Center"/>
+                          <NumericUpDown  FontSize="12" AllowSpin="True" FormatString="0" Height="14" Width="100" 
+                                VerticalAlignment="Center" VerticalContentAlignment="Center"
+                                Minimum="1" Maximum="5" Value="{Binding MinimumPrefixCharacters}" />
+                 </StackPanel>
+            </StackPanel>
+        </Border>
+        <DataGrid ItemsSource="{Binding ObservedSpecies}" x:Name="SpeciesListDataGrid"
+                IsEnabled="{Binding CanEditSurvey}"
+                IsReadOnly="{Binding !CanEditSurvey}"
+                SelectedItem="{Binding SelectedSpeciesObservation}"
+                SelectionChanged="SpeciesListDataGrid_SelectionChanged"
+                CellPointerPressed="Table_OnCellPointerPressed"
+                Height="450"
+                AutoGenerateColumns="False" 
+                CanUserReorderColumns="True"
+                CanUserResizeColumns="True"
+                CanUserSortColumns="True"
+                GridLinesVisibility="All" 
+                Margin="20" 
+                BorderThickness="1" 
+                BorderBrush="Gray">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Actions">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Margin="5,0,5,0" IsVisible="{Binding !IsPlaceHolder}" >
+                                <Button TabIndex="3" Click="DeleteButton_Click" Tag="{Binding .}" ToolTip.Tip="Delete Species" >
+                                    <Image Source="avares://BeachSurvey/Assets/TrashCan.png" 
+									    Width="12" Height="12" Margin="0"/>
+                                </Button>
+                            </StackPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Species">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                                <AutoCompleteBox Classes="SpeciesSelect"  Width="300"
+                                    KeyDown="species_search_KeyDown"
+                                    IsEnabled="{Binding $parent[DataGrid].((vm:SpeciesListViewModel)DataContext).CanEditSurvey}"
+                                    x:Name="species_search" 
+		                            AsyncPopulator="{Binding $parent[DataGrid].((vm:SpeciesListViewModel)DataContext).SpeciesSearchFunction}"
+                                    LostFocus="species_search_LostFocus"
+		                            FilterMode="None"
+		                            PlaceholderText="Search Species ...."
+                                    MaxLength="80"
+                                    IsTextCompletionEnabled="False"
+                                    SelectedItem="{Binding SelectedSpeciesItem, Mode=TwoWay}"
+                                    MinimumPrefixLength="{Binding $parent[DataGrid].((vm:SpeciesListViewModel)DataContext).MinimumPrefixCharacters}"
+		                            Text="{Binding Species, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                    Tag="{Binding .}"
+                                    TabIndex="1"
+                                    DropDownOpened="species_search_DropDownOpened"
+                                    DropDownClosed="species_search_DropDownClosed"
+		                            MaxDropDownHeight="200">
+                              </AutoCompleteBox>
+                        </StackPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Notes">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                       <TextBox Tag="{Binding .}" IsReadOnly="{Binding IsPlaceHolder}"  TabIndex="2" Text="{Binding Notes, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                    </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn IsReadOnly="True" Header="Common Name"  Binding="{Binding CommonNameOrDescription}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+   </StackPanel>
+</UserControl>

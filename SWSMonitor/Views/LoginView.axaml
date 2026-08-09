@@ -1,0 +1,85 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="500"
+             xmlns:svg="using:Avalonia.Svg.Skia"
+             x:Class="SWSMonitor.LoginView"
+             xmlns:vm="using:SWSMonitor.ViewModels"
+			 Width="800"
+             x:DataType="vm:LoginViewModel">
+  <Design.DataContext>
+      <vm:LoginViewModel />
+</Design.DataContext>
+	<Border BorderBrush="Black" BorderThickness="2">
+        <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Center"  Width="740">
+           <StackPanel Height="50" Background="{DynamicResource ResourceKey=PaneBackground}" VerticalAlignment="Top">
+			    <Label Content="{Binding PageTitle}" FontSize="24" FontWeight="Bold" FontStyle="Italic" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+           </StackPanel>
+		   <Grid ColumnDefinitions="450,20,250" RowDefinitions="auto" HorizontalAlignment="Center">
+			   <Image Grid.Column="2" Grid.Row="0" Source="avares://BeachSurvey/Assets/Beaches.png" HorizontalAlignment="Right"
+					 Margin="0,20,0,0" Height="400" />
+			   <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,20,0,0">
+				   <Label VerticalContentAlignment="Center" Content="Enter Gmail Account to Sign In" HorizontalAlignment="Center" FontSize="18"/>
+				   <TextBox VerticalContentAlignment="Center" MaxLength="50" Width="300" Margin="0,5,0,0"
+				          Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+				   <Button HorizontalAlignment="Center" IsVisible="{Binding !GoodToGo}" Click="SignInButton_Click" Margin="0,10,0,0">
+					      <Button.Content>
+                           <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+							 <Image Source="avares://BeachSurvey/Assets/Login-Door.png" 
+	                             Width="20" Height="20" Margin="0"/>
+						      <TextBlock Text=" Sign-In with your GMail Account" Margin="5,0,0,0"/>
+                           </StackPanel>
+					     </Button.Content>
+				   </Button>
+				   <StackPanel Orientation="Vertical" Margin="0,20,0,0" IsVisible="{Binding IsSignedIn}" HorizontalAlignment="Center">
+					   <Label HorizontalAlignment="Center" Content="{Binding SignedInMessage}" FontSize="16" FontWeight="Bold" Foreground="Green"/>
+					   <Label HorizontalAlignment="Center" Content="{Binding RoleMessage}" FontSize="16" Foreground="Green" FontStyle="Italic"/>
+				   </StackPanel>
+				   <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
+						<Label HorizontalAlignment="Center" IsVisible="{Binding IsGuest}"
+			             Content="Feel free to visit public areas without providing an email." Foreground="Red" FontStyle="Italic"/>
+						<CheckBox HorizontalAlignment="Center" IsVisible="{Binding IsPending}"
+							 IsChecked="{Binding UserRequestsAccess, Mode=TwoWay}"
+							 Content="Click here if you would like more privileges" Foreground="Red"/>
+					</StackPanel>
+
+					<StackPanel IsVisible="{Binding CanEdit}" Orientation="Vertical" HorizontalAlignment="Center">
+							<Label HorizontalAlignment="Center"
+								Content="Please provide a reason if editing an existing survey:" Foreground="Green" FontStyle="Italic"/>
+							<TextBox AcceptsReturn="True" Width="300" Height="60" TextWrapping="Wrap"
+								Text="{Binding EditReasonText, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+					</StackPanel>
+
+					<Button HorizontalAlignment="Center" VerticalContentAlignment="Center" Margin="0,10,0,0"
+				           Click="SignOutButton_Click" IsVisible="{Binding IsSignedIn}">
+						<Button.Content>
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+							<Image Source="avares://BeachSurvey/Assets/Logout-Door.png" 
+								Width="20" Height="20" Margin="0"/>
+							<TextBlock Text=" Sign-Out from GMail Account" Margin="5,0,0,0"/>
+						</StackPanel>
+						</Button.Content>
+					</Button>
+			   </StackPanel>
+
+				   <!--
+					<TextBox Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" VerticalContentAlignment="Center"
+					     Width="200" Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"  
+						 IsVisible="{Binding !ShowPassword}"
+						 PasswordChar="*">
+						<TextBox.InnerRightContent>
+							<CheckBox IsChecked="{Binding ShowPassword}"/>
+						</TextBox.InnerRightContent>
+					</TextBox>
+					<TextBox Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" VerticalContentAlignment="Center"
+						IsVisible="{Binding ShowPassword}"
+					     Width="100" Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">  
+						<TextBox.InnerRightContent>
+							<CheckBox IsChecked="{Binding !ShowPassword}"/>
+						</TextBox.InnerRightContent>
+					</TextBox> -->
+				</Grid>
+		</StackPanel>
+   </Border>
+</UserControl>

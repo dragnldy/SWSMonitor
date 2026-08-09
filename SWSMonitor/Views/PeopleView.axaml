@@ -1,0 +1,139 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SWSMonitor.PeopleView"
+             xmlns:vm="using:SWSMonitor.ViewModels"
+			 xmlns:views="clr-namespace:SWSMonitor"
+             x:CompileBindings="False"
+             x:DataType="vm:PeopleViewModel">
+    <Design.DataContext>
+        <vm:PeopleViewModel/>
+    </Design.DataContext>
+    <Border BorderBrush="Black" BorderThickness="2">
+        <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+           <StackPanel Height="50" Background="{DynamicResource ResourceKey=PaneBackground}" VerticalAlignment="Top">
+			    <Label Content="{Binding PageTitle}" FontSize="24" FontWeight="Bold" FontStyle="Italic" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+           </StackPanel>
+           <StackPanel Orientation="Horizontal" Spacing="20" HorizontalAlignment="Center">
+                <StackPanel Orientation="Horizontal" Margin="5,0,5,0" IsVisible="{Binding UserHasEditRole}">
+                    <Button Click="AddVolunteer_Click" Tag="{Binding .}" ToolTip.Tip="Add Volunteer">
+                        <Image Source="avares://BeachSurvey/Assets/AddNew.png" 
+                        Width="12" Height="12" Margin="0"/>
+                    </Button>
+                </StackPanel>
+              <CheckBox Content="Active Only" IsChecked="{Binding ActiveOnly}"/>
+           </StackPanel>
+			<Popup Name="MyPopup"  IsOpen="{Binding IsPopupOpen}">
+				<Border Background="DarkGray" BorderBrush="{DynamicResource ResourceKey=PaneBackground}" BorderThickness="2" Padding="10">
+					<StackPanel>
+						<views:VolunteerView x:Name="NewVolunteerView" />
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+							<Button IsVisible="{Binding UserHasEditRole}" IsEnabled="{Binding CanSave}" Content="Save" Click="UpdateVolunteer_Click" Margin="0,0,5,0"/>
+							<Button Content="Cancel" Click="ClosePopup_Click"/>
+						</StackPanel>
+					</StackPanel>
+				</Border>
+		</Popup>
+        <DataGrid ItemsSource="{Binding Volunteers}" x:Name="VolunteersDataGrid"
+                               DoubleTapped="DataGrid_DoubleTapped" 
+                               SelectedItem="{Binding SelectedVolunteer}"
+                                Height="650"
+                                AutoGenerateColumns="False" IsReadOnly="True" 
+                                CanUserReorderColumns="True"
+                                CanUserResizeColumns="True"
+                                CanUserSortColumns="True"
+                                GridLinesVisibility="All" 
+                                Margin="20" 
+                                BorderThickness="1" 
+                                BorderBrush="Gray">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Actions">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <StackPanel Orientation="Horizontal" 
+                                                    IsVisible="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.UserHasEditRole}"
+                                                    Margin="5,0,5,0">
+                                        <Button Click="EditButton_Click" Tag="{Binding .}" ToolTip.Tip="Edit Volunteer">
+                                            <Image Source="avares://BeachSurvey/Assets/Data-Edit.png" 
+									             Width="12" Height="12" Margin="0"/>
+                                            </Button>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal"
+                                                    IsVisible="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.UserHasViewOnlyRole}"
+                                                    Margin="5,0,5,0">
+                                        <Button Click="ViewButton_Click" Tag="{Binding .}" ToolTip.Tip="View Volunteer">
+                                            <Image Source="avares://BeachSurvey/Assets/People.png" 
+									             Width="12" Height="12" Margin="0"/>
+                                            </Button>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="5,0,5,0" IsVisible="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.UserHasEditRole}">
+                                        <Button Click="DeleteButton_Click" Tag="{Binding .}" ToolTip.Tip="Delete Volunteer" >
+                                            <Image Source="avares://BeachSurvey/Assets/TrashCan.png" 
+									             Width="12" Height="12" Margin="0"/>
+                                            </Button>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Binding="{Binding FirstLast}">
+                                 <DataGridTextColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Vertical" Spacing="5">
+                                            <TextBlock Text="First/Last"/>
+                                            <!-- Bind the TextBox Text property to a property in your ViewModel (e.g., FirstLastFilterText) -->
+                                            <TextBox Text="{Binding $parent[UserControl].DataContext.FirstLastFilterText, Mode=TwoWay}"
+                                                     PlaceholderText="Search..."/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTextColumn.HeaderTemplate>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding Email}" IsVisible="{Binding UserHasViewRole}">
+                                <DataGridTextColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Vertical" Spacing="5">
+                                            <TextBlock Text="Email"/>
+                                            <!-- Bind the TextBox Text property to a property in your ViewModel (e.g., EmailFilterText) -->
+                                            <TextBox Text="{Binding $parent[UserControl].DataContext.EmailFilterText, Mode=TwoWay}"
+                                                     PlaceholderText="Search..."/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTextColumn.HeaderTemplate>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Phone"  Binding="{Binding PreferredPhone}" IsVisible="{Binding UserHasViewRole}"/>
+                            <DataGridTextColumn Binding="{Binding City}">
+                                <DataGridTextColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Vertical" Spacing="5">
+                                            <TextBlock Text="City"/>
+                                            <!-- Bind the TextBox Text property to a property in your ViewModel (e.g., CityFilterText) -->
+                                            <TextBox Text="{Binding $parent[UserControl].DataContext.CityFilterText, Mode=TwoWay}"
+                                                     PlaceholderText="Search..."/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTextColumn.HeaderTemplate>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding Island}">
+                                <DataGridTextColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Vertical" Spacing="5">
+                                            <TextBlock Text="Island"/>
+                                            <!-- Bind the TextBox Text property to a property in your ViewModel (e.g., CityFilterText) -->
+                                            <TextBox Text="{Binding $parent[UserControl].DataContext.IslandFilterText, Mode=TwoWay}"
+                                                     PlaceholderText="Search..."/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTextColumn.HeaderTemplate>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Role"  Binding="{Binding AppRole}"/>
+                            <DataGridCheckBoxColumn Header="Lead?"  Binding="{Binding IsLead}"/>
+                            <DataGridCheckBoxColumn Header="Expert?"  Binding="{Binding IsSpeciesExpert}"/>
+                            <DataGridCheckBoxColumn Header="Active?"  Binding="{Binding IsActive}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+       </StackPanel>
+   </Border>
+</UserControl>

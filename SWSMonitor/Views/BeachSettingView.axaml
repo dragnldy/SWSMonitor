@@ -1,0 +1,120 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:SWSMonitor.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+             x:Class="SWSMonitor.BeachSettingView"
+             x:CompileBindings="True"
+             x:DataType="vm:BeachSettingViewModel">
+	<Design.DataContext>
+		<vm:BeachSettingViewModel />
+	</Design.DataContext>
+
+	<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="0,20,0,0">
+		<StackPanel Orientation="Vertical" Width="500">
+            <!-- Backshore Section -->
+            <Border BorderBrush="{DynamicResource SystemAccentColor}" BorderThickness="2" CornerRadius="4" Padding="12" Margin="0,0,0,12">
+                <StackPanel Spacing="4" Width="450">
+                    <TextBlock Text="Backshore Environment" FontSize="16" FontWeight="SemiBold" Margin="15,0,0,4"/>
+					<StackPanel Spacing="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+						<Label Content="State:" VerticalAlignment="Center" Margin="0,0,0,0" />
+						<RadioButton IsEnabled="{Binding CanEditSurvey}" Content="Natural" IsChecked="{Binding IsBackshoreNatural}" GroupName="BackshoreEnvironmentGroup" />
+						<RadioButton IsEnabled="{Binding CanEditSurvey}" Content="Altered" IsChecked="{Binding IsBackshoreAltered}" GroupName="BackshoreEnvironmentGroup"/>
+					</StackPanel>
+						<DataGrid ItemsSource="{Binding Contents}" x:Name="ContentsDataGrid"
+							IsEnabled="{Binding CanEditSurvey}"
+							IsReadOnly="{Binding !CanEditSurvey}"
+							SelectedItem="{Binding SelectedContents}"
+							SelectionChanged="ContentsDataGrid_SelectionChanged"
+							CellPointerPressed="Table_OnCellPointerPressed"
+							MinHeight="100"
+							MaxHeight="450"
+							AutoGenerateColumns="False" 
+							CanUserReorderColumns="False"
+							CanUserResizeColumns="False"
+							CanUserSortColumns="True"
+							GridLinesVisibility="All" 
+							Margin="10" 
+							BorderThickness="1" 
+							BorderBrush="Gray">
+						<DataGrid.Columns>
+						<DataGridTemplateColumn Header="Actions">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+									<StackPanel Orientation="Horizontal" Margin="5,0,5,0" IsVisible="{Binding !IsPlaceHolder}" >
+										<Button TabIndex="3" Click="DeleteButton_Click" Tag="{Binding .}" ToolTip.Tip="Delete Contents" >
+											<Image Source="avares://BeachSurvey/Assets/TrashCan.png" 
+												Width="12" Height="12" Margin="0"/>
+										</Button>
+									</StackPanel>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTemplateColumn Header="Contents">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+										<AutoCompleteBox Width="300"
+											KeyDown="contents_search_KeyDown"
+											IsEnabled="{Binding $parent[DataGrid].((vm:BeachSettingViewModel)DataContext).CanEditSurvey}"
+											x:Name="Contents_search" 
+											AsyncPopulator="{Binding $parent[DataGrid].((vm:BeachSettingViewModel)DataContext).ContentsSearchFunction}"
+											LostFocus="contents_search_LostFocus"
+											GotFocus="Contents_search_GotFocus"
+											FilterMode="None"
+											PlaceholderText="* for wildcard search"
+											MaxLength="80"
+											IsTextCompletionEnabled="False"
+											SelectedItem="{Binding SelectedContentItem, Mode=TwoWay}"
+											MinimumPrefixLength="1"
+											Text="{Binding Contents, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+											Tag="{Binding .}"
+											TabIndex="1"
+											DropDownOpened="contents_search_DropDownOpened"
+											DropDownClosed="contents_search_DropDownClosed"
+											MaxDropDownHeight="200">
+									  </AutoCompleteBox>
+								</StackPanel>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+					</DataGrid.Columns>
+				</DataGrid>
+			</StackPanel>
+		</Border>
+            <Border BorderBrush="{DynamicResource SystemAccentColor}" BorderThickness="2" CornerRadius="4" Padding="12" Margin="0,0,0,12">
+                <StackPanel Spacing="8" Width="450">
+                    <TextBlock Text="Bulkhead" FontSize="16" FontWeight="SemiBold" Margin="15,0,0,8"/>
+					<StackPanel Orientation="Horizontal" Spacing="4" Width="300" HorizontalAlignment="Center">
+						<Label Content="Composition:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+						<ComboBox IsEnabled="{Binding CanEditSurvey}" IsEditable="True" Width="150"   
+							ItemsSource="{Binding  BulkheadMaterials}" Text="{Binding BulkheadMaterial}" />
+					</StackPanel>
+					<StackPanel Spacing="4" Width="300" HorizontalAlignment="Center" Orientation="Horizontal">
+						<Label Content="Condition:      " HorizontalAlignment="Left" VerticalAlignment="Center"/>
+						<RadioButton Content="Sound" IsEnabled="{Binding CanEditSurvey}" IsChecked="{Binding IsBulkheadSound}" GroupName="BulkheadConditionGroup" Margin="0,0,10,0"/>
+						<RadioButton Content="Failing" IsEnabled="{Binding CanEditSurvey}" IsChecked="{Binding IsBulkheadFailing}" GroupName="BulkheadConditionGroup"/>
+					</StackPanel>
+			</StackPanel>
+		</Border>
+         <Border BorderBrush="{DynamicResource SystemAccentColor}" BorderThickness="2" CornerRadius="4" Padding="12" Margin="0,0,0,12">
+            <StackPanel Spacing="8" Width="450">
+                 <TextBlock Text="Bluff Erosion" FontSize="16" FontWeight="SemiBold" Margin="15,0,0,8"/>
+				<ComboBox IsEnabled="{Binding CanEditSurvey}" IsEditable="True" Width="150" HorizontalAlignment="Center" 
+						  ItemsSource="{Binding ErosionSinceCollection}" Text="{Binding ErosionSinceLast}"/>
+			</StackPanel>
+		</Border>
+		<Border BorderBrush="{DynamicResource SystemAccentColor}" BorderThickness="2" CornerRadius="4" Padding="12" Margin="0,0,0,12">
+            <StackPanel Spacing="8" Width="450">
+                 <TextBlock Text="Eelgrass (0 ft. and lower in profile)" FontSize="16" FontWeight="SemiBold" Margin="15,0,0,8"/>
+				<StackPanel Orientation="Horizontal" Spacing="4" Width="300" HorizontalAlignment="Center">
+					<Label Grid.Column="0" Grid.Row="0" Content="Eel Grass%:" HorizontalAlignment="Left"/>
+					<ComboBox ItemsSource="{Binding EelGrassCollection}" SelectedItem="{Binding SeagrassPercent}" Width="150" HorizontalAlignment="Left"
+						IsEnabled="{Binding CanEditSurvey}"/>
+				</StackPanel>
+			</StackPanel>				
+		</Border>
+	</StackPanel>
+	</ScrollViewer>
+</UserControl>

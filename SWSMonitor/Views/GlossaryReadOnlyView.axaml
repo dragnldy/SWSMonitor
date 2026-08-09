@@ -1,0 +1,164 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:SWSMonitor.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="750" d:DesignHeight="500"
+             x:Class="SWSMonitor.GlossaryReadOnlyView"
+             x:DataType="vm:SpeciesReadOnlyViewModel">
+    <Design.DataContext>
+        <vm:SpeciesReadOnlyViewModel />
+        </Design.DataContext>
+    <ScrollViewer Height="500">
+        <StackPanel Orientation="Vertical" Margin="16" Width="750">
+            <Label Content="View Species" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,16"/>
+            
+            <!-- Nomenclature Section -->
+            <Border BorderBrush="{DynamicResource SystemAccentColor}" BorderThickness="2" CornerRadius="4" Padding="12" Margin="0,0,0,12">
+                <StackPanel Spacing="8">
+                    <TextBlock Text="Nomenclature" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                    
+                    <Grid ColumnDefinitions="150,500" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="8">
+                        <!-- Scientific Name -->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Scientific Name:*" VerticalAlignment="Center" FontWeight="Bold"/>
+                        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ScientificName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" 
+                                 IsReadOnly="true"
+                                 MaxLength="255" PlaceholderText="Required"/>
+                        
+                        <!-- Common Name -->
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Common Name:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding CommonNameOrDescription}" 
+                                 IsReadOnly="true"
+                                 MaxLength="255" PlaceholderText="Optional"/>
+                        
+                        <!-- Taxon Common Name -->
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Taxon Common:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding TaxonCommonName}" 
+                                 IsReadOnly="true"
+                                 MaxLength="255" PlaceholderText="Optional"/>
+
+                        <!-- Former Scientific Name
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Former Name:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding CurrentSpecies.FormerScientificName}"
+                                IsReadOnly="true"
+                                />
+                         -->
+
+                        <!-- AphiaID -->
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Aphia ID:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding AphiaID}" 
+                                IsReadOnly="true"
+                                        ToolTip.Tip="from WORMS database, http://www.marinespecies.org"
+                                       MaxLength="7" KeyDown="PositiveIntegerTextBox_KeyDown" />
+
+                        <!-- TSN -->
+                        <TextBlock Grid.Row="5" Grid.Column="0" Text="TSN:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding TSN}" 
+                                 IsReadOnly="true"
+                                 ToolTip.Tip="from ITIS database, https://www.itis.gov"
+                                 MaxLength="7" KeyDown="PositiveIntegerTextBox_KeyDown" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Taxonomy Section -->
+            <Border BorderBrush="{DynamicResource SystemAccentColor}" BorderThickness="2" CornerRadius="4" Padding="12" Margin="0,0,0,12">
+                <StackPanel Spacing="8">
+                    <TextBlock Text="Taxonomy" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                    
+                    <Grid ColumnDefinitions="150,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="8">
+                        <!-- Kingdom -->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Kingdom:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="0" Grid.Column="1"  Width="400" HorizontalAlignment="Left"
+                                    x:Name="kingdom_search" 
+                                    MaxLength="80"
+		                            Text="{Binding Kingdom, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                IsReadOnly="true"/>
+                                               
+                        
+                        <!-- Phylum -->
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Phylum:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="1" Grid.Column="1"  Width="400"  HorizontalAlignment="Left"
+		                            Text="{Binding Phylum, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                IsReadOnly="true" />
+
+                        <!-- Subphylum -->
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Subphylum:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" Width="400"  HorizontalAlignment="Left"
+		                            Text="{Binding Subphylum, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                 IsReadOnly="true" />
+
+                        <!-- Class -->
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Class:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="3" Grid.Column="1"  Width="400"  HorizontalAlignment="Left"
+                                    x:Name="class_search" 
+		                            Text="{Binding Class, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                IsReadOnly="true" />
+
+                        <!-- Order -->
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Order:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="4" Grid.Column="1"  Width="400"  HorizontalAlignment="Left"
+		                            Text="{Binding Class, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                 IsReadOnly="true" />
+
+                        <!-- Order -->
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Order:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="4" Grid.Column="1"  Width="400"  HorizontalAlignment="Left"
+		                            Text="{Binding Order, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                 IsReadOnly="true" />
+
+                        <!-- Family -->
+                        <TextBlock Grid.Row="5" Grid.Column="0" Text="Family:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="5" Grid.Column="1"  Width="400"  HorizontalAlignment="Left"
+                                    x:Name="family_search" 
+		                            Text="{Binding Family, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                 IsReadOnly="true" />
+
+                        <!-- Genus -->
+                        <TextBlock Grid.Row="6" Grid.Column="0" Text="Genus:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="6" Grid.Column="1"  Width="400"  HorizontalAlignment="Left"
+		                            Text="{Binding Genus, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                 IsReadOnly="true" />
+
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Attributes Section -->
+            <Border BorderBrush="{DynamicResource SystemAccentColor}" BorderThickness="2" CornerRadius="4" Padding="12" Margin="0,0,0,12">
+                <StackPanel Spacing="8">
+                    <TextBlock Text="Attributes" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                    
+                        <Grid Grid.ColumnDefinitions="150,150,150,150" RowDefinitions="Auto,Auto, Auto">
+                        <!-- Complexity Rank -->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Complexity Rank:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ComplexityRank}" HorizontalAlignment="Left"
+                                 IsReadOnly="true"
+                                       MaxLength="2" Width="4" KeyDown="PositiveIntegerTextBox_KeyDown" />
+
+                        <!-- Is Invasive -->
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Invasive:" VerticalAlignment="Center"/>
+                        <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding IsInvasive}"
+                                IsEnabled="False"
+ />
+                        
+                        <!-- Is Non-Native -->
+                        <TextBlock Grid.Row="1" Grid.Column="2" Text="Non-Native:" VerticalAlignment="Center"/>
+                        <CheckBox Grid.Row="1" Grid.Column="3" IsChecked="{Binding IsNonNative}"
+                                IsEnabled="False"
+/>
+                        <!-- Profile Data -->
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Use for Profile Data?" VerticalAlignment="Center"/>
+                        <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding UseForProfileData}" 
+                                IsEnabled="False"
+ />
+
+                        <!-- Used By Surveys -->
+                        <TextBlock Grid.Row="2" Grid.Column="2" Text="Used By Surveys:" VerticalAlignment="Center"/>
+                        <CheckBox Grid.Row="2" Grid.Column="3" IsChecked="{Binding IsUsedBySurveys}" IsEnabled="False"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

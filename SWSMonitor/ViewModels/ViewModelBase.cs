@@ -1,7 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using ReactiveUI;
 
-namespace SWSMonitor.ViewModels;
-
-public abstract class ViewModelBase : ObservableObject
+namespace SWSMonitor.ViewModels
 {
+    public class ViewModelBase : ReactiveObject
+    {
+    }
 }

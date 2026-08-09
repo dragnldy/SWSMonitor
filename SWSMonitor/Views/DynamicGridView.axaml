@@ -1,0 +1,71 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:SWSMonitor.ViewModels"
+			 xmlns:views="clr-namespace:SWSMonitor"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SWSMonitor.DynamicGridView"
+             x:DataType="vm:DynamicGridViewModel">
+        <Design.DataContext>
+        <vm:DynamicGridViewModel />
+        </Design.DataContext>
+        <Border BorderBrush="Black" BorderThickness="2">
+        <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+           <StackPanel Height="50" Background="{DynamicResource ResourceKey=PaneBackground}" VerticalAlignment="Top">
+			    <Label Content="{Binding PageTitle}" FontSize="24" FontWeight="Bold" FontStyle="Italic" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+           </StackPanel>
+      	   <Popup Name="MyPopup"  IsOpen="{Binding IsPopupOpen}" Placement ="Center" Topmost="True" >
+				<Border Background="DarkGray" BorderBrush="{DynamicResource ResourceKey=PaneBackground}" BorderThickness="2" Padding="10">
+					<StackPanel>
+						<views:DynamicView x:Name="DynamicGrid" />
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Content="Close" Click="CloseButton_Click" Margin="0,0,20,0"/>
+                            <TextBlock Text="{Binding RecordCountMessage}" FontSize="20" Foreground="Black" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </StackPanel>
+				</Border>
+		</Popup>
+
+           <DataGrid    Name="DynamicDataGrid"
+                        ItemsSource="{Binding Records}"
+                        DoubleTapped="DataGrid_DoubleTapped" 
+                        Height="650"
+                        AutoGenerateColumns="False" IsReadOnly="True" 
+                        CanUserReorderColumns="True"
+                        CanUserResizeColumns="True"
+                        CanUserSortColumns="True"
+                        GridLinesVisibility="All" 
+                        Margin="20" 
+                        BorderThickness="1" 
+                        BorderBrush="Gray">
+            <DataGrid.Columns>
+                 <DataGridTemplateColumn Header="Actions">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel Orientation="Horizontal" 
+                                            IsVisible="True"
+                                             Margin="5,0,5,0">
+                                    <Button Click="DownloadButton_Click" ToolTip.Tip="Download Data" Tag="{Binding .}">
+                                        <Image Source="avares://BeachSurvey/Assets/CSV-Export.png" 
+									             Width="20" Height="20" Margin="0"/>
+                                    </Button>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal"
+                                                IsVisible="True"
+                                                Margin="5,0,5,0">
+                                    <Button Click="ViewButton_Click" ToolTip.Tip="Preview Data" Tag="{Binding .}">
+                                        <Image Source="avares://BeachSurvey/Assets/View.png" 
+							                 Width="20" Height="20" Margin="0"/>
+                                    </Button>
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+               </DataGridTemplateColumn>
+             </DataGrid.Columns>
+          </DataGrid>
+       </StackPanel>
+    </Border>
+</UserControl>

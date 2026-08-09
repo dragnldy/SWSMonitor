@@ -1,18 +1,89 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="using:BeachSurvey"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:SWSMonitor.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="SWSMonitor.Views.MainView"
+             Width="900" Height="800"
+             x:Class="SWSMonitor.MainView"
+             xmlns:svg="using:Avalonia.Svg.Skia"
              x:DataType="vm:MainViewModel">
-    <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainViewModel />
-    </Design.DataContext>
+  <Design.DataContext>
+    <!-- This only sets the DataContext for the previewer in an IDE,
+         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:DesignMainViewModel/>
+  </Design.DataContext>
+    <Grid HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions >
+			<RowDefinition  Height ="*"/>
+        </Grid.RowDefinitions>  
+        
+    <SplitView Name="OuterView" IsPaneOpen="{Binding IsPaneOpen}"
+               DisplayMode="CompactInline"
+               CompactPaneLength="38"
+               OpenPaneLength="100"
+               PanePlacement="Left"
+               PaneBackground="{DynamicResource ResourceKey=PaneBackground}"
+               Background="{DynamicResource ResourceKey=PrimaryBackground}">
+        <SplitView.Pane>
+            <Grid RowDefinitions="auto,*" ColumnDefinitions="100">
+            <StackPanel Spacing="5" Grid.Row="0">
+                <!-- Hamburger button to toggle the pane -->
+                <Button Name="PaneToggle" Click="PaneToggle_Click" FontSize="20" Content="☰"
+                        Margin="3,0,0,0"/>
 
-    <TextBox Text="{Binding Greeting}"
-             HorizontalAlignment="Center"
-             VerticalAlignment="Center" />
+                <!-- Navigation menu items -->
+                <ListBox SelectedItem="{Binding SelectedMenuItem}"
+                    Background="Transparent"
+                    ItemsSource="{Binding TopMenuItems}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" IsVisible="{Binding IsAllowedForCurrentUser}" Margin="-5,0,0,0">
+                                <svg:Svg Path="{Binding SvgImagePath}" Width="24" Height="24" Margin="0,0,6,0" ToolTip.Tip="{Binding Header}"/>
+                                <TextBlock Text="{Binding Header}" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+            <StackPanel Grid.Row="1" VerticalAlignment="Bottom">
+				<!-- Bottom Navigation menu items -->
+                <ListBox SelectedItem="{Binding SelectedBottomMenuItem}"
+                         SelectionChanged="BottomListBox_SelectionChanged"
+                         Background="Transparent"
+                         ItemsSource="{Binding BottomMenuItems}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel IsVisible="{Binding IsAllowedForCurrentUser}" Orientation="Horizontal" Margin="-5,0,0,0">
+                                <svg:Svg Path="{Binding SvgImagePath}" Width="24" Height="24" Margin="0,0,6,6"/>
+                                <TextBlock Text="{Binding Header}" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+            </StackPanel>
+          </Grid>
+        </SplitView.Pane>
+
+        <SplitView.Content>
+        	<StackPanel Name="PopupTag" Orientation="Vertical" Background="{DynamicResource ResourceKey=PrimaryBackground}">
+            <!-- Content area for navigated pages -->
+                <ContentControl Content="{Binding CurrentPage}">
+                </ContentControl>
+            </StackPanel>
+        </SplitView.Content>
+    </SplitView>
+        <Grid Name="PopupOverlay" Background="#ff000080" Grid.Row="0" Grid.Column="0" ZIndex="99"
+          IsVisible="{Binding IsPopupOpen}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Height="300" Width="300">
+            <ProgressBar IsIndeterminate="True" Width="200" Height="20"/>
+            <TextBlock Name="LoadingText" Text="{Binding LoadingMessage}"
+                       Margin="0,10,0,0" 
+                       HorizontalAlignment="Center" 
+                       Foreground="White"/>
+        </StackPanel>
+    </Grid>
+</Grid>
 </UserControl>

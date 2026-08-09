@@ -1,0 +1,144 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:SWSMonitor.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:views="clr-namespace:SWSMonitor"
+             x:DataType="vm:ProfileViewModel"
+             x:Class="SWSMonitor.ProfileView">
+               
+    <Design.DataContext>
+        <vm:ProfileViewModel />
+    </Design.DataContext>
+
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="0,20,0,0">
+	    <StackPanel Orientation="Vertical" Width="780">
+            <!-- Measurements Section -->
+            <Border BorderBrush="{DynamicResource SystemAccentColor}" BorderThickness="2" CornerRadius="4" Padding="12" Margin="0,0,0,12">
+                <StackPanel Spacing="8" Width="780" Orientation="Vertical">
+                    <TextBlock Text="Profile Data" FontSize="16" FontWeight="SemiBold" Margin="15,0,0,8"/>
+                    <Grid ColumnDefinitions="130,120,80" RowDefinitions="auto,6,auto,6,auto" HorizontalAlignment="Center">
+                        <Label Grid.Column="0" Grid.Row="0" Content="Section No:" HorizontalAlignment="Right" Margin="0,0,3,0" />
+                        <NumericUpDown Grid.Column="1" Grid.Row="0" Value="{Binding EntryNo}" Width="120" KeyDown="HandleNonNumericInput"
+                                       Minimum="1" Maximum="{Binding MaxSections}"
+                                       FormatString="00"/>
+                        <StackPanel Grid.Column="2" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Label Content="{Binding TotalSections}" />
+                            <Button IsVisible="{Binding CanEditSurvey}" Click="RemoveProfile_Click" Margin="5,0,0,0">
+                                <Image Source="avares://BeachSurvey/Assets/TrashCan.png" 
+                                        Width="12" Height="12" Margin="0"/>
+                            </Button>
+                            <Button IsVisible="{Binding CanEditSurvey}" Click="InsertProfile_Click" Margin="5,0,0,0" ToolTip.Tip="Insert New Profile After Current">
+                                <Image Source="avares://BeachSurvey/Assets/AddNew.png" 
+                                    Width="12" Height="12" Margin="0">
+                                </Image>
+                            </Button>
+                            <Button IsVisible="{Binding CanEditSurvey}" Click="CopyProfile_Click" Margin="5,0,0,0" ToolTip.Tip="Copy Current Profile and Insert After Current">
+                                <Image Source="avares://BeachSurvey/Assets/Data-Copy.png" 
+                                    Width="12" Height="12" Margin="0"/>
+                            </Button>
+                        </StackPanel>
+                            <Label Grid.Column="0" Grid.Row="2" Content="Length:" HorizontalAlignment="Right" Margin="0,0,3,0"/>
+                            <TextBox Grid.Column="1" Grid.Row="2" 
+                                           IsReadOnly="{Binding !CanEditSurvey}"
+                                           KeyDown="IntegerTextBox_KeyDown"
+                                           MaxLength="2"
+                                           PlaceholderText="e.g.,10"
+                                     Text="{Binding Length, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                            <Label Grid.Column="0" Grid.Row="4" Content="Survey Reading:" HorizontalAlignment="Right" Margin="0,0,3,0"/>
+                            <TextBox Grid.Column="1" Grid.Row="4" 
+                                           IsReadOnly="{Binding !CanEditSurvey}"
+                                           KeyDown="NumericTextBox_KeyDown"
+                                           PlaceholderText="e.g.,5.5"
+                                           MaxLength="5"
+                                           Text="{Binding SurveyReading, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                        </Grid>
+               </StackPanel>
+            </Border>
+            <Border BorderBrush="{DynamicResource SystemAccentColor}" BorderThickness="2" CornerRadius="4" Padding="12" Margin="0,0,0,12">
+                <Grid ColumnDefinitions="330,*" RowDefinitions="auto" Width="780">
+
+                    <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="0" >
+                    <TextBlock Text="Beach Surface" FontSize="16" FontWeight="SemiBold" Margin="15,0,0,8"/>
+                    <ListBox ItemsSource="{Binding SurfaceDetails}" Padding="0" Width="300">
+                    <ListBox.Styles>
+						<Style Selector="ListBoxItem">
+							<Setter Property="Padding" Value="3"/>
+							<Setter Property="Margin" Value="0"/>
+						</Style>
+				    </ListBox.Styles>
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Margin="0" >
+                                <CheckBox IsEnabled="{Binding CanEdit}" VerticalAlignment="Center"
+                                          IsChecked="{Binding IsPresent}" 
+                                          Margin="5,0,0,0" />
+                                <Label Content="{Binding SurfaceTypeName}" Width="140"
+                                          ToolTip.Tip="{Binding HelpText}"
+                                          ToolTip.Placement="Right"
+                                          VerticalAlignment="Center"
+                                          Margin="3,0,0,0" />
+                                <CheckBox IsEnabled="{Binding CanEdit}" VerticalAlignment="Center"
+                                          IsChecked="{Binding Percentage70}" Content=">70%"
+                                          Margin="3,0,0,0" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+               </StackPanel>
+               <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0" Width="450">
+                    <TextBlock Text="Species" FontSize="16" FontWeight="SemiBold" Margin="15,0,0,8" HorizontalAlignment="Left"/>
+                    <AutoCompleteBox IsVisible="{Binding CanEditSurvey}" x:Name="species_search" 
+					    Width="430" Margin="0" 
+							    HorizontalAlignment="Center" VerticalAlignment="Top"
+							    AsyncPopulator="{Binding SpeciesSearchFunction}"
+							    FilterMode="None"
+							    PlaceholderText="Search Species ...."
+							    SelectionChanged="SpeciesSearch_SelectionChanged"
+                                DropDownOpened="species_search_DropDownOpened"
+                                DropDownClosed="species_search_DropDownClosed"
+                                LostFocus="species_search_LostFocus"
+						    Text="{Binding SpeciesToAdd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+						    MinimumPrefixLength="1" MaxDropDownHeight="200"/>
+
+                <ListBox ItemsSource="{Binding Details}" Width="430" MaxHeight="450">
+                    <ListBox.Styles>
+						<Style Selector="ListBoxItem">
+							<Setter Property="Padding" Value="3"/>
+							<Setter Property="Margin" Value="0"/>
+						</Style>
+				    </ListBox.Styles>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                    <TextBox Text="{Binding Species}" Width="220" IsReadOnly="True"
+                                               ToolTip.Tip="{Binding Species}"
+                                               ToolTip.Placement="Right"
+                                          VerticalAlignment="Center">
+                                        <TextBox.InnerRightContent>
+                                            <Button IsVisible="{Binding CanEdit}" Click="RemoveDetail_Click" CommandParameter="{Binding .}" Margin="0,0,5,0">
+                                                <Image Source="avares://BeachSurvey/Assets/TrashCan.png" 
+                                                       Width="12" Height="12" Margin="0"/>
+                                            </Button>
+                                        </TextBox.InnerRightContent>
+                                     </TextBox>
+                                <TextBox Text="{Binding Notes}" Width="200" IsReadOnly="{Binding !CanEdit}"
+                                         AcceptsReturn="True" Height="40"
+                                         VerticalAlignment="Center"
+                                         PlaceholderText="Notes"
+                                         MaxLength="1600"
+                                         ToolTip.Tip="{Binding Notes}"
+                                         ToolTip.Placement="Right" />
+
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+               </StackPanel>
+             </Grid>
+         </Border>
+    </StackPanel>
+   </ScrollViewer>
+</UserControl>

@@ -1,22 +1,44 @@
 <Project>
-    <!-- https://learn.microsoft.com/en-us/nuget/consume-packages/central-package-management -->
-    <PropertyGroup>
-        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-    </PropertyGroup>
-    <ItemGroup>
-        <!-- Avalonia packages -->
-        <!-- Important: keep version in sync! -->
-        <PackageVersion Include="Avalonia" Version="12.1.1" />
-        <PackageVersion Include="Avalonia.Themes.Fluent" Version="12.1.1" />
-        <PackageVersion Include="Avalonia.Fonts.Inter" Version="12.1.1" />
-        <PackageVersion Include="Avalonia.Desktop" Version="12.1.1" />
-        <PackageVersion Include="Avalonia.iOS" Version="12.1.1" />
-        <PackageVersion Include="Avalonia.Browser" Version="12.1.1" />
-        <PackageVersion Include="Avalonia.Android" Version="12.1.1" />
-        <PackageVersion Include="AvaloniaUI.DiagnosticsSupport" Version="2.2.3" />
+  <!-- https://learn.microsoft.com/en-us/nuget/consume-packages/central-package-management -->
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Avalonia packages -->
+    <!-- Important: keep version in sync! -->
+    <PackageVersion Include="Avalonia" Version="12.1.1" />
+    <PackageVersion Include="Avalonia.Controls.DataGrid" Version="12.1.2" />
+    <PackageVersion Include="Avalonia.Diagnostics" Version="11.3.19" />
+    <PackageVersion Include="Avalonia.Skia" Version="12.1.1" />
+    <PackageVersion Include="Avalonia.Themes.Fluent" Version="12.1.1" />
+    <PackageVersion Include="Avalonia.Fonts.Inter" Version="12.1.1" />
+    <PackageVersion Include="Avalonia.Desktop" Version="12.1.1" />
+    <PackageVersion Include="Avalonia.iOS" Version="12.1.1" />
+    <PackageVersion Include="Avalonia.Browser" Version="12.1.1" />
+    <PackageVersion Include="Avalonia.Android" Version="12.1.1" />
+    <PackageVersion Include="AvaloniaUI.DiagnosticsSupport" Version="2.2.3" />
+    <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+    <PackageVersion Include="DynamicData" Version="9.4.33" />
+    <PackageVersion Include="FluentAvaloniaUI" Version="3.0.2" />
+    <PackageVersion Include="Google.Apis.Oauth2.v2" Version="1.74.0.1869" />
+    <PackageVersion Include="MessageBox.Avalonia" Version="12.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="10.0.10" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.10" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.FileExtensions" Version="10.0.10" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="10.0.10" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.UserSecrets" Version="10.0.10" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.10" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.10" />
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.10" />
+    <PackageVersion Include="Microsoft.JSInterop" Version="10.0.10" />
+    <PackageVersion Include="ReactiveUI.Avalonia" Version="12.1.1" />
+    <PackageVersion Include="Svg.Controls.Skia.Avalonia" Version="12.0.0.14" />
+    <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.22.0" />
+    <PackageVersion Include="System.Reactive" Version="7.0.0" />
+    <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.15" />
 
-        <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.4.2" />
-
-        <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.15" />
-    </ItemGroup>
+    <!-- Fix for .NET 10 WebAssembly build - force compatible native asset versions -->
+    <PackageVersion Include="SkiaSharp.NativeAssets.WebAssembly" Version="4.148.0" />
+    <PackageVersion Include="HarfBuzzSharp.NativeAssets.WebAssembly" Version="14.2.0" />
+  </ItemGroup>
 </Project>

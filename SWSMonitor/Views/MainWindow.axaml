@@ -1,12 +1,89 @@
-<Window xmlns="https://github.com/avaloniaui"
+﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:SWSMonitor.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:views="using:SWSMonitor.Views"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="800"
+        xmlns:vm="using:SWSMonitor.ViewModels"
+        xmlns:svg="using:Avalonia.Svg.Skia"
         x:Class="SWSMonitor.Views.MainWindow"
-        Icon="/Assets/avalonia-logo.ico"
-        Title="SWSMonitor">
-        <views:MainView />
+        x:DataType="vm:MainWindowViewModel"
+        MinHeight="800" Width="900"
+        SizeToContent="Width"
+        WindowStartupLocation="CenterScreen"
+        Icon="/Assets/SWS-logo.png"
+        Title="{Binding Title}">
+    <Design.DataContext>
+        <vm:DesignMainWindowViewModel/>
+    </Design.DataContext>
+    <SplitView IsPaneOpen="{Binding IsPaneOpen}"
+               DisplayMode="CompactInline"
+               CompactPaneLength="38"
+               OpenPaneLength="100"
+               PanePlacement="Left"
+               PaneBackground="{DynamicResource ResourceKey=PaneBackground}"
+               Background="{DynamicResource ResourceKey=PrimaryBackground}">
+        <SplitView.Pane>
+            <Grid RowDefinitions="auto,*">
+            <StackPanel Spacing="5" Grid.Row="0">
+                <!-- Hamburger button to toggle the pane -->
+                <Button Name="PaneToggle" Command="{Binding TogglePaneCommand}" FontSize="20" Content="☰"
+                        Margin="3,0,0,0"/>
+
+                <!-- Navigation menu items -->
+                <ListBox SelectedItem="{Binding SelectedMenuItem}"
+                    SelectionChanged="TopListBox_SelectionChanged"
+                    Background="Transparent"
+                    ItemsSource="{Binding TopMenuItems}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" IsVisible="{Binding IsAllowedForCurrentUser}" Margin="-5,0,0,0">
+                                <svg:Svg Path="{Binding SvgImagePath}" Width="24" Height="24" Margin="0,0,6,0"/>
+                                <TextBlock Text="{Binding Header}" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+			    <Popup Name="MyPopup"  IsOpen="{Binding IsPopupOpen}"
+                           PlacementTarget="{Binding ElementName=PaneToggle}" 
+                           Placement="Bottom" 
+                           HorizontalOffset="185" 
+                           VerticalOffset="10" 
+                    >
+				    <Border Background="DarkGray" BorderBrush="{DynamicResource ResourceKey=PaneBackground}" BorderThickness="2" Padding="10">
+					    <StackPanel Orientation="Vertical">
+						    <TextBlock Name="PopupText" TextWrapping="Wrap" Width="200"
+                                  Text="{Binding LoadingMessage}" Margin="0,0,0,10"/>
+					    </StackPanel>
+				    </Border>
+		    </Popup>
+            </StackPanel>
+            <StackPanel Grid.Row="1" VerticalAlignment="Bottom">
+				<!-- Bottom Navigation menu items -->
+                <ListBox SelectedItem="{Binding SelectedBottomMenuItem}"
+                         SelectionChanged="BottomListBox_SelectionChanged"
+                         Background="Transparent"
+                         ItemsSource="{Binding BottomMenuItems}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel IsVisible="{Binding IsAllowedForCurrentUser}" Orientation="Horizontal" Margin="-5,0,0,0">
+                                <svg:Svg  Path="{Binding SvgImagePath}" Width="24" Height="24" Margin="0,0,6,6"/>
+                                <TextBlock Text="{Binding Header}" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+            </StackPanel>
+          </Grid>
+        </SplitView.Pane>
+
+        <SplitView.Content>
+            <!-- Content area for navigated pages -->
+            <TransitioningContentControl Content="{Binding CurrentPage}">
+                <TransitioningContentControl.PageTransition>
+                    <PageSlide Orientation="Horizontal" Duration="0:0:0.200" />
+                </TransitioningContentControl.PageTransition>
+            </TransitioningContentControl>
+        </SplitView.Content>
+    </SplitView>
 </Window>

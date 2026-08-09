@@ -8,6 +8,19 @@
 
   <ItemGroup>
     <PackageReference Include="Avalonia.Browser" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Http" />
+    <PackageReference Include="Microsoft.JSInterop" />
+    <PackageReference Include="ReactiveUI.Avalonia" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
+
+    <!-- Force compatible SkiaSharp WebAssembly versions (versions defined in Directory.Packages.props) -->
+    <PackageReference Include="SkiaSharp.NativeAssets.WebAssembly" />
+    <PackageReference Include="HarfBuzzSharp.NativeAssets.WebAssembly" />
   </ItemGroup>
 
   <ItemGroup>

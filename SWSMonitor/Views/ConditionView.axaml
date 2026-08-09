@@ -1,0 +1,86 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:SWSMonitor.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="800"
+             x:Class="SWSMonitor.ConditionView"
+             x:CompileBindings="True"
+             x:DataType="vm:ConditionViewModel">
+	<Design.DataContext>
+		<vm:ConditionViewModel />
+	</Design.DataContext>
+
+
+	<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="0,20,0,0">
+	<StackPanel Orientation="Vertical" Width="450">
+            <!-- Condition Section -->
+            <Border BorderBrush="{DynamicResource SystemAccentColor}" BorderThickness="2" CornerRadius="4" Padding="12" Margin="0,0,0,12">
+                <StackPanel Spacing="8" Width="450">
+                    <TextBlock Text="Conditions" FontSize="16" FontWeight="SemiBold" Margin="15,0,0,8"/>
+             	<Grid ColumnDefinitions="175,175" RowDefinitions="auto,5,auto,5,auto,5,auto,5,auto" HorizontalAlignment="Center" Margin="0,10,0,0">
+				<Label Grid.Column="0" Grid.Row="0" Content="Air Temp (C):" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+				<TextBox Grid.Column="1" Grid.Row="0" IsEnabled="{Binding CanEditSurvey}" VerticalAlignment="Center"
+					    Width="175" HorizontalAlignment="Left" MaxLength="5" PlaceholderText="e.g.23.5"
+						Text="{Binding AirTemp, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" KeyDown="NumericTextBox_KeyDown"	/>
+
+				<Label Grid.Column="0" Grid.Row="2" Content="Water Temp (C):" HorizontalAlignment="Right" />
+				<TextBox Grid.Column="1" Grid.Row="2" IsEnabled="{Binding CanEditSurvey}" VerticalAlignment="Center"
+					    Width="175" HorizontalAlignment="Left" MaxLength="5" PlaceholderText="e.g.18.2"
+ 						Text="{Binding WaterTemp, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" KeyDown="NumericTextBox_KeyDown"	/>
+				
+				<Label Grid.Column="0" Grid.Row="4" Content="Salinity (ppt):" HorizontalAlignment="Right" />
+				<TextBox Grid.Column="1" Grid.Row="4" IsEnabled="{Binding CanEditSurvey}" VerticalAlignment="Center"
+					    Width="175" HorizontalAlignment="Left" MaxLength="5" PlaceholderText="e.g.35"
+ 						Text="{Binding Salinity, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"	KeyDown="IntegerTextBox_KeyDown"/>
+
+				<Label Grid.Column="0" Grid.Row="6" Content="Barometric Pressure (in):" HorizontalAlignment="Right"/>
+				<TextBox Grid.Column="1" Grid.Row="6" IsEnabled="{Binding CanEditSurvey}" VerticalAlignment="Center"
+					    Width="175" HorizontalAlignment="Left" PlaceholderText="e.g.29.92"
+ 						Text="{Binding BarometricPressure, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" KeyDown="NumericTextBox_KeyDown"	/>
+				</Grid>
+				 </StackPanel>
+			</Border>
+
+		            <!-- Condition Section -->
+            <Border BorderBrush="{DynamicResource SystemAccentColor}" BorderThickness="2" CornerRadius="4" Padding="12" Margin="0,0,0,12">
+                <StackPanel Spacing="8" Width="450">
+                    <TextBlock Text="Measurements" FontSize="16" FontWeight="SemiBold" Margin="15,0,0,8"/>
+             	<Grid ColumnDefinitions="175,175" RowDefinitions="auto,5,auto,5,auto,5,auto,5,auto" HorizontalAlignment="Center" Margin="0,10,0,0">
+				<Label Grid.Column="0" Grid.Row="0" Content="Profile Start Height:" HorizontalAlignment="Right" />
+				<TextBox Grid.Column="1" Grid.Row="0" IsEnabled="{Binding CanEditSurvey}" VerticalAlignment="Center"
+					    Width="175" HorizontalAlignment="Left" PlaceholderText="e.g: 10.5"
+ 						Text="{Binding ProfileStartHt, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" KeyDown="NumericTextBox_KeyDown"	/>
+				<Label Grid.Column="0" Grid.Row="2" Content="Tide Height at End:" HorizontalAlignment="Right" />
+				<TextBox Grid.Column="1" Grid.Row="2" IsEnabled="{Binding CanEditSurvey}" VerticalAlignment="Center"
+					    Width="175" HorizontalAlignment="Left" PlaceholderText="e.g: -3.5"
+ 						Text="{Binding TideAtEnd, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" KeyDown="NumericTextBox_KeyDown"	/>
+				<Label Grid.Column="0" Grid.Row="4" Content="Corrected Tide Height:" HorizontalAlignment="Right" />
+				<TextBox Grid.Column="1" Grid.Row="4" IsEnabled="{Binding CanEditSurvey}" VerticalAlignment="Center"
+					    Width="175" HorizontalAlignment="Left" PlaceholderText="e.g: 0.5"
+ 						Text="{Binding CorrectedTide, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" KeyDown="NumericTextBox_KeyDown"	/>
+				</Grid>
+				</StackPanel>
+			</Border>
+            <!-- Weather Section -->
+            <Border BorderBrush="{DynamicResource SystemAccentColor}" BorderThickness="2" CornerRadius="4" Padding="12" Margin="0,0,0,12">
+                <StackPanel Spacing="8" Width="450">
+                    <TextBlock Text="Weather" FontSize="16" FontWeight="SemiBold" Margin="15,0,0,8"/>
+				<Grid ColumnDefinitions="175,175" RowDefinitions="auto,auto,auto,auto,auto" Margin="0,2,0,0" HorizontalAlignment="Center">
+					<Label Grid.Column="0" Grid.Row="0" Content="Cloud Cover:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+					<ComboBox Grid.Column="1" Grid.Row="0" ItemsSource="{Binding CloudCoverOptions}" SelectedItem="{Binding CloudCover}" Width="175" HorizontalAlignment="Left"
+						Margin="0,5,0,0" IsEnabled="{Binding CanEditSurvey}"/>
+
+					<Label Grid.Column="0" Grid.Row="1" Content="Precipitation:" HorizontalAlignment="Right"  VerticalAlignment="Center"/>
+					<ComboBox Grid.Column="1" Grid.Row="1" ItemsSource="{Binding PrecipitationOptions}" SelectedItem="{Binding Precipitation}" Width="175" HorizontalAlignment="Left"
+						Margin="0,5,0,0" IsEnabled="{Binding CanEditSurvey}"/>
+
+					<Label Grid.Column="0" Grid.Row="2" Content="Wind:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+					<ComboBox Grid.Column="1" Grid.Row="2" ItemsSource="{Binding WindOptions}" SelectedItem="{Binding Wind}" Width="175" HorizontalAlignment="Left"
+						Margin="0,5,0,0" IsEnabled="{Binding CanEditSurvey}"/>
+				</Grid>
+				</StackPanel>
+			</Border>
+		</StackPanel>
+	</ScrollViewer>
+</UserControl>
