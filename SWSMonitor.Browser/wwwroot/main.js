@@ -10,11 +10,13 @@ const dotnetRuntime = await dotnet
 
 const config = dotnetRuntime.getConfig();
 
-debugger;
-
 // Export googleAuth for JSImport
-import { triggerGoogleFedCM } from './fedCM.js';
-globalThis.googleAuth = triggerGoogleFedCM;
+// import { triggerGoogleFedCM } from './fedCM.js';
+// globalThis.googleAuth = triggerGoogleFedCM;
+// import { downloadFile } from './downloadHelper.js';
+// globalThis.downloadFile = downloadFile;
+// import { showErrorMessage } from './errorInterop.js';
+// globalThis.showErrorMessage = showErrorMessage;
 
 // ============================================================================
 // Run the .NET application
