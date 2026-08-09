@@ -38,7 +38,7 @@
     </Content>
   </ItemGroup>
 
-	<Target Name="UpdateBaseHref" BeforeTargets="BeforeBuild">
+	<Target Name="UpdateBaseHref" BeforeTargets="BeforeBuild" Condition="'$(Configuration)' == 'Debug'">
 		<PropertyGroup>
 			<IndexHtmlPath>$(ProjectDir)wwwroot\index.html</IndexHtmlPath>
 			<!-- Use '/' for local builds, or custom path for production/publishing -->
