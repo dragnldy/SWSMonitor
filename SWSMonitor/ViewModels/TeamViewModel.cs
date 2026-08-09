@@ -159,7 +159,7 @@ public class SurveyMember : ReactiveObject
     }
 }
 
-public class TeamViewModel : WizardViewModelBase, IActivatableViewModel, INotifyDataErrorInfo
+public class TeamViewModel : WizardViewModelBase, INotifyDataErrorInfo
 {
     public static TeamViewModel? Instance = null;
     private readonly ErrorsViewModel _errorsViewModel;
@@ -183,7 +183,7 @@ public class TeamViewModel : WizardViewModelBase, IActivatableViewModel, INotify
         HostScreen = hostScreen;
         PageTitle = "Team Selection";
         PropertyChanged += TeamViewModel_PropertyChanged;
-        Activator = new ViewModelActivator();
+       // Activator = new ViewModelActivator();
 
     }
 

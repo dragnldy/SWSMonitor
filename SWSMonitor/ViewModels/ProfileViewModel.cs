@@ -9,8 +9,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Reactive.Disposables;
-using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading;
@@ -126,12 +124,10 @@ public class SurfaceDetail : ReactiveObject
     }
 }
 
-public class ProfileViewModel : WizardViewModelBase, IActivatableViewModel, INotifyDataErrorInfo
+public class ProfileViewModel : WizardViewModelBase, INotifyDataErrorInfo
 {
     public static ProfileViewModel? Instance = null;
     private readonly ErrorsViewModel _errorsViewModel;
-
-    public ViewModelActivator Activator { get; } = new ViewModelActivator();
 
     // Unique identifier for the routable view model.
     public string UrlPathSegment => "ProfileView";
@@ -302,7 +298,6 @@ public class ProfileViewModel : WizardViewModelBase, IActivatableViewModel, INot
         HostScreen = hostScreen;
         PageTitle = "Profile";
         PropertyChanged += ProfileViewModel_PropertyChanged;
-        Activator = new ViewModelActivator();
 
     }
     public override void OnNavigatingTo()

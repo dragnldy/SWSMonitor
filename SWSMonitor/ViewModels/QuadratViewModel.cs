@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reactive.Disposables;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -171,7 +170,7 @@ public class SpeciesDetail : ReactiveObject
     }
 }
 
-public class QuadratViewModel : WizardViewModelBase, IActivatableViewModel
+public class QuadratViewModel : WizardViewModelBase
 {
     // Unique identifier for the routable view model.
     public string UrlPathSegment => "QuadratView";
@@ -218,8 +217,6 @@ public class QuadratViewModel : WizardViewModelBase, IActivatableViewModel
     /// </summary>
     public static string Title => "Quadrats";
 
-    public ViewModelActivator Activator { get; } = new ViewModelActivator();
-
     public QuadratViewModel()
     {
         // This is just here for design-time support
@@ -229,7 +226,6 @@ public class QuadratViewModel : WizardViewModelBase, IActivatableViewModel
         HostScreen = screen;
         PageTitle = "Quadrats";
         PropertyChanged += QuadratViewModel_PropertyChanged;
-        Activator = new ViewModelActivator();
     }
 
     public override void OnNavigatingTo()

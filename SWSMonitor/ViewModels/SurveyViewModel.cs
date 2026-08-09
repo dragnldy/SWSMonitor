@@ -15,7 +15,7 @@ namespace SWSMonitor.ViewModels;
 /// <summary>
 ///  This is our ViewModel for the first page
 /// </summary>
-public class SurveyViewModel : WizardViewModelBase, IActivatableViewModel
+public class SurveyViewModel : WizardViewModelBase
 {
 
     // private readonly IDataService _dataService;
@@ -24,7 +24,7 @@ public class SurveyViewModel : WizardViewModelBase, IActivatableViewModel
     public static string LastBeach = "Ala Spit";
     public static string LastSurveyDate = null;
 
-    public ViewModelActivator Activator { get; } = new ViewModelActivator();
+    //public ViewModelActivator Activator { get; } = new ViewModelActivator();
 
     #region CTOR
     public SurveyViewModel()
@@ -38,7 +38,7 @@ public class SurveyViewModel : WizardViewModelBase, IActivatableViewModel
         HostScreen = screen;
         //_dataService = dataService;
 
-        Activator = new ViewModelActivator();
+//        Activator = new ViewModelActivator();
 
         PageTitle = "Survey Selection";
         PropertyChanged += SurveyViewModel_PropertyChanged;

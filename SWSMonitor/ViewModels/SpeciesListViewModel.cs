@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reactive.Disposables;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -72,7 +71,7 @@ public class SpeciesObservation : ReactiveObject
         }
     }
 }
-public class SpeciesListViewModel : WizardViewModelBase, IActivatableViewModel
+public class SpeciesListViewModel : WizardViewModelBase
 {
     public static SpeciesListViewModel? Current = null;
     #region CTOR
@@ -447,6 +446,5 @@ public class SpeciesListViewModel : WizardViewModelBase, IActivatableViewModel
     // Unique identifier for the routable view model.
     public string UrlPathSegment => "SpeciesListView";
 
-    public ViewModelActivator Activator { get; } = new ViewModelActivator();
     #endregion Interface Implementations
 }

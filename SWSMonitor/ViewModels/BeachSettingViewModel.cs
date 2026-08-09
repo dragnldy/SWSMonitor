@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Reactive.Disposables;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading;
@@ -83,12 +82,12 @@ public class Content : ReactiveObject
 /// <summary>
 ///  This is our ViewModel for the first page
 /// </summary>
-public class BeachSettingViewModel : WizardViewModelBase, IActivatableViewModel, INotifyDataErrorInfo
+public class BeachSettingViewModel : WizardViewModelBase, INotifyDataErrorInfo
 {
     public static BeachSettingViewModel? Instance = null;
     private readonly ErrorsViewModel _errorsViewModel;
 
-    public ViewModelActivator Activator { get; } = new ViewModelActivator();
+   // public ViewModelActivator Activator { get; } = new ViewModelActivator();
 
     // Unique identifier for the routable view model.
     public string UrlPathSegment => "BeachSettingView";

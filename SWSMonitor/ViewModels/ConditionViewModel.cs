@@ -4,7 +4,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Reactive.Disposables;
 using System.Text.Json;
 using System.Text.Json.Serialization; // Add this using directive at the top if not present
 
@@ -12,12 +11,12 @@ namespace SWSMonitor.ViewModels;
 /// <summary>
 ///  This is our ViewModel for the first page
 /// </summary>
-public class ConditionViewModel : WizardViewModelBase, IActivatableViewModel, INotifyDataErrorInfo
+public class ConditionViewModel : WizardViewModelBase, INotifyDataErrorInfo
 {
     public static ConditionViewModel? Instance = null;
     private readonly ErrorsViewModel _errorsViewModel;
 
-    public ViewModelActivator Activator { get; } = new ViewModelActivator();
+    // public ViewModelActivator Activator { get; } = new ViewModelActivator();
 
     // Unique identifier for the routable view model.
     public string UrlPathSegment => "ConditionView";
