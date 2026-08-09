@@ -34,8 +34,6 @@ internal sealed partial class Program
             if (OperatingSystem.IsBrowser())
             {
                 StaticData.RunningInBrowser = true;
-                await JSHost.ImportAsync("fedCM.js", "./fedCM.js"); // Adjust path to match your actual file location
-                await JSHost.ImportAsync("errorInterop.js", "./errorInterop.js"); // Adjust path to match your actual file location
             }
             TraceLogger.SetupTrace("console");
 
@@ -93,7 +91,7 @@ internal sealed partial class Program
                 await JSHost.ImportAsync("browserBeep.js", "/browserBeep.js");
 
                 // Import the JS module
-                await JSHost.ImportAsync("DownloadHelper", "/downloadHelper.js");
+                await JSHost.ImportAsync("downloadHelper", "/downloadHelper.js");
 
                 _jsModuleInitialized = true;
 
@@ -287,7 +285,7 @@ internal sealed partial class Program
 
 public partial class Downloader : IDownloadService
 {
-    [JSImport("downloadFile", "DownloadHelper")]
+    [JSImport("downloadFile", "downloadHelper")]
     static partial void DownloadFileImpl(string filename, string contentType, string base64Content);
 
     public void DownloadFile(string filename, string contentType, string base64Content)
