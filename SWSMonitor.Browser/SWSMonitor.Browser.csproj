@@ -38,4 +38,17 @@
     </Content>
   </ItemGroup>
 
+	<Target Name="UpdateBaseHref" BeforeTargets="BeforeBuild">
+		<PropertyGroup>
+			<IndexHtmlPath>$(ProjectDir)wwwroot\index.html</IndexHtmlPath>
+			<!-- Use '/' for local builds, or custom path for production/publishing -->
+			<NewBaseHref Condition="'$(Configuration)' == 'Debug'">/</NewBaseHref>
+			<NewBaseHref Condition="'$(Configuration)' == 'Release'">/SWSMonitor/</NewBaseHref>
+		</PropertyGroup>
+
+		<Message Text="Setting base href to '$(NewBaseHref)' for $(Configuration) build..." Importance="High" />
+
+		<!-- PowerShell command to find and replace the base href tag -->
+		<Exec Command="powershell -Command &quot;(Get-Content '$(IndexHtmlPath)') -replace '&lt;base href=\&quot;.*\&quot;\s*/?&gt;', '&lt;base href=\&quot;$(NewBaseHref)\&quot; /&gt;' | Set-Content '$(IndexHtmlPath)'&quot;" />
+	</Target>
 </Project>

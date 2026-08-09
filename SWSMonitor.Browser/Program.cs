@@ -89,8 +89,8 @@ internal sealed partial class Program
                 // Google identification service
                 await JSHost.ImportAsync("fedCM.js", $"{jsprefix}fedCM.js");
 
-                // Import the JS module
-                await JSHost.ImportAsync("downloadHelper.js", $"{jsprefix}downloadHelper.js");
+                //// Import the JS module
+                //await JSHost.ImportAsync("downloadHelper.js", $"{jsprefix}downloadHelper.js");
 
                 _jsModuleInitialized = true;
 
@@ -155,8 +155,8 @@ internal sealed partial class Program
 
         services.AddSingleton<IConfiguration>(configuration);
 
-        var downloader = new Downloader();
-        services.AddSingleton<IDownloadService>(downloader);
+        //var downloader = new Downloader();
+        //services.AddSingleton<IDownloadService>(downloader);
 
         // Initialize JavaScript module for interop first
         await InitializeJavaScriptModuleAsync();
@@ -249,16 +249,16 @@ internal sealed partial class Program
 
 }
 
-public partial class Downloader : IDownloadService
-{
-    [JSImport("downloadFile", "downloadHelper")]
-    static partial void DownloadFileImpl(string filename, string contentType, string base64Content);
+//public partial class Downloader : IDownloadService
+//{
+//    [JSImport("downloadFile", "downloadHelper")]
+//    static partial void DownloadFileImpl(string filename, string contentType, string base64Content);
 
-    public void DownloadFile(string filename, string contentType, string base64Content)
-    {
-        DownloadFileImpl(filename, contentType, base64Content);
-    }
-}
+//    public void DownloadFile(string filename, string contentType, string base64Content)
+//    {
+//        DownloadFileImpl(filename, contentType, base64Content);
+//    }
+//}
 
 
 // Helper class for API settings
