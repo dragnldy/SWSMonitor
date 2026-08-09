@@ -29,7 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SWSMonitor\SWSMonitor.csproj" />
-    <ProjectReference Include="D:\Projects\SWS\CitScience\DataLibrary\DataLibrary.csproj" />
+    <ProjectReference Include="..\DataLibrary\DataLibrary.csproj" />
   </ItemGroup>
 
 </Project>

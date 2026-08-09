@@ -34,7 +34,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="D:\Projects\SWS\CitScience\DataLibrary\DataLibrary.csproj" />
+    <ProjectReference Include="..\DataLibrary\DataLibrary.csproj" />
   </ItemGroup>
   
   <ItemGroup>
