@@ -172,24 +172,24 @@ public partial class MainWindowViewModel : MainWindowModel
         TopMenuItems = new ObservableCollection<MenuItemViewModel>
         {
             // Allowed for all users
-            new MenuItemViewModel("Login", @"avares://BeachSurvey/Assets/user-login.svg", new LoginViewModel(), AppRoleEnum.Public),
+            new MenuItemViewModel("Login", @"avares://SWSMonitor/Assets/user-login.svg", new LoginViewModel(), AppRoleEnum.Public),
             // Only allowed for logged-in users with at least 'view' role
-            new MenuItemViewModel("Home", @"avares://BeachSurvey/Assets/home.svg", new HomeViewModel(), AppRoleEnum.View),
+            new MenuItemViewModel("Home", @"avares://SWSMonitor/Assets/home.svg", new HomeViewModel(), AppRoleEnum.View),
             // Allowed for all users
-            new MenuItemViewModel("Maps", @"avares://BeachSurvey/Assets/map.svg",new MapsViewModel(), AppRoleEnum.Public),
+            new MenuItemViewModel("Maps", @"avares://SWSMonitor/Assets/map.svg",new MapsViewModel(), AppRoleEnum.Public),
             // Allowed for all users
-            new MenuItemViewModel("Data", @"avares://BeachSurvey/Assets/View-Details.svg",new DynamicGridViewModel(), AppRoleEnum.Public),
+            new MenuItemViewModel("Data", @"avares://SWSMonitor/Assets/View-Details.svg",new DynamicGridViewModel(), AppRoleEnum.Public),
             // Only allowed for logged-in users with at least 'edit' role
-            new MenuItemViewModel("People", @"avares://BeachSurvey/Assets/people.svg",new PeopleViewModel(), AppRoleEnum.Edit),
+            new MenuItemViewModel("People", @"avares://SWSMonitor/Assets/people.svg",new PeopleViewModel(), AppRoleEnum.Edit),
             // Allowed for all users for view- no edit though
-            new MenuItemViewModel("Species", @"avares://BeachSurvey/Assets/Fish.svg",new GlossariesViewModel(), AppRoleEnum.Public),
+            new MenuItemViewModel("Species", @"avares://SWSMonitor/Assets/Fish.svg",new GlossariesViewModel(), AppRoleEnum.Public),
             // Allowed for all users for view- no edit though
-            new MenuItemViewModel("Beaches", @"avares://BeachSurvey/Assets/beach.svg",new BeachesViewModel(), AppRoleEnum.Public),
+            new MenuItemViewModel("Beaches", @"avares://SWSMonitor/Assets/beach.svg",new BeachesViewModel(), AppRoleEnum.Public),
         };
         BottomMenuItems = new ObservableCollection<MenuItemViewModel>
         {
             // Only allowed for logged-in users with 'admin' role
-            new MenuItemViewModel("Settings", @"avares://BeachSurvey/Assets/settings.svg",new SettingsViewModel(), AppRoleEnum.Admin)
+            new MenuItemViewModel("Settings", @"avares://SWSMonitor/Assets/settings.svg",new SettingsViewModel(), AppRoleEnum.Admin)
         };
 
     }

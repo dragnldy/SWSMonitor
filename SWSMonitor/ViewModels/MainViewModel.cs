@@ -201,22 +201,22 @@ public class MainViewModel : MainWindowModel
         TopMenuItems = new ObservableCollection<BrowserItemViewModel>
         {
             //// Allowed for all users
-            //new BrowserItemViewModel("Login", @"avares://BeachSurvey/Assets/user-login.svg", new LoginViewModel(), AppRoleEnum.Public),
+            //new BrowserItemViewModel("Login", @"avares://SWSMonitor/Assets/user-login.svg", new LoginViewModel(), AppRoleEnum.Public),
             //// Only allowed for logged-in users with at least 'view' role
-            new BrowserItemViewModel("Home", @"avares://BeachSurvey/Assets/home.svg", new SplashScreenViewModel(), AppRoleEnum.Public),
+            new BrowserItemViewModel("Home", @"avares://SWSMonitor/Assets/home.svg", new SplashScreenViewModel(), AppRoleEnum.Public),
             // Allowed for all users
-            new BrowserItemViewModel("Maps", @"avares://BeachSurvey/Assets/map.svg",new MapWebViewModel(), AppRoleEnum.Public),
-            new BrowserItemViewModel("Data", @"avares://BeachSurvey/Assets/View-Details.svg",new DynamicGridViewModel(), AppRoleEnum.Public),  
-            new BrowserItemViewModel("Species", @"avares://BeachSurvey/Assets/Fish.svg",new GlossariesViewModel(), AppRoleEnum.Public),
-            new BrowserItemViewModel("Beaches", @"avares://BeachSurvey/Assets/beach.svg",new BeachesViewModel(), AppRoleEnum.Public),
-            new BrowserItemViewModel("Surveys", @"avares://BeachSurvey/Assets/Surveys.svg", new HomeViewModel(), AppRoleEnum.Public),
-            new BrowserItemViewModel("People", @"avares://BeachSurvey/Assets/people.svg", new PeopleViewModel(), AppRoleEnum.Edit),
+            new BrowserItemViewModel("Maps", @"avares://SWSMonitor/Assets/map.svg",new MapWebViewModel(), AppRoleEnum.Public),
+            new BrowserItemViewModel("Data", @"avares://SWSMonitor/Assets/View-Details.svg",new DynamicGridViewModel(), AppRoleEnum.Public),  
+            new BrowserItemViewModel("Species", @"avares://SWSMonitor/Assets/Fish.svg",new GlossariesViewModel(), AppRoleEnum.Public),
+            new BrowserItemViewModel("Beaches", @"avares://SWSMonitor/Assets/beach.svg",new BeachesViewModel(), AppRoleEnum.Public),
+            new BrowserItemViewModel("Surveys", @"avares://SWSMonitor/Assets/Surveys.svg", new HomeViewModel(), AppRoleEnum.Public),
+            new BrowserItemViewModel("People", @"avares://SWSMonitor/Assets/people.svg", new PeopleViewModel(), AppRoleEnum.Edit),
         };
 
         BottomMenuItems = new ObservableCollection<BrowserItemViewModel>
         {
             // Only allowed for logged-in users with 'edit' 'admin' role
-//            new BrowserItemViewModel("Settings", @"avares://BeachSurvey/Assets/settings.svg",new SettingsViewModel(), AppRoleEnum.Admin)
+//            new BrowserItemViewModel("Settings", @"avares://SWSMonitor/Assets/settings.svg",new SettingsViewModel(), AppRoleEnum.Admin)
         };
 
     }

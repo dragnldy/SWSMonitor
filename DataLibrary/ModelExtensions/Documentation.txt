@@ -1,0 +1,24 @@
+﻿-- SQL Views for Testschema Database
+
+USE `testschema`;
+CREATE  OR REPLACE VIEW `profiles` AS
+select a.surveyid, a.id, a.entryno, a.length, a.surveyreading,
+(select group_concat(trim(concat(b.species, ' ',  ifnull(notes,''))) separator ' ; ')
+ from profiledetails b where b.surveyid = a.surveyid and b.profileid = a.id) as species_list,
+(select group_concat(concat(c.beachsurface, case ifnull(c.g70percent,0) when 0 then '' when 1 then '+' end) separator ' ; ') 
+ from profilesurfacedetails c where c.surveyid = a.surveyid and c.profileid = a.id) as surface_list
+from profileentries a;
+
+USE `testschema`;
+CREATE  OR REPLACE VIEW `quadrats` AS
+select a.surveyid, a.id, a.tide, a.quadrat,ifnull(a.notes,''),
+replace(
+concat(
+ case (ifnull(b.actualnumber,0) + ifnull(b.percentobserved,0)) when 0 then '+ ' else '' end,
+ case(ifnull(b.actualnumber,0)) when 0 then '' else concat(b.actualnumber,'# ') end,
+ case(ifnull(b.percentobserved,0)) when 0 then '' else concat(round(b.percentobserved * 100.0,2),'% ') end,
+ ' ',
+  concat(species, case ifnull(b.speciesLinkId,0) when 0 then '' else concat(' (sp. ',b.specieslinkid,')') end ),
+  concat(' (', ifnull(b.quadratnotes,''),') '),
+  ifnull(case b.qanotes when 'Quantity not specified.' then '' else concat(' ', b.qanotes) end,'')),'()','') as species_list
+ from quadratentries a, quadratdetails b where a.id = b.quadratid;

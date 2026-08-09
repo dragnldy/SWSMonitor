@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="DataSources\AirTable\**" />
+    <Compile Remove="DataSources\ApiClient\**" />
+    <EmbeddedResource Remove="DataSources\AirTable\**" />
+    <EmbeddedResource Remove="DataSources\ApiClient\**" />
+    <None Remove="DataSources\AirTable\**" />
+    <None Remove="DataSources\ApiClient\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Crud\QuadratDataCrud.cs" />
+    <Compile Remove="Crud\QuadratEntryCrudExtended.cs" />
+    <Compile Remove="DataSources\Json\Archiver.cs" />
+    <Compile Remove="DataSources\Json\ExportSurvey.cs" />
+    <Compile Remove="DataSources\Json\GoogleDriveApiClient.cs" />
+    <Compile Remove="DataSources\Json\GoogleDriveDownloader.cs" />
+    <Compile Remove="DataSources\Json\GoogleDriveUploader.cs" />
+    <Compile Remove="DataSources\Json\JsonConfig.cs" />
+    <Compile Remove="ModelExtensions\BeachEvent.cs" />
+    <Compile Remove="ObsModels\ExampleApiClientUse.cs" />
+    <Compile Remove="Utilities\ChromeInterop.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CsvHelper" Version="33.1.0" />
+    <PackageReference Include="GeoJSON.Text" Version="1.1.0" />
+    <PackageReference Include="Google.Apis.Auth" Version="1.75.0" />
+    <PackageReference Include="Google.Apis.Core" Version="1.75.0" />
+    <PackageReference Include="Microsoft.JSInterop" Version="10.0.10" />
+    <PackageReference Include="MySqlConnector" Version="2.6.1" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,977 @@
+﻿{
+  "records": [
+    {
+      "id": "rec2AO8Lcv8ZGH9Li",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Footprint Rock",
+        "ID": 9,
+        "County": 1,
+        "Island": "Whidbey",
+        "Latitude": 48,
+        "Longitude": "-122,45.472",
+        "DnrClass": 10,
+        "TideChart": "Strait of Juan de Fuca-Whidbey Island, Point Partridge",
+        "BeachDirections": "Hwy. 20  two miles north of Coupeville, turn west on Libby Road.  Proceed approx. 2 mi. to right turn on Fort Ebey Road.  One block to junction of Fort Ebey Road and San Juan St.  To Sierra Country Club beach access.",
+        "ProfileDirections": "From beach access, north on beach approx. 1.5 miles to large (4x5x5) erratic with an indentation (bluff side) that looks like a footprint.  Proceed toward bluff 65o to long (2.5 ft.) rock.  Starting point is north end of the rock.",
+        "VertRef": "Top of Footprint rock (4.25 ft. 6-11-98)",
+        "CurrentlyMonitored": true,
+        "Record": 18
+      }
+    },
+    {
+      "id": "rec4ThELzTsQ1x24s",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Rolling Hills",
+        "ID": 22,
+        "County": 1,
+        "Island": "Whidbey",
+        "Latitude": 48,
+        "Longitude": "-122,42.481",
+        "DnrClass": 2,
+        "TideChart": "Seattle-Saratoga Passage and Skagit Bay-Coupeville Penn Cove",
+        "BeachDirections": "North from Coupeville on Hwy 20, turn right on Arnold Rd. then right on Riepma Rd.  Park in beach parking lot across Penn Cove Rd.",
+        "ProfileDirections": "Proceed down  boat ramp to beach.  Turn east (left) and walk under dock to first set of stairs leading down bank to beach.  Starting point is stair piling farthest from dock.",
+        "VertRef": "Center piling at base of metal stairway on bluff (first stairway east of dock.",
+        "CurrentlyMonitored": true,
+        "Record": 39
+      }
+    },
+    {
+      "id": "rec5aZArzUn1UVyxu",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Iverson 2",
+        "ID": 72,
+        "County": 1,
+        "Island": "Camano",
+        "Latitude": 48,
+        "Longitude": "122,26.520",
+        "DnrClass": 4,
+        "TideChart": "Saratoga Passage, Kayak Pt.",
+        "BeachDirections": "AtCamano Plz go south. 1.2 mi. on N. E. Camano Dr.,left to E.RussellRd.,right to S. SunriseBlvd,  0.3 mi. left to E. IversonBeachRd. 0.2 mi., turn left to stay on E. IversonBeachRd,downhill 0.2mi,left to S.IversonRd.,go to end&park at county park lot.",
+        "ProfileDirections": "Survey starting point SE corner of viewing platform railing.  Profile heading is north towards Kayak Point.",
+        "VertRef": "SE corner of viewing platform railing.  First measurement in 2007 was 3.9'.",
+        "SurveyWidth": 20,
+        "ProfileLineStart": 0,
+        "CurrentlyMonitored": true,
+        "Record": 24
+      }
+    },
+    {
+      "id": "rec5rUvXWlXeSoLfG",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Old Clinton Beach",
+        "ID": 18,
+        "County": 1,
+        "Island": "Whidbey",
+        "Latitude": 47,
+        "Longitude": "-122,21.233",
+        "DnrClass": 1,
+        "TideChart": "Seattle-Possession Sound Port Susan-Glendale Whidbey  Island",
+        "BeachDirections": "From Clinton ferry dock, heading up the hill on Hwy. 525 Turn right onto Frost Ave. which runs into Brighton Beach Road.  Follow road down to the water.  Just as you come to the water, before the road turns to go parallel to the beach, park car in small p",
+        "ProfileDirections": "Starting point is on beach 351 ft. from the end of the wire fence by the car.  The northernmost corner of a large array of stacked boulders (seawall) at the toe of bluff.",
+        "VertRef": "Erratic at starting point.  Measured 15.5\" (5-26-1998) from top of erratic to beach (measured on beach side of erratic).",
+        "CurrentlyMonitored": true,
+        "Record": 32
+      }
+    },
+    {
+      "id": "rec7bPNHXiv3SUroi",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "English Boom",
+        "ID": 28,
+        "County": 1,
+        "Island": "Camano",
+        "Latitude": 48,
+        "Longitude": "-122, 26.318",
+        "DnrClass": 3,
+        "TideChart": "Saratoga Passage-Crescent Harbor",
+        "BeachDirections": "From Stanwood, drive onto Camano Island, in less than one mile turn right onto Goode Rd (turns into Utsalady), then  turn right on Moore Rd near airport.  Continue down hill, bear right as road narrows.  Enter park.",
+        "ProfileDirections": "From park boundary line near entrance, follow fence posts to beach.  A  metal pipe (~4\" wide) ten feet from the last wood fence post  is the start point reference.  Profile begins 10 feet beyond (compass heading 0 degrees  magnetic north) towards mountain peak across Skagit Bay.\n\nNew start point directions 2004:  Along the profile line measure 21' from the nail in the second boundary pole.  Use a line level on the 21' string and when level measure vertical distance to beach at 21 foot point.",
+        "VertRef": "Top of metal pipe (start point ref.) to beach surface, 2.25 feet on 3-27-2002.2nd Vertical ht. ref.:Metal spike in piling~8-10'east of profile line at 150' mark.2.5' on 3-27 2002.",
+        "CurrentlyMonitored": true,
+        "Record": 17
+      }
+    },
+    {
+      "id": "rec94Y5ooBTzWJ8Xv",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Camano State Park 1",
+        "ID": 41,
+        "County": 1,
+        "Island": "Camano",
+        "Latitude": 48,
+        "Longitude": "122,29.698",
+        "DnrClass": 1,
+        "TideChart": "Greenbank, Whidbey Island",
+        "BeachDirections": "Enter Camano Island State Park and proceed to launch ramp area.",
+        "ProfileDirections": "Proceed 156' northerly of survey mark or 150' 7\" northerly of top of north edge of concrete ramp.  You will find a 6' diameter concrete pile flush with the ground.  It will have a center of 1' diameter steel.  Start profile line 25' west (227 degrees M) of concrete pile.  Profile line runs 227 degrees M to center of large white building on Whidbey Island.",
+        "VertRef": "The top of the 1' diameter steel is the vertical reference for this line The top of the 1\" diameter steel is 14.55' above MLLW.",
+        "SurveyWidth": 20,
+        "ProfileLineStart": 0,
+        "CurrentlyMonitored": true,
+        "Record": 6
+      }
+    },
+    {
+      "id": "recEFlqO6C6jNjWpL",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Cama Beach 4",
+        "ID": 48,
+        "County": 1,
+        "Island": "Camano",
+        "Latitude": 48,
+        "Longitude": "122,30.803",
+        "DnrClass": 1,
+        "TideChart": "Greenbank, Whidbey Island",
+        "BeachDirections": "From Stanwood, Wa take West Camano Drive to the entrance to Cama Beach.  Proceed to the flagpole along the seawall.",
+        "SurveyWidth": 0,
+        "ProfileLineStart": 0,
+        "AdditionalNotes": "Bulkhead is a seawall.",
+        "Bulkhead": true,
+        "BulkHeadConstruction": "Cement",
+        "Record": 5
+      }
+    },
+    {
+      "id": "recEkktRYER0UCk3L",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Sunlight Beach",
+        "ID": 24,
+        "County": 1,
+        "Island": "Whidbey",
+        "Latitude": 47,
+        "Longitude": "-122,28.433",
+        "DnrClass": 2,
+        "TideChart": "Strait of Juan de Fuca - Bush Point",
+        "BeachDirections": "From Hwy. 525 turn south on Bayview Rd at Bayview then west onto Sunlight Beach Dr.  Profile starts behind private residence at 2590 East Sunligh Beach  Dr. owned by Clyde and Margaret Miner.",
+        "ProfileDirections": "Profile begins 1 meter from a section of rebar that extends from the seawall behind the private residence.",
+        "VertRef": "Rebar drilled into the seawall.  1.1m above the sand on 7-22-97.",
+        "CurrentlyMonitored": true,
+        "Record": 43
+      }
+    },
+    {
+      "id": "recGDRfYmLHN8kPJS",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Maxwelton Tide Pool",
+        "ID": 15,
+        "County": 1,
+        "Island": "Whidbey",
+        "Latitude": 47,
+        "Longitude": "-122,26.717",
+        "DnrClass": 2,
+        "TideChart": "Possession Sound and Port Susan - Glendale, Whidbey Island",
+        "BeachDirections": "From the intersection of Highway 525 and Maxwelton Road, proceed south to Dave Mackie County Park.  Park next to the boat ramp.",
+        "ProfileDirections": "From boat ramp proceed south (past 3 or 4 pilings)~ 3453 feet to a treehouse with rope hanging from it.  Proceed another 117 feet to flagged (yellow) rebar next to bluff. The rebar marks the start of the profile.",
+        "VertRef": "Large erratic 192 feet from rebar.  For measurement, lay pole on top of erratic perpendicular to profile line (5.86 feet on 5/24/01).",
+        "CurrentlyMonitored": true,
+        "Record": 30
+      }
+    },
+    {
+      "id": "recJ8RdCR8PF4bo1M",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "South Lagoon Point",
+        "ID": 23,
+        "County": 1,
+        "Island": "Whidbey",
+        "Latitude": 48,
+        "Longitude": "-122,36.343",
+        "DnrClass": 1,
+        "TideChart": "Port Townsend - Admiralty Inlet - Bush Point",
+        "BeachDirections": "North of Greenbank 1/4 mile, turn west off Hwy 525 onto Smugglers Cove Road.  After ~ 2.5 miles turn west onto Westcliff Drive.  Turn south on Lagoon View, continue down  the hill where it becomes Salmon Street.  Go to end of Salmon Street to South Lagoon",
+        "ProfileDirections": "At south boundary of public beach access facing south, proceed 2590 feet along the high tide line to start point (use a Rolatape).  Start point is at base of 45' high bluff midway from the last residence on the beach and the \"bump\" to the south.  Exact start point is the northwest corner of a white boulder 2 feet tall by 5 feet wide, marked by  rebar 0.3 feet west of northwest corner of white boulder.",
+        "VertRef": "Top of white erratic (2'2\" on 5-1-95)",
+        "CurrentlyMonitored": true,
+        "Record": 41
+      }
+    },
+    {
+      "id": "recJ9lmCLiiSgmuuE",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Mabana",
+        "ID": 35,
+        "County": 1,
+        "Island": "Camano",
+        "Latitude": 48,
+        "Longitude": "-122,24.403",
+        "DnrClass": 2,
+        "TideChart": "Saratoga Passage,Sandy Point",
+        "BeachDirections": "From Stanwood, go over bridge via hwy 532.  Take left fork onto E. Camano Rd. At junction of E. Camano, Elger Bay Rd., and Monticello, go straight on Elger Bay Rd. Continue S. past Mabana Fire Stat.  Right onto Walnut Court -3302 Walnut Ct  2-car garage",
+        "ProfileDirections": "From 3302 proceed south to locked beach trail access gate (Brocks have the key). Follow stairs and path to beach.  Approximately 86 feet north of path entrance is a large drift log with a carved  notch and a nail (about midpoint).  Profile begins here (230 degrees magnetic) house by itself across the passage on the bluff is horizon reference mark.\nChanged on 8/18/2005.  4.6 feet from bottom of broken branch to forest floor.  Compass Heading 220 degrees magnetic (241 degrees True)",
+        "VertRef": "Top of drift log directly out from and level with  notch.   2.45 ft. on 7-9-02\n\nChanged on 8/18/2005.  Vertical drop from Broken Branch to Beach starting point (28 feet from Tree)",
+        "SurveyWidth": 20,
+        "CurrentlyMonitored": true,
+        "Record": 27
+      }
+    },
+    {
+      "id": "recKtM4tU14y8tlfA",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Honeymoon Bay Beach",
+        "ID": 12,
+        "County": 1,
+        "Island": "Whidbey",
+        "Latitude": 48,
+        "Longitude": "-122,32.783",
+        "DnrClass": 1,
+        "TideChart": "Saratoga Passage and Skagit Bay-Holly Farms Harbor, Holmes Harbor",
+        "BeachDirections": "From Hwy. 525 east on Classic Road between Freeland and Greenbank.  Right on S. Honeymoon Bay  Rd.  App. 1/4 mile to driveway at 4187 S. Honeymoon Bay Rd.",
+        "ProfileDirections": "From above address, stairs lead to bulkhead above the beach.  At north end of bulkhead the start point is at top of bulkead on south end of concrete stairs to the beach.",
+        "VertRef": "Top corner of bulkhead at south end of steps to beach (5.4' 6-2-2001).",
+        "CurrentlyMonitored": true,
+        "Record": 22
+      }
+    },
+    {
+      "id": "recLUXirwDMKYpoxG",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Freeland Town Park",
+        "ID": 11,
+        "County": 1,
+        "Island": "Whidbey",
+        "Latitude": 48,
+        "Longitude": "-122,32.117",
+        "DnrClass": 1,
+        "BeachDirections": "From intersection of Hwy 525 and Freeland Ave.( Athletic club) proceed to end of Freeland Ave., right on Shoreview Drive to Freeland County Park on left.  Enter beach from west side of boat ramp, proceed to public restroom.",
+        "ProfileDirections": "From NW corner of public restroom heading 2600 proceed app. 394 ft. to a pile of rocks near high tide line.  From larget rock proceed 2600 approximately 712 ft to a large boulder.  Starting point is 2350 and 40 ft. from the boulder's most western point.  Profile readings are taken both toward the water and toward the backshore from the boulder.",
+        "VertRef": "From top of boulder.",
+        "CurrentlyMonitored": true,
+        "Record": 20
+      }
+    },
+    {
+      "id": "recLurYlZrEcXMK7t",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Cornet Bay",
+        "ID": 4,
+        "County": 1,
+        "Island": "Whidbey",
+        "Latitude": 48,
+        "Longitude": "-122,37.334",
+        "DnrClass": 1,
+        "TideChart": "Seattle- Saratoga Passage, Skagit Bay-Cornet Bay, Deception Pass",
+        "BeachDirections": "From Oak Harbor take Hwy. 20 north to Cornet Bay Rd.  Right 1.3 miles to parking lot (marina and Texaco at 1.0 mi.) Park at far end near boat ramp.",
+        "ProfileDirections": "From boat ramp walk 5 meters east to NGS reference mark by last most shoreward bulkhead piling (on rock).  From ref.  mark head 120 for 27.6 meters to tip of erratic.  From tip head 1500 for 5.6 meters.  This is start point.",
+        "VertRef": "Right edge of erratic nearest water.",
+        "CurrentlyMonitored": true,
+        "Record": 11
+      }
+    },
+    {
+      "id": "recM1FjAypnTdF0Ca",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Perrywinkle",
+        "ID": 43,
+        "County": 1,
+        "Island": "Camano",
+        "Latitude": 48,
+        "Longitude": "122,31.983",
+        "DnrClass": 0,
+        "TideChart": "Greenbank, Whidbey Island",
+        "BeachDirections": "From Terry's corner take E. Camano Dr.Turn right, onto Cross Island and follow it to W.Camano Dr.Turn left and go about 2 miles to 448 Eagle Crest Rd(private gravel road) that goes to right from W.Camano Dr. Parking in driveway and outside fence.",
+        "ProfileDirections": "Beach is accessed via a private Tram.   Start from a notch in a large, fairly flat rock on the beach at 225 degrees.  From the notch measure 20' toward the bluff to start the pole measurements. Also measure the distance from the notch to the bluff as a separate measurement just to monitor bluff erosion.  The distance from a very large erratic to the profile line was measured at 14' to assure the line is in the correct place.",
+        "VertRef": "The vertical drop to substrate from the notch in the large, fairly flat rock on the beach referred to above was not measured.  Beach coordinator estimates the drop to be only a few inches.",
+        "SurveyWidth": 0,
+        "ProfileLineStart": 0,
+        "Record": 37
+      }
+    },
+    {
+      "id": "recMF39JRqX9EbpdC",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Cavalero Beach",
+        "ID": 40,
+        "County": 1,
+        "Island": "Camano",
+        "Latitude": 48,
+        "Longitude": "-122,28.594",
+        "DnrClass": 1,
+        "TideChart": "Saratoga Passage, Kayak Point",
+        "BeachDirections": "West though Stanwood on Hwy 532 to Camano Island. Stay on main road which turns south through traffic signal.  Continue on East Camano Drive.  At sign on right, County Beach and Cavalero Park, turn left, follow road to beach.",
+        "ProfileDirections": "From public parking lot proceed right to furthest accessible timber of the wood-timbered bulkhead.  Reference timber has a 50d galvanized nail on top.  Starting point survey mark is a 50d galvanized nail near the Park property line.  From the reference point to the start point (60 feet) look across Port Susan towards the Cascade Moutains.  The northern edge of the gap between two mountains at 74 degrees True survey line direction.  From the start point look across Port Susan towards the Cascade Mountains.  The center of the gap between two mountains 78 degrees True is survey line direction.",
+        "VertRef": "Vertical difference from top of reference bulkhead to start point 7.8 feet on July 11, 2007.",
+        "SurveyWidth": 20,
+        "ProfileLineStart": 0,
+        "AdditionalNotes": "Magnetic Declination is 17 degrees for July 2007 NOAA Chart 18423",
+        "Bulkhead": true,
+        "BulkHeadConstruction": "Wood",
+        "CurrentlyMonitored": true,
+        "Record": 9
+      }
+    },
+    {
+      "id": "recMv8TpGRrdCbFxQ",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Double Bluff - Wahl Farm",
+        "ID": 8,
+        "County": 1,
+        "Island": "Whidbey",
+        "Latitude": 47,
+        "Longitude": "-122,32.773",
+        "DnrClass": 1,
+        "TideChart": "Port Townsend-Admiralty Inlet-Bush Point",
+        "BeachDirections": "From Freeland at the intersection of Hwy 525 and Fish road, south on Fish road, left on Mutiny Bay road, then right onto Wahl road to mailbox 6560 Dirt Road. For permission call Atwood (331-2274).  Follow dirt road to farm and park near horse pasture.",
+        "ProfileDirections": "Cross horse pasture to the bluff, beach access is road cut into bluff to beach.  Proceed right toward navigation marker on bluff.  Profile begins 18 ft before navigation marker (toward erratic).",
+        "VertRef": "Erratic in profile path First measurement 7 ft. in July 1996.  Measurement is \ntaken from highest point to beach surface on water side of erratic.",
+        "CurrentlyMonitored": true,
+        "Record": 15
+      }
+    },
+    {
+      "id": "recNDreDBsyeF4aS0",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Cama Beach 1",
+        "ID": 2,
+        "County": 1,
+        "Island": "Camano",
+        "Latitude": 48,
+        "Longitude": "-122,30.803",
+        "DnrClass": 1,
+        "TideChart": "Greenbank, Whidbey Island",
+        "BeachDirections": "From Stanwood WA,  take West Camano Drive to the entrance to Cama Beach.  Proceed to the flagpole along the seawall.",
+        "ProfileDirections": "From Flagpole, proceed right along seawall 764' to a bolt drilled into the side of the seawall, and a  length of rebar directly in front of it in the sand.  A drop-off/break in the seawall occurs 65.2 ft from the bolt.  Profile line begins 8' out from wall.  Profile compass heading is 266 degrees toward white multistructure dwelling on horizon line.",
+        "VertRef": "The seawall with bolt attached.  Measurments are taken from the top of the seawall to the sand.",
+        "SurveyWidth": 20,
+        "AdditionalNotes": "Bulkhead is a seawall.  Cama Beach 1 is Cama Beach State Park north profile location",
+        "Bulkhead": true,
+        "BulkHeadConstruction": "Cement",
+        "CurrentlyMonitored": true,
+        "Record": 2
+      }
+    },
+    {
+      "id": "recNwLN2vl3OuAzBb",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Freeland County Park",
+        "ID": 37,
+        "County": 1,
+        "Island": "Whidbey",
+        "DnrClass": 0,
+        "TideChart": "Seattle-Saratoga",
+        "ProfileDirections": "Profile line starts at bluff",
+        "VertRef": "Erratic mid-way to water",
+        "SurveyWidth": 0,
+        "ProfileLineStart": 0,
+        "Record": 19
+      }
+    },
+    {
+      "id": "recOG4fuiy0iOQbFA",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Cama Beach 3",
+        "ID": 47,
+        "County": 1,
+        "Island": "Camano",
+        "Latitude": 48,
+        "Longitude": "122,30.803",
+        "DnrClass": 1,
+        "TideChart": "Greenbank, Whidbey Island",
+        "BeachDirections": "From Stanwood, Wa take West Camano Dr. to the entrance to Cama Beach.  Proceed to the flagpole along the seawall.",
+        "SurveyWidth": 0,
+        "ProfileLineStart": 0,
+        "AdditionalNotes": "Bulkhead is a seawall.",
+        "Bulkhead": true,
+        "BulkHeadConstruction": "Cement",
+        "Record": 4
+      }
+    },
+    {
+      "id": "recOv3vnkha0sRT5o",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Possession Beach",
+        "ID": 20,
+        "County": 1,
+        "Island": "Whidbey",
+        "Latitude": 47,
+        "Longitude": "-122,22.599",
+        "DnrClass": 6,
+        "TideChart": "Possession Sound and Port Susan-Glendale, Whidbey Island",
+        "BeachDirections": "Hwy 525 1 mi. north of Clinton turn south on Cultas Bay Rd.  App. 6 miles south, main road becomes Possession Rd.  Follow Possession Rd. to Possession boat launch park and continue on to the end of Possession Road.  Park in the community parking lot which",
+        "ProfileDirections": "On north boundry of  4' hedge of lot 10  (facing water), start point is on east edge of the sidewalk (large spike in ground).",
+        "VertRef": "North east corner of retaining wall next to profile line  (34'10\" from start point) Measurement from top of wall to sand 29\" 5-17-99.",
+        "CurrentlyMonitored": true,
+        "Record": 38
+      }
+    },
+    {
+      "id": "recPkDWUw8lzBXM4Q",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Vickies  Beach",
+        "ID": 54,
+        "County": 0,
+        "Island": "Whidbey",
+        "DnrClass": 0,
+        "TideChart": "For database test purposes only!",
+        "SurveyWidth": 0,
+        "ProfileLineStart": 0,
+        "CurrentlyMonitored": true,
+        "Record": 48
+      }
+    },
+    {
+      "id": "recQs56F5ScOaMopJ",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Madrona",
+        "ID": 32,
+        "County": 1,
+        "Island": "Camano",
+        "Latitude": 48,
+        "Longitude": "-122,32.191",
+        "DnrClass": 1,
+        "TideChart": "Saratoga Passage, Greenbank, Whidbey Island",
+        "BeachDirections": "West on Hwy 532 through Stanwood  to Camano. Stay on main rd heading S.  Bear right onto Cross Island Rd.  Turn left onto W.Camano Dr.Turn right on Vista Dr.Turn left on Sunset Dr.Turn right on Olympic St. Public parking end of street.",
+        "ProfileDirections": "From public parking lot proceed onto beach.  Seawall to the left has two elevations.  The profile begins at the junction of the two elevations.\n\nProfile heading is 299 degrees True (279 degrees magnetic)",
+        "VertRef": "At the junction of the seawall elevations.  The measurement should be 16.1' above MLLW at the higher of the two elevations.",
+        "SurveyWidth": 20,
+        "AdditionalNotes": "Beach surveys in 1996 and 1997 were prior to the construction of the dock at the Stanwood Camano Yacht Club property.  The profiles were planned to provide baseline shore data before any construction was undertaken.  The starting point for these profiles  (SYC3) were at the north end of the old bait tank where it abutted a raised bulkhead section.  SYC3 is on a compass bearing of 243 deg. Mag. Toward Long Point in Penn Cove.",
+        "Bulkhead": true,
+        "CurrentlyMonitored": true,
+        "Record": 28
+      }
+    },
+    {
+      "id": "recR351VveIutzyPn",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Camano State Park 3",
+        "ID": 45,
+        "County": 1,
+        "Island": "Camano",
+        "Latitude": 48,
+        "Longitude": "122,29.691",
+        "DnrClass": 1,
+        "TideChart": "Greenbank, Whidbey Island",
+        "BeachDirections": "Enter Camano Island State Park and proceed to launch ramp area.",
+        "ProfileDirections": "Proceed to S.W. corner of north concrete float ramp. Measure 15'07\" perpendicular to the SW corner of the ramp in a southerly direction.  Start profile line from this point with a 239 degrees M heading.  Profile runs 239 degrees M to V in mountain and building on Whidbey Island.",
+        "VertRef": "The top of the concrete ramp is the vertical reference for this line.  The top ot the top of the concrete ramp is 14.65 feet above MLLW.",
+        "SurveyWidth": 20,
+        "ProfileLineStart": 0,
+        "AdditionalNotes": "Backshore has natural vegetation with no bank.",
+        "CurrentlyMonitored": true,
+        "Record": 8
+      }
+    },
+    {
+      "id": "recRRO5QOUNLfyy1l",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "South Whidbey State Park",
+        "ID": 26,
+        "County": 1,
+        "Island": "Whidbey",
+        "DnrClass": 1,
+        "TideChart": "Port Townsend-Admiralty Inlet-Bush Point",
+        "BeachDirections": "North of Greenbank (0.25 miles) turn left on Smugglers Cove Road.  Proceed ~4 miles to park entrance.  Continue to main parking lot.  From the amphitheater, follow a 10-15 minute trail to the beach.",
+        "ProfileDirections": "A level profile stick (heading 1250) on highest point of erratic.  Drop plum down to sand along side erratic.  Measure out 1.5 feet.  From this point proceed back to bluff (heading 300).  Original distance was 63.5* feet, it may be shorter in the future.   Make note of exact distince from plum to bluff.  In 1999 a 4.0' rebar was placed 60 feet from plum line.",
+        "VertRef": "Erratic (see above) near profile line",
+        "CurrentlyMonitored": true,
+        "Record": 42
+      }
+    },
+    {
+      "id": "recRqceez62vCKonQ",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "West Sunset Beach",
+        "ID": 25,
+        "County": 1,
+        "Island": "Whidbey",
+        "Latitude": 48,
+        "Longitude": "-122,43.635",
+        "DnrClass": 11,
+        "TideChart": "Port Townsend-Strait of Juan de Fuca-Whidbey  Island West Sunset",
+        "BeachDirections": "From the intersection of Libby and West Beach Road, north on West Beach, .5 miles past Fort Nugent Road to the south end of West Sunset Beach housing.  Park on side of road, walk south on beach approximately 1/4 mile  to first large ( 6' tall) erratic on",
+        "ProfileDirections": "Profile line starts on beach side of erratic, beach is also profiled back to bluff from bluff side of erratic.",
+        "VertRef": "Erratic on beach side.",
+        "CurrentlyMonitored": true,
+        "Record": 49
+      }
+    },
+    {
+      "id": "recSgt3XxJxF3XgMY",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Langley Seawall Beach",
+        "ID": 13,
+        "County": 1,
+        "Island": "Whidbey",
+        "Latitude": 48,
+        "Longitude": "-122,24.533",
+        "DnrClass": 6,
+        "TideChart": "Saratoga Passage and Skagit Bay-Sandy Point, Whidbey Island",
+        "BeachDirections": "In Langley on Anthes by the Dog House Tavern, go down path and steps to Seawall Park.",
+        "ProfileDirections": "Measure 13 feet from east corner of steps to first joint in the seawall.  Profile line begins 3 feet from the seawall (compass heading 110).",
+        "VertRef": "The seawall.  Extend a  level proflle stick out 2 feet from the wall (compass heading 110).  Drop a plumb to the beach surface.",
+        "CurrentlyMonitored": true,
+        "Record": 25
+      }
+    },
+    {
+      "id": "recSv9PMehiUzMHwa",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Onamac 1",
+        "ID": 31,
+        "County": 1,
+        "Island": "Camano",
+        "Latitude": 48,
+        "Longitude": "-122,32.283",
+        "DnrClass": 1,
+        "TideChart": "Saratoga Passage-Penn Cove Whidbey  Island",
+        "BeachDirections": "Take EastCamanoDr.to CamanoHill Rd.Turn right at transfer station,go to WestCamanoDr.Go past junction of CamanoHill Rd and WestCamanoDr to entrance to AdmiraltyandOnamac Beach sign.Go to whiteirongate to beach.Park in far end oflot-get keyfrom IreneHorton",
+        "ProfileDirections": "Profile starts from west corner of concrete foundation of uscg navigation marker (compass heading 183 degrees.)",
+        "VertRef": "Southwest corner of concrete foundation.",
+        "SurveyWidth": 20,
+        "CurrentlyMonitored": true,
+        "Record": 33
+      }
+    },
+    {
+      "id": "recY8CLmFs9zZJZjO",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Sunny Shores",
+        "ID": 29,
+        "County": 1,
+        "Island": "Camano",
+        "Latitude": 48,
+        "Longitude": "-122,24.441",
+        "DnrClass": 2,
+        "TideChart": "Saratoga Passage, Kayak Point",
+        "BeachDirections": "From Stanwood,go over bridge viaHwy 532, to E.Camano Dr.(veers to the left).Turn left at Windemere office onto E.Camano Dr.Drive 5 miles to SunnyShores Rd,then 150' past it turnleft at Steffen Pl. sign.Bear right at fork,cont. to flat surface(open shed).",
+        "ProfileDirections": "From red cabin, go behind cabin to path leading to the beach.  Once on the beach go right to large rock bulkhead.\nProfile line begins 20' north of bulkhead (and inline with bulkhead). Profile extends out (compass heading 18 degrees magnetic  left of dock's edge, 30 degrees true north).  Highest of two \"twin hill peak\" is horizon reference mark.\n\n2005 the profile \"target\" was dock across Port Susan.  The compass heading was 48 degrees from True North.",
+        "VertRef": "Rock bulkhead corner. 2.55' on 6-26-2002",
+        "SurveyWidth": 20,
+        "CurrentlyMonitored": true,
+        "Record": 44
+      }
+    },
+    {
+      "id": "recYHrDnFHf6kQfz3",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Coupeville Town Park",
+        "ID": 5,
+        "County": 1,
+        "Island": "Whidbey",
+        "Latitude": 48,
+        "Longitude": "-122,41.550",
+        "DnrClass": 1,
+        "TideChart": "Saratoga Passage and Skagit Bay - Coupeville, Penn Cove",
+        "BeachDirections": "From Highway 20 and Main Street proceed to Coveland, Left up the hill to Coupeville Town Park, Right turn into park, follow road to beach trail head sign, follow trail onto beach.",
+        "ProfileDirections": "Facing water at base of bluff, proceed left 43.5 feet to eastern edge of the largest erratic in the tide zone.  Profile start point is 6\" east of the most prominent point on the erratic (compass heading 3320)",
+        "VertRef": "Large erratic at start point of profile line.",
+        "ProfileLineStart": 10.7,
+        "CurrentlyMonitored": true,
+        "Record": 12
+      }
+    },
+    {
+      "id": "recYQO6jDQWasavCp",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Harrington Lagoon",
+        "ID": 10,
+        "County": 1,
+        "Island": "Whidbey",
+        "Latitude": 48,
+        "Longitude": "-122,36.921",
+        "DnrClass": 1,
+        "TideChart": "Seattle-Saratoga Passage and Skagit Bay-Coupeville Penn Cove",
+        "BeachDirections": "From Hwy. 20, 2.5 miles south of Coupeville, go east on Morris Road one mile.  Left on Harrington Lagoon Rd.  Past Shorebird Lane veer to right at fork.  Park at end of road near middle house, walk to beach between the houses.",
+        "ProfileDirections": "Take stairs to beach.  Start point is left of stairs just below sign that says \"Private Beach-No Clam Digging\".  Profile begins at notch cut in flat rock. In 2001, quadrats positioned on left side of profile line (They were on right side 1996-2000).",
+        "VertRef": "Highest point from the flat rock that is in front of the flagpole",
+        "AdditionalNotes": "vertref was changed from just \"flat rock\", 6/14/2010",
+        "CurrentlyMonitored": true,
+        "Record": 21
+      }
+    },
+    {
+      "id": "recYRnsxrduG5WwHu",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Elger Bay",
+        "ID": 34,
+        "County": 1,
+        "Island": "Camano",
+        "Latitude": 48,
+        "Longitude": "-122,29.034",
+        "DnrClass": 1,
+        "TideChart": "Saratoga Passage and Skagit Bay - Greenbank Whidbey  Island",
+        "BeachDirections": "Hwy532 on CamanoIs Bear leftat \"y\" at Terry'sCr,Cont. straight road becomes ElgerBay,right on MountainViewRd,left on FirwoodLn. Cont.around 2curvesonto ParkerRdtoturnaround by locked gate.Private Rd to beach is HoneycombLane.ParkatendofRdtrail to stairs.",
+        "ProfileDirections": "Start point reference is north edge of bulkhead nearest stairs. Actual profile begins 10 feet out from bulkhead (compass heading 95 degrees (magnetic north).  117 degrees True North.",
+        "VertRef": "North edge of bulkhead section nearest stairs.  Measurement is taken from top of bulkhead  to beach surface (5.25 ft. on 5-29-02).",
+        "Bulkhead": true,
+        "BulkHeadConstruction": "Wood",
+        "CurrentlyMonitored": true,
+        "Record": 16
+      }
+    },
+    {
+      "id": "recZwJc1LB3tVtTXU",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Rosario",
+        "ID": 73,
+        "County": 0,
+        "DnrClass": 0,
+        "SurveyWidth": 0,
+        "ProfileLineStart": 0,
+        "CurrentlyMonitored": true,
+        "Record": 40
+      }
+    },
+    {
+      "id": "recd8PQs4vZKHVACR",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Iverson 1",
+        "ID": 33,
+        "County": 1,
+        "Island": "Camano",
+        "Latitude": 48,
+        "Longitude": "-122,26.734",
+        "DnrClass": 4,
+        "TideChart": "Saratoga Passage, Kayak Point",
+        "BeachDirections": "From Stanwood go over bridge by hwy 532 to Camano Is.Proceed to Whidbey Bank ~3.7 miles.Left on Sunrise Blvd.for 2.5 miles.Left on Iverson Beach Rd.Left at end of the block.Follow rd down to beach level stop sign.Turn left go to 145 Iverson Rd.",
+        "ProfileDirections": "From beach side of yard go south to first set of stairs to beach.  In 2002 large rock just North of the stairs is the start point (Profile heading is 100 magnetic north toward Kayak Point).   In 2003 log in front of wood bulkhead (Profile heading is 130 magnetic north toward Kayak Point).  New Survey location 2007.  Survey starting point SE corner of viewing platform railing.",
+        "VertRef": "Rock at start point (Point nearest the water).  4.9' on 6-24-2002.\nPiling support near rocks.  5.3 on 7-1-2003.",
+        "SurveyWidth": 20,
+        "AdditionalNotes": "Monitored for first time 6-24-2002.",
+        "BulkHeadConstruction": "Wood",
+        "CurrentlyMonitored": true,
+        "Record": 23
+      }
+    },
+    {
+      "id": "receJTb3DsjrFmHdu",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Double Bluff - Cirque Point",
+        "ID": 7,
+        "County": 1,
+        "Island": "Whidbey",
+        "Latitude": 47,
+        "Longitude": "-122,31.118",
+        "DnrClass": 1,
+        "TideChart": "Port Townsend-Admiralty Inlet-Bush Point",
+        "BeachDirections": "From Freeland go south on hwy 525.  Turn left onto Double Bluff road.  Continue about two miles to public parking lot.",
+        "ProfileDirections": "From public parking lot walk north approximately 2/3 mile continuing around the bluffs to a point adjacent to the first giant erratic positioned about 200  feet from the bluff.  Profile line is measured from bluff to erratic, and from erratic to water's edge.  Profile line is 110 degrees toward Maple Point.",
+        "VertRef": "Taken from highest point on erratic (4'1\" baseline ht. in 1998)",
+        "CurrentlyMonitored": true,
+        "Record": 14
+      }
+    },
+    {
+      "id": "recgti7LJ45eaQmRZ",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Columbia Beach",
+        "ID": 3,
+        "County": 1,
+        "Island": "Whidbey",
+        "Latitude": 47,
+        "Longitude": "-122,21.052",
+        "DnrClass": 7,
+        "TideChart": "Possession Sound and Port Susan-Glendale, Whidbey Island",
+        "BeachDirections": "From Clinton ferry dock, south on Columbia Beach Road, 17th house on the left, 6593 Columbia Beach.",
+        "ProfileDirections": "Proceed to beach side of house.  Boat ramp is on the left.  Boat cleat on seawall is start of profile line.",
+        "VertRef": "North edge of seawall  1.75 in 1996.",
+        "CurrentlyMonitored": true,
+        "Record": 10
+      }
+    },
+    {
+      "id": "reciTxkG0XAhqxHDd",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Cama Beach 2",
+        "ID": 46,
+        "County": 1,
+        "Island": "Camano",
+        "Latitude": 48,
+        "Longitude": "122,30.863",
+        "DnrClass": 1,
+        "TideChart": "Greenbank, Whidbey Island",
+        "BeachDirections": "From Stanwood, Wa take West Camano Dr. to the entrance to Cama Beach.  Proceed to bulkhead area.",
+        "ProfileDirections": "Go to south end of bulkhead.  Start point is 10 feet from the SW corner of the bulkhead on a compass heading of 225 degrees.",
+        "VertRef": "The top of the bulkhead is the vertical reference for this line.  The top of the bulkhead is 17 feet above MLLW.",
+        "SurveyWidth": 20,
+        "ProfileLineStart": 0,
+        "AdditionalNotes": "Bulkhead is a seawall.  Cama Beach 2 is South profile line location.",
+        "Bulkhead": true,
+        "BulkHeadConstruction": "Cement",
+        "CurrentlyMonitored": true,
+        "Record": 3
+      }
+    },
+    {
+      "id": "recifoKSJqXyNDuLz",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Pebble Beach",
+        "ID": 42,
+        "County": 1,
+        "Island": "Camano",
+        "Latitude": 48,
+        "Longitude": "122,23.250",
+        "DnrClass": 0,
+        "TideChart": "Holly Farms Harbor, Holmes Harbor, Whidbey",
+        "BeachDirections": "Follow South Camano Drive 6.7 miles from Elger Bay store.  The Pebble beach sign is on your right (west) as is the road down to the beach.  At the bottom of hill turn right and follow the road until it ends.",
+        "ProfileDirections": "Start upper level of wood pile bulkhead.  Line 241 degrees true toward low green house on Whidbey.",
+        "VertRef": "Front north corner of bulkhead (top board covering vertical log).",
+        "SurveyWidth": 20,
+        "ProfileLineStart": 0,
+        "Bulkhead": true,
+        "BulkHeadConstruction": "Wood",
+        "CurrentlyMonitored": true,
+        "Record": 36
+      }
+    },
+    {
+      "id": "reckO4H656IHRiH67",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Ledgewood Beach",
+        "ID": 14,
+        "County": 1,
+        "Island": "Whidbey",
+        "Latitude": 48,
+        "Longitude": "-122,36.270",
+        "DnrClass": 1,
+        "TideChart": "Port Townsend - Admiralty Inlet - Admiralty Head",
+        "BeachDirections": "From the intersection of hwy 20 and hwy 525 (turnoff to Keystone) go south on 525 about 2 miles to Ledgewood Beach Road. Turn right. Go to bottom of hill, right on Fircrest, left on Seaward, hairpin turn at bottom of hill (right on Driftwood Way), continu",
+        "ProfileDirections": "From last cement stair down to beach,  profile line begins 3'3\" from center of last stair, compass heading 228o (Port Townsend papermill smokestack).",
+        "VertRef": "See Layout",
+        "CurrentlyMonitored": true,
+        "Record": 26
+      }
+    },
+    {
+      "id": "reckzkGUZNVopQfQl",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Camano State Park 2",
+        "ID": 44,
+        "County": 1,
+        "Island": "Camano",
+        "Latitude": 48,
+        "Longitude": "122,29.692",
+        "DnrClass": 1,
+        "TideChart": "Greenbank, Whidbey Island",
+        "BeachDirections": "Enter Camano Island State Park and proceed to launch ramp area.",
+        "ProfileDirections": "Proceed to NW corner of north concrete float ramp.  Measure 4'04\" east of NW corner and 15'07\" perpendicular to the ramp in a northerly direction.  Start profile line from this point with a 239 degree M heading.  Profile runs 239 degrees M to V in mountain and building on Whidbey Island.",
+        "VertRef": "The top of the concrete ramp is the vertical reference for this line.  The top of the concrete ramp is 14.65 feet above MLLW.",
+        "SurveyWidth": 0,
+        "ProfileLineStart": 0,
+        "AdditionalNotes": "Backshore vegetation is natural with no bank.",
+        "CurrentlyMonitored": true,
+        "Record": 7
+      }
+    },
+    {
+      "id": "recmGnS9H1tNNuLNV",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Crescent Harbor",
+        "ID": 6,
+        "County": 1,
+        "Island": "Whidbey",
+        "Latitude": 48,
+        "Longitude": "-122,35.384",
+        "DnrClass": 1,
+        "TideChart": "Seattle - Saratoga Passage and Skagit Bay - Crescent Harbor",
+        "BeachDirections": "From intersection of Hwy 20 and Pioneer Way in Oak Harbor, continue east on Pioneer (turns into Maui), then north on Torpedo, follow turn-off around Crescent Harbor to small white building and Navy property warning sign.",
+        "ProfileDirections": "Enter beach east of navy base warning sign.  Proceed 800 feet east to erratic.  Profile begins on east side of erratic.",
+        "VertRef": "Measured from top of erratic to surface on harbor side.",
+        "CurrentlyMonitored": true,
+        "Record": 13
+      }
+    },
+    {
+      "id": "recmJ8XZkUwK3jquG",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Utsalady",
+        "ID": 36,
+        "County": 1,
+        "Island": "Camano",
+        "Latitude": 48,
+        "Longitude": "122,29.809",
+        "TideChart": "Crescent Harbor, N. Whidbey Island in 2006 and 2007.  Prior years used Greenbank, Whidbey Island.",
+        "BeachDirections": "Go right at the \"Y\" onto North Camano Drive.  Approximately 3.5 miles later turn right on Utsalady Point road and follow road to the boat launch.",
+        "ProfileDirections": "Starting point is 350' east of launch ramp on private property The starting point is on a driftwood stump and is marked and red flagged.  The profile line is directed toward the tip of Brown point on an uncorrected compass bearing of 25 degrees magnetic.\n\n2004  The starting point was on top of the stump 3.5' above the beach level and 95' from a grey shoreline boat house immediately to the east.  The profile line uses the cliff base at the tip of Brown point on uncorrected compass heading 25 degrees.",
+        "VertRef": "1995-A permanent elevation reference was established at the starting point at 16.01'.",
+        "SurveyWidth": 20,
+        "CurrentlyMonitored": true,
+        "Record": 47
+      }
+    },
+    {
+      "id": "recmrDRihy1BbXFwX",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Tillicum Beach",
+        "ID": 74,
+        "County": 1,
+        "Island": "Camano",
+        "Latitude": 48,
+        "Longitude": "-122,24.02",
+        "DnrClass": 0,
+        "TideChart": "Saratoga Passage-Kayak Point",
+        "BeachDirections": "From Camano Plaza go south on E. Camano Dr. Turn left onto E. Camano Dr, cont. south about 8 miles.Turn left onto Karen Follow winding Rd down.At bottom turn left onto Tillicum Beach Rd Tillicum Beach on right as road bends W.Limited parking.No facilities",
+        "ProfileDirections": "Permanent Ref. Point(PRF) is at the end of the wood fence and vertical log pilings along north side of beach.Steel rod with cap marks the spot.Profile start at 50' along rope line from rod to water edge along 34 deg mag heading.Distant pt of ref. is directly across Port Susan to mainland.Ref pt.last house at the south end of small shoreline develop south of Kayak Point.Starting pt 95'6\" to base of large rock bulkhead running along the south of the beach when standing at start point facing south(124 deg mag).",
+        "VertRef": "Use 2 sighting poles.Place one at  base of Permanent Ref. Pt.(PRP) & the other at start pt.(SP).Sight thru hole on pole at PRP to pole at SP-mark water line hor across Port Susan.Measure vertical to beach.Subtract sight hole vertical distance of 5'",
+        "SurveyWidth": 20,
+        "ProfileLineStart": 0,
+        "AdditionalNotes": "Bulkhead is wood to north and large rock to south",
+        "Bulkhead": true,
+        "BulkHeadConstruction": "Wood",
+        "CurrentlyMonitored": true,
+        "entrydate": "2017-03-25",
+        "Record": 45
+      }
+    },
+    {
+      "id": "recoJHIVIGTEdWnQ5",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "North Hastie Lake",
+        "ID": 17,
+        "County": 1,
+        "Island": "Whidbey",
+        "Latitude": 48,
+        "Longitude": "-122,44.656",
+        "DnrClass": 11,
+        "BeachDirections": "Proceed on West Beach Road to Hastie Lake Road.  Park in the public \nparking lot on the Beach side of the intersection.",
+        "ProfileDirections": "Walk south about .25 mi to the end of a \nrock bulkhead and a large pile of erratics.  Profile starts one foot south of the northern most end of the rock wall.",
+        "VertRef": "First erratic to profile line 60.3' from starting point.  (3.15' 5-28-1998)",
+        "AdditionalNotes": "Sand Sand Sand Sand - some years it is really piled up and may explain the differences between actual tide height predicted in the tide charts for that day, and the tide height shown at the end of the profile line column on the spread sheet when using the corrected starting point*",
+        "CurrentlyMonitored": true,
+        "Record": 31
+      }
+    },
+    {
+      "id": "recol7nE4NZjtevas",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Partridge Point",
+        "ID": 19,
+        "County": 1,
+        "Island": "Whidbey",
+        "Latitude": 48,
+        "Longitude": "-122,46.037",
+        "DnrClass": 10,
+        "TideChart": "Port Townsend-Strait of Juan de Fuca -Whidbey Island Partridge Point",
+        "BeachDirections": "From Coupeville on Hwy. 20 proceed north to Libby Road.  Left on Libby Road to end of road.  Park in public parking next to beach.",
+        "ProfileDirections": "Profile begins near the large erratic,  six feet south (180O) of the point on the erratic closest to the bluff.  The profile is measured both out to the water's edge and back to the bluff from this point.",
+        "VertRef": "Large erratic.  Measurement is taken from top to sand (heading 90O).  First measure 1977 6.05'",
+        "CurrentlyMonitored": true,
+        "Record": 35
+      }
+    },
+    {
+      "id": "recq8n0MlqL8F1RPD",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Ala Spit",
+        "ID": 1,
+        "County": 1,
+        "Island": "Whidbey",
+        "Latitude": 48,
+        "Longitude": "-122,35.193",
+        "DnrClass": 6,
+        "TideChart": "Admiralty Inlet - Ala Spit",
+        "BeachDirections": "Approximately 2.5 miles south of Deception Pass Bridge (Hwy 20), east on Troxell Rd., then 4 miles to Ala Spit County Park.  Follow entry road several hundred yards directly to the parking area.",
+        "ProfileDirections": "Proceed to the southeast corner of the parking area to a concrete seawall.  Starting point is the top seaward edge of the seawall, 39.2 feet south of the wall's north end.",
+        "VertRef": "Taken at profile start point  from top of seawall to beach surface.",
+        "CurrentlyMonitored": true,
+        "Record": 1
+      }
+    },
+    {
+      "id": "recuWQWTS6rk3YCBV",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Trails End",
+        "ID": 21,
+        "County": 1,
+        "Island": "Whidbey",
+        "Latitude": 48,
+        "Longitude": "-122,33.483",
+        "DnrClass": 1,
+        "TideChart": "Seattle-Saratoga Passage Skagit Bay-Greenbank Whidbey  Island",
+        "BeachDirections": "From Greenbank on Hwy. 525, east on Wonn Road.  Left on North Bluff Road approximately one mile to Trails End Lane.  Right on Trails End, first driveway on the left, 1077 Trails End Lane.",
+        "ProfileDirections": "Proceed down right side of back yard, take steep stairs to bottom of beach.  Proceed north 194.6 ft. to large erratic.  Profile begins at center of erratic.",
+        "VertRef": "Erratic at start point of profile.  Measurement is taken 66O toward water from level top of erratic.  (2.51' on 7-23-98)",
+        "AdditionalNotes": "Renamed Trails End from PRATT'S BLUFF in 2006",
+        "CurrentlyMonitored": true,
+        "Record": 46
+      }
+    },
+    {
+      "id": "recwJ52JPy7l0dprP",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Maxwelton Beach",
+        "ID": 16,
+        "County": 1,
+        "Island": "Whidbey",
+        "Latitude": 47,
+        "Longitude": "-122,26.433",
+        "DnrClass": 2,
+        "TideChart": "Seattle-Possession Sound and Port Susan-Glendale Whidbey Island",
+        "BeachDirections": "From Hwy 525 turn south on Maxwelton Road, proceed south to Maxwelton beach community.  Park near culvert which empties Maxwelton Creek into the sound.",
+        "ProfileDirections": "Seven feet (228o) from bench mark near tide gate.  Profile line points toward Point No Point Lighthouse.",
+        "VertRef": "Log on beach 30.7 ft from Benchmark.  Measurement is from log top to sand.",
+        "Record": 29
+      }
+    },
+    {
+      "id": "recwl3TZsWUNiZ76d",
+      "createdTime": "2025-03-13T21:36:40.000Z",
+      "fields": {
+        "BeachName": "Onamac 2",
+        "ID": 30,
+        "County": 1,
+        "Island": "Camano",
+        "Latitude": 48,
+        "Longitude": "-122,32.214",
+        "DnrClass": 1,
+        "TideChart": "Possession Sound and Port Susan- Kayak Point-Cama Beach",
+        "BeachDirections": "Take EastCamanoDr.to CamanoHill Rd.Turn right at transfer station,go to WestCamanoDr.Go past junction of CamanoHill Rd and WestCamanoDr to entrance to AdmiraltyandOnamac Beach sign.Go to whiteirongate to beach.Park in far end oflot-get keyfrom IreneHorton",
+        "ProfileDirections": "Profile starts from southwest corner of concrete foundation of USCG  navigation marker (compass heading 253 degrees.)",
+        "VertRef": "Southwest corner of concrete foundation",
+        "SurveyWidth": 20,
+        "Bulkhead": true,
+        "BulkHeadConstruction": "Cement",
+        "CurrentlyMonitored": true,
+        "Record": 34
+      }
+    }
+  ]
+}

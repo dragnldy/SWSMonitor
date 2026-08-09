@@ -3,6 +3,10 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
+	  <!-- Disables the IL trimmer entirely for the application -->
+	  <PublishTrimmed>false</PublishTrimmed>
+	  <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
+
   </PropertyGroup>
   
   <ItemGroup>
@@ -28,8 +32,14 @@
     <PackageReference Include="Svg.Controls.Skia.Avalonia" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <ProjectReference Include="D:\Projects\SWS\CitScience\DataLibrary\DataLibrary.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <AvaloniaResource Update="Assets\Login-Door.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AvaloniaResource>
   </ItemGroup>
 </Project>

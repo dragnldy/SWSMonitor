@@ -162,7 +162,7 @@
 						            MaxDropDownHeight="200">
                             				<AutoCompleteBox.InnerRightContent>
             					    <Button Click="RemoveSpecies_Click" CommandParameter="{Binding .}"  Margin="5,0,0,0">
-		        				    <Image Source="avares://BeachSurvey/Assets/TrashCan.png" IsVisible="{Binding CanDelete}"
+		        				    <Image Source="avares://SWSMonitor/Assets/TrashCan.png" IsVisible="{Binding CanDelete}"
 				     			     Width="12" Height="12" Margin="0"/>
 					           </Button>
 				           </AutoCompleteBox.InnerRightContent>

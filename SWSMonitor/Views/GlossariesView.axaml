@@ -19,7 +19,7 @@
            <StackPanel Orientation="Horizontal" Spacing="20" HorizontalAlignment="Center">
                 <StackPanel Orientation="Horizontal" Margin="5,0,5,0" IsVisible="{Binding UserIsAdmin}">
                     <Button Click="AddSpecies_Click" Tag="{Binding .}" ToolTip.Tip="Add Species">
-                        <Image Source="avares://BeachSurvey/Assets/AddNew.png" 
+                        <Image Source="avares://SWSMonitor/Assets/AddNew.png" 
                         Width="12" Height="12" Margin="0"/>
                     </Button>
                 <CheckBox Content="Observed Only?" IsChecked="{Binding ActiveOnly}"/>
@@ -68,7 +68,7 @@
                                                     IsVisible="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.UserHasEditRole}"
                                                     Margin="5,0,5,0">
                                         <Button Click="EditButton_Click" Tag="{Binding .}" ToolTip.Tip="Edit Species">
-                                            <Image Source="avares://BeachSurvey/Assets/Data-Edit.png" 
+                                            <Image Source="avares://SWSMonitor/Assets/Data-Edit.png" 
 									             Width="12" Height="12" Margin="0"/>
                                             </Button>
                                         </StackPanel>
@@ -76,13 +76,13 @@
                                                     IsVisible="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.UserHasViewOnlyRole}"
                                                     Margin="5,0,5,0">
                                         <Button Click="ViewButton_Click" Tag="{Binding .}" ToolTip.Tip="View Species">
-                                            <Image Source="avares://BeachSurvey/Assets/People.png" 
+                                            <Image Source="avares://SWSMonitor/Assets/People.png" 
 									             Width="12" Height="12" Margin="0"/>
                                             </Button>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal" Margin="5,0,5,0" IsVisible="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.UserHasEditRole}">
                                         <Button Click="DeleteButton_Click" Tag="{Binding .}" ToolTip.Tip="Delete Species" >
-                                            <Image Source="avares://BeachSurvey/Assets/TrashCan.png" 
+                                            <Image Source="avares://SWSMonitor/Assets/TrashCan.png" 
 									             Width="12" Height="12" Margin="0"/>
                                             </Button>
                                         </StackPanel>

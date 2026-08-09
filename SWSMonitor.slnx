@@ -1,4 +1,5 @@
 <Solution>
+  <Folder Name="/Solution Items/" />
   <Project Path="D:/Projects/SWS/CitScience/DataLibrary/DataLibrary.csproj" />
   <Project Path="SWSMonitor.Browser/SWSMonitor.Browser.csproj" />
   <Project Path="SWSMonitor.Desktop/SWSMonitor.Desktop.csproj" />

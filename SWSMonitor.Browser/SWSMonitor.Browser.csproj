@@ -4,6 +4,10 @@
     <OutputType>Exe</OutputType>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Nullable>enable</Nullable>
+	  <!-- Disables the IL trimmer entirely for the application -->
+	  <PublishTrimmed>false</PublishTrimmed>
+	  <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
+
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,5 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SWSMonitor\SWSMonitor.csproj" />
+    <ProjectReference Include="D:\Projects\SWS\CitScience\DataLibrary\DataLibrary.csproj" />
   </ItemGroup>
+
 </Project>

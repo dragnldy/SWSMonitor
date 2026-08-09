@@ -36,7 +36,7 @@
                         <Button Click="DoArchive" Margin="0,10,0,0">
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal" Margin="0" HorizontalAlignment="Center" Spacing="10">
-                                    <Image Source="avares://BeachSurvey/Assets/Upload - 01.png" 
+                                    <Image Source="avares://SWSMonitor/Assets/Upload - 01.png" 
 									             Width="12" Height="12" Margin="0"/>
                                     <TextBlock Text="Export Archived Data to Cloud" VerticalAlignment="Center"/>
                                 </StackPanel>
@@ -46,7 +46,7 @@
                         <Button Click="DoImport" Margin="0,10,0,0">
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal" Margin="0" HorizontalAlignment="Center" Spacing="10">
-                                    <Image Source="avares://BeachSurvey/Assets/Download - 01.png" 
+                                    <Image Source="avares://SWSMonitor/Assets/Download - 01.png" 
 									             Width="12" Height="12" Margin="0"/>
                                     <TextBlock Text="Import Archived Data from Cloud" VerticalAlignment="Center"/>
                                 </StackPanel>
@@ -56,7 +56,7 @@
                         <Button Click="OpenUWExport_PopUp" Margin="0,10,0,0">
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal" Margin="0" HorizontalAlignment="Center" Spacing="10">
-                                    <Image Source="avares://BeachSurvey/Assets/CSV-Export.png" 
+                                    <Image Source="avares://SWSMonitor/Assets/CSV-Export.png" 
 									             Width="12" Height="12" Margin="0"/>
                                     <TextBlock Text="Generate UW Quadrat CSV File" VerticalAlignment="Center"/>
                                 </StackPanel>
