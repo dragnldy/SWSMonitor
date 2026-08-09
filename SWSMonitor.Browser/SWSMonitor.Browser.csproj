@@ -34,7 +34,7 @@
 
   <ItemGroup>
     <Content Update="wwwroot\errorInterop.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
