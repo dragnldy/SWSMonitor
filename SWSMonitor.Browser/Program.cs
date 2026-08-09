@@ -31,7 +31,12 @@ internal sealed partial class Program
     {
         try
         {
-            StaticData.RunningInBrowser = true;
+            if (OperatingSystem.IsBrowser())
+            {
+                StaticData.RunningInBrowser = true;
+                await JSHost.ImportAsync("fedCM.js", "./fedCM.js"); // Adjust path to match your actual file location
+                await JSHost.ImportAsync("errorInterop.js", "./errorInterop.js"); // Adjust path to match your actual file location
+            }
             TraceLogger.SetupTrace("console");
 
             // Setup DI before building Avalonia app
