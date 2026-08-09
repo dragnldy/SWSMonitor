@@ -78,13 +78,13 @@ internal sealed partial class Program
         {
             try
             {
-                await JSHost.ImportAsync("ErrorInterop", "/errorInterop.js");
+                await JSHost.ImportAsync("ErrorInterop", "./errorInterop.js");
 
                 // Google identification service
-                await JSHost.ImportAsync("fedCM.js", "/fedCM.js");
+                await JSHost.ImportAsync("fedCM.js", "./fedCM.js");
 
                 // Import the JS module
-                await JSHost.ImportAsync("downloadHelper", "/downloadHelper.js");
+                await JSHost.ImportAsync("downloadHelper", "./downloadHelper.js");
 
                 _jsModuleInitialized = true;
 
