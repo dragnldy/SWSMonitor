@@ -74,17 +74,23 @@ internal sealed partial class Program
     /// </summary>
     private static async Task InitializeJavaScriptModuleAsync()
     {
+#if DEBUG
+        string jsprefix = "/";
+#else
+        string jsprefix = "../";
+#endif
+
         if (!_jsModuleInitialized)
         {
             try
             {
-                await JSHost.ImportAsync("ErrorInterop", "../errorInterop.js");
+                await JSHost.ImportAsync("ErrorInterop.js", $"{jsprefix}errorInterop.js");
 
                 // Google identification service
-                await JSHost.ImportAsync("fedCM.js", "../fedCM.js");
+                await JSHost.ImportAsync("fedCM.js", $"{jsprefix}fedCM.js");
 
                 // Import the JS module
-                await JSHost.ImportAsync("downloadHelper", "../downloadHelper.js");
+                await JSHost.ImportAsync("downloadHelper.js", $"{jsprefix}downloadHelper.js");
 
                 _jsModuleInitialized = true;
 
