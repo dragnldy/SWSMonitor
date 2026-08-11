@@ -13,9 +13,7 @@ The WASM build is automatically deployed to GitHub Pages on every push to `main`
 |---|---|
 | `SWSMonitor` | Shared application logic and UI (Avalonia) |
 | `SWSMonitor.Browser` | WebAssembly (WASM) browser target |
-| `SWSMonitor.Desktop` | Desktop target (Windows/Linux/macOS) |
-| `SWSMonitor.Android` | Android target |
-| `SWSMonitor.iOS` | iOS target |
+| `DataLibrary` | Shared Data Library (c#) |
 
 ## Deployment
 
