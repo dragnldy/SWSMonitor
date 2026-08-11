@@ -48,8 +48,9 @@
 
 		<Message Text="Setting base href to '$(NewBaseHref)' for $(Configuration) build..." Importance="High" />
 
-		<!-- PowerShell command to find and replace the base href tag -->
+		<!-- PowerShell command to find and replace the base href tag 
 		<Exec Command="powershell -Command &quot;(Get-Content '$(IndexHtmlPath)') -replace '&lt;base href=\&quot;.*\&quot;\s*/?&gt;', '&lt;base href=\&quot;$(NewBaseHref)\&quot; /&gt;' | Set-Content '$(IndexHtmlPath)'&quot;" />
+		-->
 	</Target>
 
 </Project>

@@ -4,15 +4,88 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:vm="using:SWSMonitor.ViewModels"
+             xmlns:views="clr-namespace:SWSMonitor"
+              xmlns:local="using:SWSMonitor"
              x:Class="SWSMonitor.MapWebView"
              x:CompileBindings="False"
+             x:DataType="vm:MapWebViewModel"
              Width="1600"
-             x:DataType="vm:MapWebViewModel">
+             Height="800">
 	<Design.DataContext>
 		<vm:MapWebViewModel />
 	</Design.DataContext>
 
-    <Grid>
+    <Grid ColumnDefinitions="*,*" RowDefinitions="800" Margin="10,0,0,0">
+        <StackPanel Grid.Column="0" Grid.Row ="0" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+            <TextBlock Text="Beaches Monitored by SWS" FontSize="18" Margin="10" HorizontalAlignment="Center"/>
+            <!-- The map control will stretch to fill this grid row -->
+            <local:EmbedLeaflet MaxWidth="400" MaxHeight="600" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        </StackPanel>
+         <Grid Grid.Column="1" Grid.Row ="0" ColumnDefinitions="3*,2*" RowDefinitions="*,*">
+            <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Stretch">
+                <Label Content="Beaches" FontSize="20" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                <Grid ColumnDefinitions="*,*,*" RowDefinitions="*">
+                	<RadioButton Grid.Column="0" Grid.Row="0" Name="radioButton2" IsChecked="{Binding IsWhidbey}" GroupName="Island" Content="Whidbey Island" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+			        <RadioButton Grid.Column="1" Grid.Row="0" Name="radioButton1" IsChecked="{Binding IsCamano}" GroupName="Island" Content="Camano Island" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <CheckBox Grid.Column="2" Grid.Row="0" Name="activeButton" IsChecked="{Binding ActiveOnly}" Content="Active Only" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                </Grid>
+            <DataGrid ItemsSource="{Binding Beaches}" x:Name="BeachesDataGrid"
+                    DoubleTapped="BeachesDataGrid_DoubleTapped" 
+                    SelectedItem="{Binding SelectedBeach}"
+                    MaxHeight="350"
+                    VerticalAlignment="Stretch"
+                    AutoGenerateColumns="False" IsReadOnly="True" 
+                    CanUserResizeColumns="True"
+                    CanUserSortColumns="True"
+                    GridLinesVisibility="All" 
+                    BorderThickness="1" 
+                    BorderBrush="{DynamicResource SystemAccentColor}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Beach" MaxWidth="250"  Binding="{Binding BeachName}"/>
+                    <DataGridTextColumn Header="Latitude"  Binding="{Binding Lat}" MaxWidth="100"/>
+                    <DataGridTextColumn Header="Longitude"  Binding="{Binding Long}" MaxWidth="120"/>
+                    <DataGridCheckBoxColumn Header="Active?"  Binding="{Binding IsCurrentlyMonitored}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+         </StackPanel>
+         <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Stretch">
+            <Label Content="Survey Dates" FontSize="20" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Center" />
+            <DataGrid ItemsSource="{Binding SurveyDates}" x:Name="SurveyDatesDataGrid"
+                    DoubleTapped="SurveyDatesDataGrid_DoubleTapped" 
+                    SelectedItem="{Binding SelectedSurveyDate}"
+                    MaxHeight="350"
+                    VerticalAlignment="Stretch"
+                    AutoGenerateColumns="False" IsReadOnly="True" 
+                    CanUserResizeColumns="True"
+                    CanUserSortColumns="True"
+                    GridLinesVisibility="All" 
+                    BorderThickness="1" 
+                    BorderBrush="{DynamicResource SystemAccentColor}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Beach" Binding="{Binding BeachName}"/>
+                    <DataGridTextColumn Header="Survey Date" Binding="{Binding SurveyDateOnly}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+         </StackPanel>
+         <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Orientation="Vertical" HorizontalAlignment="Stretch">
+           <Label Content="{Binding SelectedBeach.BeachName}" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+            <ScrollViewer  MaxHeight="350">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
+                    <Border BorderBrush="{DynamicResource SystemAccentColor}" BorderThickness="2" CornerRadius="4" Margin="0,10,0,0">
+                        <StackPanel>
+                           <Label Content="Driving Directions" Foreground="DarkGray" FontSize="14" FontWeight="Bold" FontStyle="Italic" HorizontalAlignment="Left" />
+                            <TextBlock Text="{Binding SelectedBeach.BeachDirections}" TextWrapping="Wrap" FontSize="12" Margin="8,0,0,1" />
+                           <Label Content="Profile Directions" Foreground="DarkGray" FontSize="14" FontWeight="Bold" FontStyle="Italic" HorizontalAlignment="Left" />
+                            <TextBlock Text="{Binding SelectedBeach.ProfileDirections}" TextWrapping="Wrap" FontSize="12" Margin="8,0,0,1"/>
+                           <Label Content="Profile Vertical Reference" Foreground="DarkGray" FontSize="14" FontWeight="Bold" FontStyle="Italic" HorizontalAlignment="Left" />
+                            <TextBlock Text="{Binding SelectedBeach.VertRef}" TextWrapping="Wrap" FontSize="12" Margin="8,0,0,1"/>
+                            <TextBlock Text="Additional Notes" Foreground="DarkGray" FontSize="14" FontWeight="Bold" FontStyle="Italic"/>
+                            <TextBlock Text="{Binding SelectedBeach.AdditionalNotes}" TextWrapping="Wrap" FontSize="12"  Margin="8,0,0,1" />
+                        </StackPanel>
+                        </Border>
+                    </StackPanel>
+            </ScrollViewer>
+            </StackPanel>
+        </Grid>
     </Grid>
-    
 </UserControl>

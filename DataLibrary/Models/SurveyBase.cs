@@ -30,7 +30,8 @@ public class SurveyBase : ITableBase
     public string StartTime { get; set; } = ""; // store as string
     public string EndTime { get; set; } = "";
     public DateTime SurveyDate {get; set; } // Date of the survey (no time)
-
+    [JsonIgnore]
+    public string SurveyDateOnly { get => SurveyDate.ToString("yyyy-MM-dd"); }
     [JsonIgnore]
     public DateTime? StartTimeAsDate { get; set; }  // Time survey started
     [JsonIgnore]

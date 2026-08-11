@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
-    <Nullable>enable</Nullable>
+	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	  <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
 	  <!-- Disables the IL trimmer entirely for the application -->
 	  <PublishTrimmed>false</PublishTrimmed>
@@ -15,6 +16,7 @@
   
   <ItemGroup>
     <PackageReference Include="Avalonia" />
+    <PackageReference Include="Avalonia.Browser" />
     <PackageReference Include="Avalonia.Controls.DataGrid" />
     <PackageReference Include="Avalonia.Fonts.Inter" />
     <PackageReference Include="Avalonia.Skia" />

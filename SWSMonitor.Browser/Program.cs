@@ -6,15 +6,14 @@ using DataLibrary.ApiServices;
 using DataLibrary.DataSources;
 using DataLibrary.DataSources.ApiClients;
 using DataLibrary.DataSources.CloudAuth;
-using DataLibrary.DataSources.FileServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using ReactiveUI.Avalonia;
 using SWSMonitor;
 using System;
-using System.Net.Http;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Runtime.InteropServices.JavaScript;
 using System.Threading.Tasks;
 
@@ -23,6 +22,8 @@ internal sealed partial class Program
     private static bool _isNotDesigner = true;
     private static bool _jsModuleInitialized = false;
     public static ServiceProvider? ServiceProvider { get; private set; }
+    public static string? BrowserName { get; private set; }
+    public static string? BrowserVersion { get; private set; }
 
 
 
@@ -67,6 +68,56 @@ internal sealed partial class Program
     [JSImport("showErrorMessage", "ErrorInterop")]
     internal static partial void ShowStaticErrorPage(string message);
 
+    /// <summary>
+    /// Detects the browser name and version from the user agent string
+    /// </summary>
+    private static void DetectBrowser(string userAgent)
+    {
+        try
+        {
+            StaticData.UserCanLogin = false;
+            // Parse user agent to determine browser
+            if (userAgent.Contains("Edg/"))
+            {
+                BrowserName = "Edge";
+                var match = System.Text.RegularExpressions.Regex.Match(userAgent, @"Edg/([\d.]+)");
+                BrowserVersion = match.Success ? match.Groups[1].Value : "Unknown";
+            }
+            else if (userAgent.Contains("Chrome/") && !userAgent.Contains("Edg/"))
+            {
+                BrowserName = "Chrome";
+                var match = System.Text.RegularExpressions.Regex.Match(userAgent, @"Chrome/([\d.]+)");
+                BrowserVersion = match.Success ? match.Groups[1].Value : "Unknown";
+                StaticData.UserCanLogin = true;
+            }
+            else if (userAgent.Contains("Firefox/"))
+            {
+                BrowserName = "Firefox";
+                var match = System.Text.RegularExpressions.Regex.Match(userAgent, @"Firefox/([\d.]+)");
+                BrowserVersion = match.Success ? match.Groups[1].Value : "Unknown";
+            }
+            else if (userAgent.Contains("Safari/") && !userAgent.Contains("Chrome/"))
+            {
+                BrowserName = "Safari";
+                var match = System.Text.RegularExpressions.Regex.Match(userAgent, @"Version/([\d.]+)");
+                BrowserVersion = match.Success ? match.Groups[1].Value : "Unknown";
+            }
+            else
+            {
+                BrowserName = "Unknown";
+                BrowserVersion = "Unknown";
+            }
+
+            TraceLogger.LogInformation($"Detected browser: {BrowserName} {BrowserVersion}");
+            Console.WriteLine($"Browser detected: {BrowserName} version {BrowserVersion}");
+        }
+        catch (Exception ex)
+        {
+            TraceLogger.LogErrorAuto($"Error detecting browser: {ex.Message}");
+            BrowserName = "Unknown";
+            BrowserVersion = "Unknown";
+        }
+    }
 
     /// <summary>
     /// Initializes the JavaScript module for JSImport interop
@@ -88,11 +139,23 @@ internal sealed partial class Program
 
                 // Google identification service
                 await JSHost.ImportAsync("fedCM.js", $"{jsprefix}fedCM.js");
+                await JSHost.ImportAsync("isFedCMAvailable", $"{jsprefix}fedCM.js");
+                // Import the map interop module
+                await JSHost.ImportAsync("mapInterop.js", $"{jsprefix}mapInterop.js");
+
 
                 //// Import the JS module
                 //await JSHost.ImportAsync("downloadHelper.js", $"{jsprefix}downloadHelper.js");
 
                 _jsModuleInitialized = true;
+
+                // Get browser using isFedCMAvailable
+                object browserInfo = isFedCMAvailable();
+
+                TraceLogger.LogInformation($"isFedCMAvailable returned: {browserInfo}");
+
+                // Detect browser using user agent
+                DetectBrowser(browserInfo.ToString());
 
                 TraceLogger.LogInformation("JavaScript storage module initialized successfully");
             }
@@ -109,7 +172,11 @@ internal sealed partial class Program
         var app = AppBuilder.Configure<App>()
                 .LogToTrace(LogEventLevel.Warning | LogEventLevel.Information | LogEventLevel.Error)
                 .WithInterFont()
-                .UseReactiveUI(_ => { });
+                .UseReactiveUI(_ => { })
+                .AfterSetup(_ =>
+                {
+                    SWSMonitor.EmbedLeaflet.Implementation = new EmbedLeafletBrowser();
+                });
 
         if (_isNotDesigner)
         {
@@ -245,6 +312,9 @@ internal sealed partial class Program
             throw;
         }
     }
+
+    [JSImport("isFedCMAvailable", "fedCM.js")]
+    public static partial string isFedCMAvailable();
 
 
 }

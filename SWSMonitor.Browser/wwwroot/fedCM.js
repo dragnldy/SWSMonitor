@@ -1,4 +1,8 @@
-﻿export async function triggerGoogleFedCM(clientId) {
+﻿export function isFedCMAvailable() {
+    const browser = navigator.userAgent;
+    return browser;
+}
+export async function triggerGoogleFedCM(clientId) {
     try {
         const credential = await navigator.credentials.get({
             identity: {

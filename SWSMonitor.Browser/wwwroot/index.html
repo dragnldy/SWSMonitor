@@ -7,9 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Sound Water Stewards Beach Survey Application">
     <meta name="theme-color" content="#0066cc">
-    <base href="/SWSMonitor/" />
+    <base href="/" />
     <link rel="manifest" href="./manifest.json">
     <link rel="stylesheet" href="./app.css" />
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="leaflet.awesome-markers.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
 </head>
 
 <body style="margin: 0; overflow: hidden">
@@ -25,9 +29,13 @@
             </h2>
         </div>
     </div>
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+    <script src="leaflet.awesome-markers.js"></script>
     <script type='module' src="./main.js"></script>
     <script type='module' src="./fedCM.js"></script>
     <script type='module' src="./errorInterop.js"></script>
+    <script type='module' src="./mapInterop.js"></script>
     <script src="https://accounts.google.com/gsi/client"></script>
 </body>
 

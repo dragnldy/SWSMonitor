@@ -120,8 +120,17 @@ namespace SWSMonitor.ViewModels
 
         internal void SetTitleVisible(bool v)
         {
-            _pageTitle = "Browse as our Guest or Login";
-            _titleVisible = true;
+            if (StaticData.UserCanLogin)
+            {
+                _pageTitle = "Browse as our Guest or Login";
+                _titleVisible = true;
+            }
+            else
+            {
+                _pageTitle = "Browse as our Guest";
+                _titleVisible = true;
+
+            }
         }
     }
 }

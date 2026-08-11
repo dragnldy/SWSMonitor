@@ -16,6 +16,7 @@ public static class StaticData
     public static bool IsDataLoaded { get; set; } = false;
 
     // User authentication and authorization properties
+    public static bool UserCanLogin { get; set; } = false; // Only supported browser is Chrome
     public static bool UserIsSignedIn { get; set; } = false;
     public static MiscInfo MiscInfo { get; set; } = new MiscInfo();
     public static bool UserCanEdit { get => _userRole >= AppRoleEnum.Edit;

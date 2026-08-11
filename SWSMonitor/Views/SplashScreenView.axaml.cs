@@ -1,5 +1,7 @@
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
 using ReactiveUI;
 using ReactiveUI.Avalonia;
 using SWSMonitor.ViewModels;
@@ -47,6 +49,19 @@ public partial class SplashScreenView : ReactiveUserControl<SplashScreenViewMode
             //    ?? throw new InvalidOperationException("ICloudAuthConfig not registered in DI container");
 
 
+            if (!StaticData.UserCanLogin)
+            {
+                var result = await Dispatcher.InvokeAsync(async () =>
+                {
+                    var box = MessageBoxManager.GetMessageBoxStandard(
+                        "Not Supported",
+                        "Error logging in as authorized user\n" +
+                        "-- Only supported on Chrome\n-- Requires gmail account.",
+                        ButtonEnum.Ok);
+
+                    return await box.ShowAsync();
+                });
+            }
             await viewModel.DoLoginAsync();
         }
     }

@@ -1,11 +1,16 @@
-﻿namespace SWSMonitor.ViewModels;
+﻿using Models;
+using System.ComponentModel;
 
-public partial class MapsViewModel : ViewModelBase
+namespace SWSMonitor.ViewModels;
+
+public partial class MapsViewModel : ViewModelBase, INotifyPropertyChanged
 {
     public MapsViewModel()
     {
 
     }
+
+
     /// <summary>
     /// The Title of this page
     /// </summary>
