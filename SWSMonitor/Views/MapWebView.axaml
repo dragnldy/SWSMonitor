@@ -32,7 +32,7 @@
             <DataGrid ItemsSource="{Binding Beaches}" x:Name="BeachesDataGrid"
                     DoubleTapped="BeachesDataGrid_DoubleTapped" 
                     SelectedItem="{Binding SelectedBeach}"
-                    MaxHeight="350"
+                    Height="350"
                     VerticalAlignment="Stretch"
                     AutoGenerateColumns="False" IsReadOnly="True" 
                     CanUserResizeColumns="True"
@@ -41,19 +41,19 @@
                     BorderThickness="1" 
                     BorderBrush="{DynamicResource SystemAccentColor}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Beach" MaxWidth="250"  Binding="{Binding BeachName}"/>
+                    <DataGridTextColumn Header="Beach" Width="250"  Binding="{Binding BeachName}"/>
                     <DataGridTextColumn Header="Latitude"  Binding="{Binding Lat}" MaxWidth="100"/>
                     <DataGridTextColumn Header="Longitude"  Binding="{Binding Long}" MaxWidth="120"/>
                     <DataGridCheckBoxColumn Header="Active?"  Binding="{Binding IsCurrentlyMonitored}"/>
                 </DataGrid.Columns>
             </DataGrid>
          </StackPanel>
-         <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Stretch">
+         <StackPanel Grid.Column="1" Grid.Row="0" Margin="10,0,0,0" Orientation="Vertical" HorizontalAlignment="Stretch">
             <Label Content="Survey Dates" FontSize="20" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Center" />
             <DataGrid ItemsSource="{Binding SurveyDates}" x:Name="SurveyDatesDataGrid"
                     DoubleTapped="SurveyDatesDataGrid_DoubleTapped" 
                     SelectedItem="{Binding SelectedSurveyDate}"
-                    MaxHeight="350"
+                    Height="380"
                     VerticalAlignment="Stretch"
                     AutoGenerateColumns="False" IsReadOnly="True" 
                     CanUserResizeColumns="True"
@@ -62,7 +62,7 @@
                     BorderThickness="1" 
                     BorderBrush="{DynamicResource SystemAccentColor}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Beach" Binding="{Binding BeachName}"/>
+                    <DataGridTextColumn Header="Beach" Binding="{Binding BeachName}" Width="200"/>
                     <DataGridTextColumn Header="Survey Date" Binding="{Binding SurveyDateOnly}"/>
                 </DataGrid.Columns>
             </DataGrid>
