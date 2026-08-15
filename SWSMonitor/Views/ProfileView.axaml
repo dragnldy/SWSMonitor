@@ -13,11 +13,10 @@
     </Design.DataContext>
 
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="0,20,0,0">
-	    <StackPanel Orientation="Vertical" Width="780">
+	    <StackPanel Name="OuterBorder" Orientation="Vertical" Width="800">
             <!-- Measurements Section -->
             <Border BorderBrush="{DynamicResource SystemAccentColor}" BorderThickness="2" CornerRadius="4" Padding="12" Margin="0,0,0,12">
-                <StackPanel Spacing="8" Width="780" Orientation="Vertical">
-                    <TextBlock Text="Profile Data" FontSize="16" FontWeight="SemiBold" Margin="15,0,0,8"/>
+                <StackPanel Spacing="8" Width="800" Orientation="Vertical">
                     <Grid ColumnDefinitions="130,120,80" RowDefinitions="auto,6,auto,6,auto" HorizontalAlignment="Center">
                         <Label Grid.Column="0" Grid.Row="0" Content="Section No:" HorizontalAlignment="Right" Margin="0,0,3,0" />
                         <NumericUpDown Grid.Column="1" Grid.Row="0" Value="{Binding EntryNo}" Width="120" KeyDown="HandleNonNumericInput"
@@ -57,11 +56,11 @@
                </StackPanel>
             </Border>
             <Border BorderBrush="{DynamicResource SystemAccentColor}" BorderThickness="2" CornerRadius="4" Padding="12" Margin="0,0,0,12">
-                <Grid ColumnDefinitions="330,*" RowDefinitions="auto" Width="780">
+                <Grid ColumnDefinitions="330,*" RowDefinitions="auto" Width="800">
 
                     <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="0" >
                     <TextBlock Text="Beach Surface" FontSize="16" FontWeight="SemiBold" Margin="15,0,0,8"/>
-                    <ListBox ItemsSource="{Binding SurfaceDetails}" Padding="0" Width="300">
+                    <ListBox ItemsSource="{Binding SurfaceDetails}" Padding="0" Width="300" Height="400" >
                     <ListBox.Styles>
 						<Style Selector="ListBoxItem">
 							<Setter Property="Padding" Value="3"/>
@@ -91,19 +90,18 @@
                <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0" Width="450">
                     <TextBlock Text="Species" FontSize="16" FontWeight="SemiBold" Margin="15,0,0,8" HorizontalAlignment="Left"/>
                     <AutoCompleteBox IsVisible="{Binding CanEditSurvey}" x:Name="species_search" 
-					    Width="430" Margin="0" 
+					            Width="430" Margin="0" 
+                                KeyDown="species_search_KeyDown"
 							    HorizontalAlignment="Center" VerticalAlignment="Top"
 							    AsyncPopulator="{Binding SpeciesSearchFunction}"
 							    FilterMode="None"
 							    PlaceholderText="Search Species ...."
-							    SelectionChanged="SpeciesSearch_SelectionChanged"
-                                DropDownOpened="species_search_DropDownOpened"
-                                DropDownClosed="species_search_DropDownClosed"
                                 LostFocus="species_search_LostFocus"
 						    Text="{Binding SpeciesToAdd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-						    MinimumPrefixLength="1" MaxDropDownHeight="200"/>
-
-                <ListBox ItemsSource="{Binding Details}" Width="430" MaxHeight="450">
+						    MinimumPrefixLength="2" MaxDropDownHeight="200">
+                        </AutoCompleteBox>
+                <ScrollViewer VerticalScrollBarVisibility="Visible" Height="400">
+                <ListBox ItemsSource="{Binding Details}" Width="430">
                     <ListBox.Styles>
 						<Style Selector="ListBoxItem">
 							<Setter Property="Padding" Value="3"/>
@@ -136,9 +134,35 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
+                </ScrollViewer>
                </StackPanel>
              </Grid>
          </Border>
+         <StackPanel>
+			    <Popup PlacementTarget="OuterBorder" Placement="Center" Width="800" Height="650" Topmost="True" VerticalOffset="0"
+                    Name="ActionPopup"  IsOpen="{Binding IsActionPopupOpen}">
+				    <Border Background="DarkGray" BorderBrush="{DynamicResource ResourceKey=PaneBackground}" BorderThickness="2" Padding="10">
+					<StackPanel Margin="10,5,10,5" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Label Content="{Binding ActionMessageText}"/>
+                        <StackPanel Orientation ="Horizontal" HorizontalAlignment="Center">
+  					       <Button Content="Yes" Click="Action_Click" Margin="10,10,15,0"/>
+						   <Button Content="Cancel" Click="Cancel_Click" Margin="0,10,0,0"/>
+                       </StackPanel>
+                    </StackPanel>
+				</Border>
+    		</Popup>
+		    <Popup PlacementTarget="OuterBorder" Placement="Center" Width="900" Height="650" Topmost="True" VerticalOffset="0"
+                Name="ErrorPopup"  IsOpen="{Binding IsErrorMessageOpen}">
+				    <Border Background="DarkGray" BorderBrush="{DynamicResource ResourceKey=PaneBackground}" BorderThickness="2" Padding="10">
+					    <StackPanel Margin="10,5,10,5" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Label Content="{Binding ErrorMessageText}"/>
+                            <StackPanel Orientation ="Horizontal" HorizontalAlignment="Center">
+						        <Button Content="Cancel" Click="CancelError_Click"/>
+                           </StackPanel>
+					    </StackPanel>
+				    </Border>
+		    </Popup>
+        </StackPanel>
     </StackPanel>
    </ScrollViewer>
 </UserControl>

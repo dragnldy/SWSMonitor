@@ -1,7 +1,6 @@
-﻿using DataLibrary.Crud;
+﻿using Avalonia.Threading;
+using DataLibrary.Crud;
 using Models;
-using MsBox.Avalonia;
-using MsBox.Avalonia.Enums;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -36,15 +35,6 @@ public class SpeciesDetail : ReactiveObject
         set { this.RaiseAndSetIfChanged(ref _speciesNotFound, value); }
     }
 
-    private string _selectedItem = "";
-    public string SelectedItem
-    {
-        get => _selectedItem;
-        set {
-            this.RaiseAndSetIfChanged(ref _selectedItem, value); 
-        }
-    }
-
     private string originalSpecies = string.Empty;
     internal void ResetSpecies()
     {
@@ -56,12 +46,19 @@ public class SpeciesDetail : ReactiveObject
     {
         get => _species;
         set {
-            if (!_loading && _species != value && _isPlaceHolder)
+            if (!_loading && _species != value)
             {
-                _parent.AddPlaceHolder(false);
-                IsPlaceHolder = false;
+                if (_isPlaceHolder)
+                {
+                    _parent.AddPlaceHolder(false);
+                    IsPlaceHolder = false;
+                }
+                else
+                {
+                    this.RaiseAndSetIfChanged(ref _species, value);
+                    if (!_loading) IsDirty = true;
+                }
             }
-            this.RaiseAndSetIfChanged(ref _species, value); if (!_loading) IsDirty = true; 
         }
     }
 
@@ -196,6 +193,34 @@ public class QuadratViewModel : WizardViewModelBase
     {
         get => _minimumPrefixCharacters;
         set { this.RaiseAndSetIfChanged(ref _minimumPrefixCharacters, value); }
+    }
+
+    private string _actionMessageText = string.Empty;
+    public string ActionMessageText
+    {
+        get => _actionMessageText;
+        set { this.RaiseAndSetIfChanged(ref _actionMessageText, value); }
+    }
+
+    private bool _isActionPopupOpen = false;
+    public bool IsActionPopupOpen
+    {
+        get => _isActionPopupOpen;
+        set { this.RaiseAndSetIfChanged(ref _isActionPopupOpen, value); }
+    }
+
+    private string _errorMessageText = string.Empty;
+    public string ErrorMessageText
+    {
+        get => _errorMessageText;
+        set { this.RaiseAndSetIfChanged(ref _errorMessageText, value); }
+    }
+
+    private bool _isErrorMessageOpen = false;
+    public bool IsErrorMessageOpen
+    {
+        get => _isErrorMessageOpen;
+        set { this.RaiseAndSetIfChanged(ref _isErrorMessageOpen, value); }
     }
 
     public ObservableCollection<SpeciesDetail> SpeciesDetails { get; set; } = new ObservableCollection<SpeciesDetail>();
@@ -400,15 +425,15 @@ public class QuadratViewModel : WizardViewModelBase
         foreach (var detail in SpeciesDetails)
         {
             if (string.IsNullOrEmpty(detail.Species) || detail.Species.Equals(EMPTY_SPECIES_STRING)) continue;
-            FormatQuadratCount(detail.Species, (int)TideTypeEnum.Tp1_Q1, detail.T1Q1, detail.Notes, detail.QANotes);
-            FormatQuadratCount(detail.Species, (int)TideTypeEnum.Tp1_Q2, detail.T1Q2, detail.Notes, detail.QANotes);
-            FormatQuadratCount(detail.Species, (int)TideTypeEnum.Tp1_Q3, detail.T1Q3, detail.Notes, detail.QANotes);
-            FormatQuadratCount(detail.Species, (int)TideTypeEnum.T0_Q1, detail.T2Q1, detail.Notes, detail.QANotes);
-            FormatQuadratCount(detail.Species, (int)TideTypeEnum.T0_Q2, detail.T2Q2, detail.Notes, detail.QANotes);
-            FormatQuadratCount(detail.Species, (int)TideTypeEnum.T0_Q3, detail.T2Q3, detail.Notes, detail.QANotes);
-            FormatQuadratCount(detail.Species, (int)TideTypeEnum.Tn1_Q1, detail.T3Q1, detail.Notes, detail.QANotes);
-            FormatQuadratCount(detail.Species, (int)TideTypeEnum.Tn1_Q2, detail.T3Q2, detail.Notes, detail.QANotes);
-            FormatQuadratCount(detail.Species, (int)TideTypeEnum.Tn1_Q3, detail.T3Q3, detail.Notes, detail.QANotes);
+            FormatQuadratCount(detail.Species, (int)TideTypeEnum.Tp1_Q1, detail.T1Q1, detail.Notes);
+            FormatQuadratCount(detail.Species, (int)TideTypeEnum.Tp1_Q2, detail.T1Q2, detail.Notes);
+            FormatQuadratCount(detail.Species, (int)TideTypeEnum.Tp1_Q3, detail.T1Q3, detail.Notes);
+            FormatQuadratCount(detail.Species, (int)TideTypeEnum.T0_Q1, detail.T2Q1, detail.Notes);
+            FormatQuadratCount(detail.Species, (int)TideTypeEnum.T0_Q2, detail.T2Q2, detail.Notes);
+            FormatQuadratCount(detail.Species, (int)TideTypeEnum.T0_Q3, detail.T2Q3, detail.Notes);
+            FormatQuadratCount(detail.Species, (int)TideTypeEnum.Tn1_Q1, detail.T3Q1, detail.Notes);
+            FormatQuadratCount(detail.Species, (int)TideTypeEnum.Tn1_Q2, detail.T3Q2, detail.Notes);
+            FormatQuadratCount(detail.Species, (int)TideTypeEnum.Tn1_Q3, detail.T3Q3, detail.Notes);
         }
 
         foreach (var kvp in _detailsByQuadrat)
@@ -447,12 +472,12 @@ public class QuadratViewModel : WizardViewModelBase
 
     }
 
-    private void FormatQuadratCount(string species, int quadratId, string formattedCount, string notes, string qanotes)
+    private void FormatQuadratCount(string species, int quadratId, string formattedCount, string notes)
     {
         if (string.IsNullOrEmpty(formattedCount))
             return;
 
-        QuadratDetail quadratdetail = MakeDetailForQuadrat(quadratId, formattedCount, species, notes, qanotes, dense: false);
+        QuadratDetail quadratdetail = MakeDetailForQuadrat(quadratId, formattedCount, species, notes, dense: false);
 
         if (!_detailsByQuadrat.ContainsKey(quadratId))
         {
@@ -464,22 +489,25 @@ public class QuadratViewModel : WizardViewModelBase
         }
     }
 
-    private QuadratDetail MakeDetailForQuadrat(int quadratId, string countin, string species, string notes, string qanotes, bool dense)
+    private QuadratDetail MakeDetailForQuadrat(int quadratId, string countin, string species, string notes, bool dense)
     {
         int? count = null;
         float? percent = null;
         if (!string.IsNullOrEmpty(countin))
         {
-            if (countin.EndsWith('%'))
-                percent = float.Parse(countin.TrimEnd('%')) / 100;
-            else if (countin.EndsWith("#"))
-                count = int.Parse(countin.TrimEnd('#'));
+            if (countin.Contains('%'))
+                percent = float.Parse(countin.Replace("%", string.Empty)) / 100;
+            else
+            {
+                dense = dense || countin.EndsWith("+");
+                countin = countin.Replace("+", string.Empty);
+                count = int.Parse(countin.Replace("#", string.Empty));
+            }
         }
         QuadratDetail details = new QuadratDetail
         {
             Species = CleanupString(species),
             QuadratNotes = CleanupString(notes),
-            QANotes = CleanupString(qanotes),
             ActualNumber = (short?)count,
             PercentObserved =  percent,
             Dense = dense ? 1 : 0
@@ -518,18 +546,23 @@ public class QuadratViewModel : WizardViewModelBase
     }
 
     #region SpeciesList
-    internal void RemoveSpecies(SpeciesDetail detail)
+    internal void RemoveSpecies()
     {
-        if (SpeciesDetails.Contains(detail))
-        {
-            SpeciesDetails.Remove(detail);
-            if (SpeciesDetails.Count() == 0)
+        SpeciesDetail? detail = _detailToRemove;
+        if (_detailToRemove is null || !SpeciesDetails.Contains(detail))
+            return;
+
+            Dispatcher.UIThread.Invoke(async () =>
             {
-                _isLoading = true;
-                AddPlaceHolder(true);
-            }
+                SpeciesDetails.Remove(detail);
+                SelectedDetail = SpeciesDetails.First();
+                if (SpeciesDetails.Count() == 0)
+                {
+                    _isLoading = true;
+                    AddPlaceHolder(true);
+                }
+            });
             IsDirty = true;
-        }
     }
 
     private string _speciesToAdd = string.Empty;
@@ -591,7 +624,10 @@ public class QuadratViewModel : WizardViewModelBase
         return true;
     }
 
-    internal async Task TestSpeciesFound(SpeciesDetail? detail)
+    internal SpeciesDetail? _detailToRemove = null;
+
+    internal SpeciesDetail? _detailToAdd = null;
+    internal void TestSpeciesFound(SpeciesDetail? detail)
     {
         if (!string.IsNullOrEmpty(detail.Species))
         {
@@ -600,33 +636,10 @@ public class QuadratViewModel : WizardViewModelBase
 
             if (detail.SpeciesNotFound)
             {
-                var box = MessageBoxManager.GetMessageBoxStandard(
-                    "Not Found",
-                    "Species Not Found- Add it to the glossary?",
-                    ButtonEnum.YesNo);
-                ButtonResult response = await box.ShowAsync();
-                if (response == ButtonResult.Yes)
-                {
-                    bool success = await AddNewSpecies(detail);
-                    if (success)
-                        detail.SpeciesNotFound = false;
-                }
-                if (detail.SpeciesNotFound)
-                {
-                    detail.ResetSpecies();
-                    detail.SpeciesNotFound = false;
-                }
+                ActionMessageText = $"Species Not Found-{detail.Species}- Add it to the glossary?";
+                IsActionPopupOpen = true;
             }
         }
-        //if (!string.IsNullOrEmpty(detail.Notes) && detail.Notes.Length > SPECIES_NOTES_MINIMUM)
-        //{
-        //    if (!StaticData.QuadratNotes.Any(n =>
-        //            n.Equals(detail.Notes, StringComparison.InvariantCultureIgnoreCase)))
-        //    {
-        //        StaticData.QuadratNotes.Add(detail.Notes);
-        //    }
-        //}
-
     }
 
     internal void MoveToNextDetail(SpeciesDetail? detail)
@@ -653,7 +666,7 @@ public class QuadratViewModel : WizardViewModelBase
         }
     }
 
-    internal async Task<bool> AddNewSpecies(SpeciesDetail detail)
+    internal bool AddNewSpecies(SpeciesDetail detail)
     {
         if (string.IsNullOrEmpty(detail.Species) ||
             detail.Species.Length < SPECIES_NAME_MINIMUM || StaticData.Species.Any(n => n.ScientificName.Equals(detail.Species, StringComparison.InvariantCultureIgnoreCase)))
@@ -670,12 +683,17 @@ public class QuadratViewModel : WizardViewModelBase
               ChangeDate = DateTime.Today,
             ChangeReason = $"Added during data entry for Survey ID: {loadedSurvey!.ID} for Beach: {loadedSurvey.BeachName} Date: {loadedSurvey.SurveyDate}",
         };
+        _= AddSpeciesToGlossary(newSpecies);
+        return true;
+    }
+
+    private async Task AddSpeciesToGlossary(Species newSpecies)
+    {
         (bool success, Species created) = await SpeciesCrud.UpdateOrCreateSpeciesAsync(StaticData.DataSourceConfig, newSpecies);
         if (success)
         {
             StaticData.Species.Add(created);
         }
-        return success;
     }
     #endregion SpeciesList
 }

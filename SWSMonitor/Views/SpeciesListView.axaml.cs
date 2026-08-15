@@ -15,42 +15,33 @@ public partial class SpeciesListView : ReactiveUserControl<SpeciesListViewModel>
     public SpeciesListView()
     {
         // InitializeComponent();
-        this.WhenActivated((ReactiveUI.Primitives.Disposables.MultipleDisposable disposables) => { }); 
+        this.DataContext = SpeciesListViewModel.Current;
+        this.WhenActivated((ReactiveUI.Primitives.Disposables.MultipleDisposable disposables) => { });
         AvaloniaXamlLoader.Load(this);
     }
 
+    private SpeciesObservation? _observationToDelete = null;
     private async void DeleteButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         if (e.Source is Control control && control.Tag is SpeciesObservation observation)
         {
+            SpeciesListViewModel viewModel = (this.DataContext as SpeciesListViewModel)!;
             if (observation is not null)
             {
                 if (observation.IsPlaceHolder)
                 {
-                    var box = MessageBoxManager.GetMessageBoxStandard(
-                        "Error",
-                        "You cannot delete the place holder observation.",
-                        ButtonEnum.Ok);
-                    var result = await box.ShowAsync();
-                    e.Handled = true;
-                    return;
+
+                    viewModel.ErrorMessageText = "You cannot delete the place holder observation.";
+                    viewModel.IsErrorMessageOpen = true;
                 }
                 else
-                {
-                    var box = MessageBoxManager.GetMessageBoxStandard(
-                        "Confirm",
-                        "Are you sure you want to delete this observation?",
-                        ButtonEnum.YesNoAbort);
-                    var result = await box.ShowAsync();
-                    if (result == ButtonResult.Yes)
-                    {
-                        this.ViewModel?.DeleteSpeciesObservation(observation);
-                    }
-                    e.Handled = true;
+                { 
+                    _observationToDelete = observation;
+                    viewModel.IsDeletePopupOpen = true;
                 }
-
             }
         }
+        e.Handled = true;
     }
 
     private void species_search_KeyDown(object? sender, KeyEventArgs e)
@@ -136,5 +127,22 @@ public partial class SpeciesListView : ReactiveUserControl<SpeciesListViewModel>
 
     private void species_search_LostFocus(object? sender, FocusChangedEventArgs e)
     {
+    }
+
+    private void DeleteObs_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        if (_observationToDelete is not null)
+        {
+            (this.DataContext as SpeciesListViewModel)?.DeleteSpeciesObservation(_observationToDelete);
+        }
+        (this.DataContext as SpeciesListViewModel)?.IsDeletePopupOpen = false;
+        e.Handled = true;
+    }
+
+    private void DontDeleteObs_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        (this.DataContext as SpeciesListViewModel)?.IsErrorMessageOpen = false;
+        (this.DataContext as SpeciesListViewModel)?.IsDeletePopupOpen = false;
+        e.Handled = true;
     }
 }

@@ -1,14 +1,17 @@
-﻿using DataLibrary.Crud;
+﻿using Avalonia.Threading;
+using DataLibrary.Crud;
 using Models;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
 using ReactiveUI;
+using ReactiveUI.Primitives.Extensions.Operators;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading;
@@ -138,6 +141,32 @@ public class ProfileViewModel : WizardViewModelBase, INotifyDataErrorInfo
     public bool CanEditSurvey
     {
         get => (HostScreen as HomeViewModel)?.CanEditSurvey ?? false;
+    }
+
+    private bool _isActionPopupOpen = false;
+    public bool IsActionPopupOpen
+    {
+        get => _isActionPopupOpen;
+        set => this.RaiseAndSetIfChanged(ref _isActionPopupOpen, value);
+    } 
+    private string _actionMessageText = string.Empty;
+    public string ActionMessageText
+    {
+        get => _actionMessageText;
+        set => this.RaiseAndSetIfChanged(ref _actionMessageText , value);
+    }
+
+    private bool _isErrorMessageOpen = false;
+    public bool IsErrorMessageOpen
+    {
+        get => _isErrorMessageOpen;
+        set => this.RaiseAndSetIfChanged(ref _isErrorMessageOpen, value);
+    }
+    private string _errorMessageText = string.Empty;
+    public string ErrorMessageText
+    {
+        get => _errorMessageText;
+        set => this.RaiseAndSetIfChanged(ref _errorMessageText, value);
     }
 
     private ProfileBase? _profile = null;
@@ -310,7 +339,14 @@ public class ProfileViewModel : WizardViewModelBase, INotifyDataErrorInfo
     public override void OnNavigatingFrom()
     {
         if (CanEditSurvey)
-            SaveChanges();
+            try
+            {
+                SaveChanges();
+            }
+            catch(Exception ex)
+            {
+                TraceLogger.LogErrorAuto(ex.ToString());
+            }
         base.OnNavigatingFrom();
     }
 
@@ -487,67 +523,104 @@ public class ProfileViewModel : WizardViewModelBase, INotifyDataErrorInfo
 
         string? currentProfileEntries = SaveNormalizedProfiles();
 
-        if (!currentProfileEntries.Equals(_originalProfileEntries))
+        if (!StrictCompare(currentProfileEntries, _originalProfileEntries))
             loadedSurvey.SaveRequired.Add(ComponentsToSaveEnum.Profile);
+        //if (!currentProfileEntries!.Equals(_originalProfileEntries))
+        //    loadedSurvey.SaveRequired.Add(ComponentsToSaveEnum.Profile);
     }
 
+    private bool StrictCompare(string? str1, string? str2)
+    {
+        if (str1 is null && str2 is null)
+            return true;
+        if (str1 is null || str2 is null)
+            return false;
+        if (str1.Length != str2.Length)
+        {
+            return false;
+        }
+
+        string lstr1 = str1.ToLower();
+        string lstr2 = str2.ToLower();
+
+        // Determine the minimum length to avoid IndexOutOfRangeException
+        int minLength = Math.Min(str1.Length, str2.Length);
+
+        for (int i = 0; i < minLength; i++)
+        {
+            if (lstr1[i] != lstr2[i])
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 
     internal void SaveProfileDetails(DataLibrary.ModelExtensions.Survey loadedSurvey)
     {
-        List<ProfileBase> updatedProfiles = new();
-        ProfileBase profileEntry = loadedSurvey.ProfileEntries.FirstOrDefault(n => n.EntryNo == _profile.EntryNo)!;
-        _profile.Length = GetInt(Length);
-        _profile.SurveyReading = GetDouble(_surveyReading);
-
-        if (profileEntry is null)
+        try
         {
-            profileEntry = new ProfileBase
+            List<ProfileBase> updatedProfiles = new();
+            ProfileBase profileEntry = loadedSurvey.ProfileEntries.FirstOrDefault(n => n.EntryNo == _profile.EntryNo)!;
+            _profile.Length = GetInt(Length);
+            _profile.SurveyReading = GetDouble(_surveyReading);
+
+            if (profileEntry is null)
             {
-                SurveyID = loadedSurvey.ID,
-                EntryNo = _profile.EntryNo,
-                Length = _profile.Length,
-                SurveyReading = _profile.SurveyReading
-            };
-        }
-        else
-        {
-            profileEntry.Length = _profile.Length;
-            profileEntry.SurveyReading = _profile.SurveyReading;
-        }
-
-        updatedProfiles.Add(profileEntry);
-
-        List<ProfileDetail> newDetails = new();
-        // Add updated species details
-        foreach (var detail in Details)
-        {
-            if (!string.IsNullOrEmpty(detail.Species))
-            {
-                ProfileDetail pd = new ProfileDetail
+                profileEntry = new ProfileBase
                 {
-                    Species = detail.Species,
-                    Notes = detail.Notes,
+                    SurveyID = loadedSurvey.ID,
+                    EntryNo = _profile.EntryNo,
+                    Length = _profile.Length,
+                    SurveyReading = _profile.SurveyReading
                 };
-                newDetails.Add(pd);
             }
-        }
-        profileEntry.Details = CleanupString(ProfileDetail.EncodeProfileDetails(newDetails));
-
-        List<ProfileSurfaceDetail> surfaceDetails = new();
-        // Add updated surface _currentEntries
-        foreach (var surfaceDetail in SurfaceDetails)
-        {
-            if (surfaceDetail.IsPresent)
+            else
             {
-                ProfileSurfaceDetail psd = new ProfileSurfaceDetail
-                {
-                    BeachSurface = surfaceDetail.SurfaceTypeName.ToLower(),
-                    IsG70percent = surfaceDetail.Percentage70,
-                };
-                surfaceDetails.Add(psd);
+                profileEntry.Length = _profile.Length;
+                profileEntry.SurveyReading = _profile.SurveyReading;
             }
+
+            updatedProfiles.Add(profileEntry);
+
+            List<ProfileDetail> newDetails = new();
+            // Add updated species details
+            foreach (var detail in Details)
+            {
+                if (!string.IsNullOrEmpty(detail.Species))
+                {
+                    ProfileDetail pd = new ProfileDetail
+                    {
+                        Species = detail.Species,
+                        Notes = detail.Notes,
+                    };
+                    newDetails.Add(pd);
+                }
+            }
+            profileEntry.Details = CleanupString(ProfileDetail.EncodeProfileDetails(newDetails));
+
+            List<ProfileSurfaceDetail> surfaceDetails = new();
+            // Add updated surface _currentEntries
+            foreach (var surfaceDetail in SurfaceDetails)
+            {
+                if (surfaceDetail.IsPresent)
+                {
+                    ProfileSurfaceDetail psd = new ProfileSurfaceDetail
+                    {
+                        // For some reason Access database stored surfaces as lower except for Sand which was occasionally uppercase
+                        // So lets do this going forward
+                        BeachSurface = surfaceDetail.SurfaceTypeName.ToLower(),
+                        IsG70percent = surfaceDetail.Percentage70,
+                    };
+                    surfaceDetails.Add(psd);
+                }
+            }
+            profileEntry.SurfaceDetails = CleanupString(ProfileSurfaceDetail.EncodeProfileSurfaceDetails(surfaceDetails));
         }
-        profileEntry.SurfaceDetails = CleanupString(ProfileSurfaceDetail.EncodeProfileSurfaceDetails(surfaceDetails));
+        catch(Exception exc)
+        {
+            TraceLogger.LogErrorAuto(exc.ToString());
+        }
     }
 
     #endregion Save
@@ -559,7 +632,7 @@ public class ProfileViewModel : WizardViewModelBase, INotifyDataErrorInfo
         ProfileBase profile = loadedSurvey!.ProfileEntries!.FirstOrDefault(n => n.EntryNo == EntryNo)!;
         if (profile is null || !profile.EntryNo.HasValue || profile!.EntryNo!.Value == 1)
         {
-            Console.Beep();
+            TraceLogger.LogWarningAuto("Beep");
             return;
         }
 
@@ -576,7 +649,7 @@ public class ProfileViewModel : WizardViewModelBase, INotifyDataErrorInfo
         ProfileBase profile = loadedSurvey!.ProfileEntries!.FirstOrDefault(n => n.EntryNo == EntryNo)!;
         if (profile is null || !profile.EntryNo.HasValue)
         {
-            Console.Beep();
+            TraceLogger.LogWarningAuto("Beep");
             return;
         }
 
@@ -622,19 +695,32 @@ public class ProfileViewModel : WizardViewModelBase, INotifyDataErrorInfo
     {
         if (Details.Contains(detail))
         {
-            Details.Remove(detail);
+            Dispatcher.UIThread.Invoke(async () =>
+            {
+                Details.Remove(detail);
+                IsDirty = true;
+            });
+
         }
     }
 
-    internal Detail? AddMember(string? species)
+    internal void AddMember(string? species)
     {
-        if (!string.IsNullOrEmpty(species))
+        if (string.IsNullOrEmpty(species))
+            return;
+
+        if (Details.Any(d => d.Species.Equals(species, StringComparison.InvariantCultureIgnoreCase)))
         {
-            var detail = new Detail(species, string.Empty, this, CanEditSurvey);
-            Details.Add(detail);
-            return detail;
+            SendErrorMessage($"Species- {species} -already exists in the list.");
+            return;
         }
-        return null;
+        var detail = new Detail(species, string.Empty, this, CanEditSurvey);
+        //Dispatcher.UIThread.Invoke(async () =>
+        //{
+            IsDirty = true;
+            Details.Insert(0,detail);
+        //});
+        ClearSpeciesField();
     }
 
     private string _speciesToAdd = string.Empty;
@@ -692,30 +778,22 @@ public class ProfileViewModel : WizardViewModelBase, INotifyDataErrorInfo
         //       _parentViewModel?.CanSave = !HasErrors;
     }
 
-    internal async Task<string> TestSpeciesFound(string speciesToAdd)
+    private string _addingSpecies;
+    internal void SpeciesNotFound(string speciesToAdd)
     {
-        if (StaticData.Species.Any(n => n.ScientificName.Equals(speciesToAdd, StringComparison.InvariantCultureIgnoreCase)))
-        {
-            if (!Details.Any(d => d.Species.Equals(speciesToAdd, StringComparison.InvariantCultureIgnoreCase)))
-                AddMember(speciesToAdd);
-            return string.Empty; // already exists
-        }
-        if (string.IsNullOrEmpty(speciesToAdd) || speciesToAdd.Length<3) 
-            return speciesToAdd; // nothing to do
-
         // If we get here, species not found
-        var box = MessageBoxManager.GetMessageBoxStandard(
-            "Not Found",
-            "Species Not Found- Add it to the glossary?",
-            ButtonEnum.YesNo);
-        ButtonResult response = await box.ShowAsync();
-        if (response != ButtonResult.Yes)
-        {
-            SpeciesToAdd = string.Empty;
-            return speciesToAdd;
-        }
-        var loadedSurvey = (HostScreen as HomeViewModel)!.LoadedSurvey;
+        //Dispatcher.UIThread.Invoke(async () =>
+        //{
+            ActionMessageText = $"Species Not Found-{speciesToAdd}- Add it to the glossary?";
+            _addingSpecies = speciesToAdd;
+            IsActionPopupOpen = true;
+        //});
+    }
 
+    internal async void AddNewSpecies()
+    {
+        var loadedSurvey = (HostScreen as HomeViewModel)!.LoadedSurvey;
+        var speciesToAdd = _addingSpecies;
         Species newSpecies = new Species()
         {
             ID = -1,
@@ -725,13 +803,36 @@ public class ProfileViewModel : WizardViewModelBase, INotifyDataErrorInfo
             ChangeDate = DateTime.Today,
             ChangeReason = $"Added during data entry for Survey ID: {loadedSurvey!.ID} for Beach: {loadedSurvey.BeachName} Date: {loadedSurvey.SurveyDate}",
         };
+        _ = AddSpeciesToGlossary(newSpecies);
+    }
+
+    private void SendErrorMessage(string error)
+    {
+        //Dispatcher.UIThread.Invoke(async () =>
+        //{
+            ErrorMessageText = error;
+            IsErrorMessageOpen = true;
+            ClearSpeciesField();
+        //});
+    }
+
+    private async Task AddSpeciesToGlossary(Species newSpecies)
+
+    {
         (bool success, Species created) = await SpeciesCrud.UpdateOrCreateSpeciesAsync(StaticData.DataSourceConfig, newSpecies);
         if (success)
         {
             StaticData.Species.Add(created);
-            AddMember(speciesToAdd);
         }
-        return speciesToAdd;
+    }
+
+    internal void ClearSpeciesField()
+    {
+        //Dispatcher.UIThread.Invoke(async () =>
+        //{
+            SpeciesToAdd = string.Empty;
+        //});
+
     }
 
     #endregion INotifyDataErrorInfo

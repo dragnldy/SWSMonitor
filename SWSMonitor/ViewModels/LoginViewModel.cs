@@ -135,7 +135,7 @@ public class LoginViewModel : ViewModelBase, INotifyPropertyChanged
         bool isGood = DataValidation.CleanAndValidateEmail(value);
         if (!isGood)
         {
-            Console.Beep();
+            TraceLogger.LogWarningAuto("Beep");
         }
         return isGood;
     }

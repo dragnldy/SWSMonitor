@@ -9,7 +9,7 @@ public class SpeciesListBase
     public int? SpeciesLinkId { get; set; } = -1;
 
     public SpeciesListBase() { } // empty constructor for deserialization
-    public SpeciesListBase(string encodedpecies)
+    public SpeciesListBase(string encodedpecies, bool noSpeciesId = true)
     {
         if (!string.IsNullOrEmpty(encodedpecies))
         {
@@ -18,7 +18,8 @@ public class SpeciesListBase
                 var match = SpeciesFormatter.Match(encodedpecies);
                 Species = match.Groups["species"].Value.Trim();
                 Notes = match.Groups["notes"].Value.Trim('{', '}');
-                SpeciesLinkId = int.TryParse(match.Groups["speciesid"].Value, out var parsedId) ? parsedId : null;
+                SpeciesLinkId = noSpeciesId ? null :
+                    int.TryParse(match.Groups["speciesid"].Value, out var parsedId) ? parsedId : null;
             }
             else
             {
@@ -38,12 +39,12 @@ public class SpeciesListBase
             encoded += $" {{{species.Notes}}}";
         return encoded;
     }
-    public static string? EncodeSpeciesList(IEnumerable<SpeciesListBase> speciesList, bool noSpeciesId = false)
+    public static string? EncodeSpeciesList(IEnumerable<SpeciesListBase> speciesList, bool noSpeciesId = true)
     {
         if (speciesList == null || !speciesList.Any()) return null;
         return string.Join(';', speciesList.Select(s => EncodeSpecies(s, noSpeciesId)).OrderBy(n => n));
     }
-    public static IEnumerable<SpeciesListBase> DecodeSpeciesList(string? speciesList)
+    public static IEnumerable<SpeciesListBase> DecodeSpeciesList(string? speciesList, bool noSpeciesId = true)
     {
         IEnumerable<SpeciesListBase> emptyList = new List<SpeciesListBase>();
         return speciesList is not null

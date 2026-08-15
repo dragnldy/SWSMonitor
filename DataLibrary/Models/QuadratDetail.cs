@@ -19,7 +19,7 @@ public class QuadratDetail
 
     public string? QuadratNotes { get; set; } = string.Empty;
 
-    public string? QANotes { get; set; } = string.Empty;
+    public string? QANotes { get; set; } = string.Empty; // This is no longer used
 
     public short? ActualNumber { get; set; } = 0;
 
@@ -49,7 +49,7 @@ public class QuadratDetail
         PercentObserved = percentobserve;
         Dense = dense;
         QuadratNotes = quadratNotes;
-        QANotes = qaNotes;
+        // QANotes = qaNotes;
         SpeciesLinkId = StaticData.Species.FirstOrDefault(n => n.ScientificName.Equals(species))?.ID ?? 0;
     }
 
@@ -74,10 +74,12 @@ public class QuadratDetail
                     var noteValue = match.Groups["notes"].Value;
                     if (noteValue.StartsWith("QA:", StringComparison.OrdinalIgnoreCase))
                     {
+                        // Ignore this- no longer in detail 
+                        TraceLogger.LogWarningAuto("QA Note detected");
                         // If no separate QA notes group, this is the QA note
                         if (!match.Groups.ContainsKey("qanotes") || string.IsNullOrEmpty(match.Groups["qanotes"].Value))
                         {
-                            QANotes = noteValue.Substring(3).Trim();
+                            // QANotes = noteValue.Substring(3).Trim();
                         }
                         else
                         {
@@ -93,7 +95,10 @@ public class QuadratDetail
 
                 if (match.Groups.ContainsKey("qanotes") && !string.IsNullOrEmpty(match.Groups["qanotes"].Value))
                 {
-                    QANotes = match.Groups["qanotes"].Value.Trim();
+                    // Ignore this- no longer in detail 
+                    TraceLogger.LogWarningAuto("QA Note detected");
+
+                    // QANotes = match.Groups["qanotes"].Value.Trim();
                 }
                 if (match.Groups.ContainsKey("actualnumber") && short.TryParse(match.Groups["actualnumber"].Value, out short actualNum))
                     ActualNumber = actualNum;
@@ -119,9 +124,9 @@ public class QuadratDetail
     public static string? EncodeQuadratDetail(QuadratDetail qd)
     {
         if (qd is null) return null;
-        return EncodeQuadratDetail(qd.Species, qd.Dense, qd.ActualNumber, qd.PercentObserved, qd.QuadratNotes, qd.QANotes);
+        return EncodeQuadratDetail(qd.Species, qd.Dense, qd.ActualNumber, qd.PercentObserved, qd.QuadratNotes);
     }
-    public static string EncodeQuadratDetail(string species, int? dense, short? actualNumber, float? percentObserved, string quadratnotes, string qanotes)
+    public static string EncodeQuadratDetail(string species, int? dense, short? actualNumber, float? percentObserved, string quadratnotes)
     {
         string quadrats = !string.IsNullOrEmpty(species) ? species : string.Empty;
         if ((dense ?? 0) > 0)
@@ -132,8 +137,6 @@ public class QuadratDetail
             quadrats += $" %{percentObserved}";
         if (!string.IsNullOrEmpty(quadratnotes))
             quadrats += $" {{{quadratnotes}}}";
-        if (!string.IsNullOrEmpty(qanotes))
-            quadrats += $" {{QA:{qanotes}}}";
         return quadrats;
     }
 

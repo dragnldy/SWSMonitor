@@ -67,7 +67,7 @@ public partial class BeachesView : ReactiveUserControl<BeachesViewModel>
             if (!success || saved is null) //  didn't save successfully
             {
                 Debug.WriteLine("Save of beach failed");
-                Console.Beep();
+                TraceLogger.LogWarningAuto("Beep");
                 return;
             }
             else
@@ -93,7 +93,7 @@ public partial class BeachesView : ReactiveUserControl<BeachesViewModel>
     {
         if (this.ViewModel!.SelectedBeach is null)
         {
-            Console.Beep(); return;
+            TraceLogger.LogWarningAuto("Beep"); return;
         }
         if (this.ViewModel!.UserIsAdmin)
             EditBeach();
@@ -105,7 +105,7 @@ public partial class BeachesView : ReactiveUserControl<BeachesViewModel>
     {
         if (this.ViewModel!.SelectedBeach is null)
         {
-            Console.Beep(); return false;
+            TraceLogger.LogWarningAuto("Beep"); return false;
         }
         string target = this.ViewModel!.SelectedBeach?.BeachName ?? string.Empty;
         BeachViewModel? bview = BeachViewModel.Instance;
@@ -119,7 +119,7 @@ public partial class BeachesView : ReactiveUserControl<BeachesViewModel>
     {
         if (this.ViewModel!.SelectedBeach is null)
         {
-            Console.Beep(); return false;
+            TraceLogger.LogWarningAuto("Beep"); return false;
         }
         string target = this.ViewModel!.SelectedBeach?.BeachName ?? string.Empty;
         BeachViewModel? bview = BeachViewModel.Instance;
@@ -168,7 +168,7 @@ public partial class BeachesView : ReactiveUserControl<BeachesViewModel>
 
     private async Task<bool> ConfirmDelete(BeachData beach)
     {
-        Console.Beep();
+        TraceLogger.LogWarningAuto("Beep");
         // Run messagebox/show logic on UI thread and await it.
         var result = await Dispatcher.UIThread.InvokeAsync(async () =>
         {

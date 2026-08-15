@@ -22,34 +22,10 @@ public partial class BeachSettingView : ReactiveUserControl<BeachSettingViewMode
     {
         if (e.Source is Control control && control.Tag is Content observation)
         {
-            if (observation is not null)
-            {
-                if (observation.IsPlaceHolder)
-                {
-                    var box = MessageBoxManager.GetMessageBoxStandard(
-                        "Error",
-                        "You cannot delete the place holder observation.",
-                        ButtonEnum.Ok);
-                    var result = await box.ShowAsync();
-                    e.Handled = true;
-                    return;
-                }
-                else
-                {
-                    var box = MessageBoxManager.GetMessageBoxStandard(
-                        "Confirm",
-                        "Are you sure you want to delete this observation?",
-                        ButtonEnum.YesNoAbort);
-                    var result = await box.ShowAsync();
-                    if (result == ButtonResult.Yes)
-                    {
-                        this.ViewModel?.DeleteContentObservation(observation);
-                    }
-                    e.Handled = true;
-                }
-
-            }
+            if (observation is not null && !observation.IsPlaceHolder)
+               this.ViewModel?.DeleteContentObservation(observation);
         }
+        e.Handled = true;
     }
 
     private void contents_search_KeyDown(object? sender, Avalonia.Input.KeyEventArgs e)

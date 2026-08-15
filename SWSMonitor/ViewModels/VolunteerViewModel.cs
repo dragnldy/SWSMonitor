@@ -61,7 +61,7 @@ public class VolunteerViewModel : ReactiveObject, INotifyDataErrorInfo
         if (volunteer == null)
         {
             Console.WriteLine($"Missing volunteer info. {firstLast}");
-            Console.Beep();
+            TraceLogger.LogWarningAuto("Beep");
         }
         return LoadTargetVolunteer(volunteer, isExisting: true);
     }
@@ -311,7 +311,7 @@ public class VolunteerViewModel : ReactiveObject, INotifyDataErrorInfo
         bool isGood = DataValidation.CleanAndValidateEmail(value);
         if (!isGood)
         {
-            Console.Beep();
+            TraceLogger.LogWarningAuto("Beep");
         }
         return isGood;
     }
@@ -355,7 +355,7 @@ public class VolunteerViewModel : ReactiveObject, INotifyDataErrorInfo
         var matches = regexPhone.Match(value);
         if (!matches.Success)
         {
-            Console.Beep();
+            TraceLogger.LogWarningAuto("Beep");
         }
         return matches.Success;
     }
@@ -460,7 +460,7 @@ public class VolunteerViewModel : ReactiveObject, INotifyDataErrorInfo
         var matches = regexZip.Match(value);
         if (!matches.Success)
         {
-            Console.Beep();
+            TraceLogger.LogWarningAuto("Beep");
         }
         return matches.Success;
     }

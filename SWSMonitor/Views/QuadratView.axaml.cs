@@ -2,11 +2,14 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using Avalonia.VisualTree;
-using SWSMonitor.ViewModels;
+using MsBox.Avalonia.Enums;
 using ReactiveUI;
 using ReactiveUI.Avalonia;
+using SWSMonitor.ViewModels;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
+using static Google.Apis.Requests.BatchRequest;
 
 namespace SWSMonitor;
 
@@ -15,16 +18,8 @@ public partial class QuadratView : ReactiveUserControl<QuadratViewModel>
     public QuadratView()
     {
         // InitializeComponent();
-        this.WhenActivated((ReactiveUI.Primitives.Disposables.MultipleDisposable disposables) => { }); 
+        this.WhenActivated((ReactiveUI.Primitives.Disposables.MultipleDisposable disposables) => { });
         AvaloniaXamlLoader.Load(this);
-    }
-    public void RemoveSpecies_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-    {
-        SpeciesDetail? detail = GetButtonParameters(sender);
-        if (detail is not null)
-        {
-            ((QuadratViewModel)this.DataContext).RemoveSpecies(detail);
-        }
     }
     private SpeciesDetail? GetButtonParameters(object? sender)
     {
@@ -84,7 +79,7 @@ public partial class QuadratView : ReactiveUserControl<QuadratViewModel>
         else
         {
             char key = letter[0];
-            if (key == '#' || key == '%' || key == '.')
+            if (key == '#' || key == '%' || key == '.' || key == '+')
             {
                 rejectKey = false;
             }
@@ -204,14 +199,14 @@ public partial class QuadratView : ReactiveUserControl<QuadratViewModel>
         e.Handled = false;
     }
 
-    private void AddSpeciesButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    private async Task AddSpeciesButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         SpeciesDetail? detail = GetButtonParameters(sender);
         if (detail is not null)
         {
             ((QuadratViewModel)this.DataContext).AddNewSpecies(detail);
         }
-
+        return;
     }
 
     // second parameter used to be GotFocusEventArgs but that is not available in Avalonia, so using FocusChangedEventArgs instead and ignoring it since we don't need it
@@ -249,24 +244,63 @@ public partial class QuadratView : ReactiveUserControl<QuadratViewModel>
 
     private void species_search_LostFocus(object? sender, FocusChangedEventArgs e)
     {
-        if (e.Source is TextBox textBox && !listOpened)
+        if (e.Source is TextBox textBox && e.NewFocusedElement is not null)
         {
             if (textBox.DataContext is SpeciesDetail detail)
-            {
-                this.ViewModel!.TestSpeciesFound(detail);
+            { 
+                if (e.NewFocusedElement is ListBoxItem listItem)
+                {
+                    string picked = listItem.Content?.ToString() ?? string.Empty;
+                }
+                else
+                {
+                    this.ViewModel!.TestSpeciesFound(detail);
+                }
             }
         }
     }
-
-    private bool listOpened = false;
-    private void species_search_DropDownClosed(object? sender, System.EventArgs e)
+    private void Cancel_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        listOpened = false;
+        (this.DataContext as QuadratViewModel)?.IsErrorMessageOpen = false;
+        (this.DataContext as QuadratViewModel)?.IsActionPopupOpen = false;
+        e.Handled = true;
+
     }
 
-    private void species_search_DropDownOpened(object? sender, System.EventArgs e)
+    internal bool _addingSpecies = false;
+    internal bool _removingDetail = false;
+    private void Action_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        listOpened = true;
+        if (_addingSpecies)
+        {
+            SpeciesDetail? detail = (this.DataContext as QuadratViewModel)!._detailToAdd;
+            bool success = (this.DataContext as QuadratViewModel)!.AddNewSpecies(detail);
+            if (!success)
+                detail.ResetSpecies();
+            detail.SpeciesNotFound = false;
+            _addingSpecies = false;
+        }
+        else if (_removingDetail)
+        {
+            ((QuadratViewModel)this.DataContext).RemoveSpecies();
+            _removingDetail = false;
+        }
+        (this.DataContext as QuadratViewModel)!.IsActionPopupOpen = false;
+        return;
     }
-
+    public void RemoveSpecies_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        if (sender is null)
+        {
+            return;
+        }
+        SpeciesDetail? detail = GetButtonParameters(sender);
+        if (detail is not null)
+        {
+            ((QuadratViewModel)this.DataContext)._detailToRemove = detail;
+            _removingDetail = true;
+            ((QuadratViewModel)this.DataContext).ActionMessageText = "Are you sure you want to delete this observation?";
+            ((QuadratViewModel)this.DataContext).IsActionPopupOpen = true;
+        }
+    }
 }

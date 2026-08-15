@@ -27,6 +27,7 @@ public partial class GlossariesView : ReactiveUserControl<GlossariesViewModel>
     {
         MainWindowModel main = StaticData.MainWindowModel as MainWindowModel;
         _mainWindow = main;
+        this.DataContext = GlossariesViewModel.Instance;
 
         this.WhenActivated((ReactiveUI.Primitives.Disposables.MultipleDisposable disposables) => { });
         AvaloniaXamlLoader.Load(this);
@@ -87,7 +88,7 @@ public partial class GlossariesView : ReactiveUserControl<GlossariesViewModel>
     {
         if (this.ViewModel!.SelectedSpecies is null)
         {
-            Console.Beep(); return;
+            TraceLogger.LogWarningAuto("Beep"); return;
         }
         if (this.ViewModel!.UserIsAdmin)
             EditSpecies();
@@ -99,7 +100,7 @@ public partial class GlossariesView : ReactiveUserControl<GlossariesViewModel>
     {
         if (this.ViewModel!.SelectedSpecies is null)
         {
-            Console.Beep(); return false;
+            TraceLogger.LogWarningAuto("Beep"); return false;
         }
         if (!this.ViewModel!.UserIsAdmin)
             return false;
@@ -114,7 +115,7 @@ public partial class GlossariesView : ReactiveUserControl<GlossariesViewModel>
     {
         if (this.ViewModel!.SelectedSpecies is null)
         {
-            Console.Beep(); return false;
+            TraceLogger.LogWarningAuto("Beep"); return false;
         }
         string target = this.ViewModel!.SelectedSpecies?.ScientificName ?? string.Empty;
         SpeciesViewModel? gview = SpeciesViewModel.Instance;
@@ -138,7 +139,7 @@ public partial class GlossariesView : ReactiveUserControl<GlossariesViewModel>
     {
         if (this.ViewModel!.UserIsAdmin == false)
         {
-            Console.Beep(); return;
+            TraceLogger.LogWarningAuto("Beep"); return;
         }
 
         SpeciesViewModel? gview = SpeciesViewModel.Instance;
@@ -165,7 +166,7 @@ public partial class GlossariesView : ReactiveUserControl<GlossariesViewModel>
     {
         if (this.ViewModel!.UserIsAdmin == false)
         {
-            Console.Beep(); return;
+            TraceLogger.LogWarningAuto("Beep"); return;
         }
 
         if (e.Source is Button button)
@@ -182,7 +183,7 @@ public partial class GlossariesView : ReactiveUserControl<GlossariesViewModel>
 
     private async Task<bool> ConfirmDelete(Species species)
     {
-        Console.Beep();
+        TraceLogger.LogWarningAuto("Beep");
         // Run messagebox/show logic on UI thread and await it.
         var result = await Dispatcher.UIThread.InvokeAsync(async () =>
         {
@@ -199,6 +200,7 @@ public partial class GlossariesView : ReactiveUserControl<GlossariesViewModel>
             // DeleteInBackground(species);
             this.ViewModel!.SelectedSpecies = null;
             await SpeciesCrud.DeleteSpeciesAsync(StaticData.DataSourceConfig!, species.ID);
+            StaticData.Species.Remove(species);
             this.ViewModel!.Species.Remove(species);
 
             return true;

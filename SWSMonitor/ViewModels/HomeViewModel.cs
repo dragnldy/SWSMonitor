@@ -1,10 +1,9 @@
-﻿using Avalonia.Interactivity;
+﻿using Avalonia.Controls;
+using Avalonia.Rendering;
 using Avalonia.Threading;
 using DataLibrary.Crud;
 using DataLibrary.ModelExtensions;
 using Models;
-using MsBox.Avalonia;
-using MsBox.Avalonia.Enums;
 using ReactiveUI;
 using ReactiveUI.Primitives;
 using SWSMonitor.Models;
@@ -27,20 +26,18 @@ public partial class HomeViewModel :ViewModelBase, INotifyPropertyChanged
 
     public void ReturnToWizardPage()
     {
-        WizardPagesEnum currentPage = GetCurrentPageId();
+        WizardPagesEnum currentPageNum = GetCurrentPageId();
 
         Dispatcher.UIThread.Invoke(() =>
         {
-            GoToWizardPage(currentPage);
+            WizardViewModelBase wizardViewModel = GetViewModelById(currentPageNum) as WizardViewModelBase;
+            if (wizardViewModel is not null)
+            {
+                //if (CurrentWizardPage is not null && wizardViewModel.GetType() != CurrentWizardPage.GetType())
+                //    CurrentWizardPage.OnNavigatingFrom();
+                CurrentWizardPage = wizardViewModel;
+            }
         });
-    }
-
-    private void GoToWizardPage(WizardPagesEnum currentPageNum)
-    {
-        WizardViewModelBase wizardViewModel = GetViewModelById(currentPageNum) as WizardViewModelBase;
-        if (CurrentWizardPage is not null && wizardViewModel is not null && CurrentWizardPage != wizardViewModel)
-            CurrentWizardPage.OnNavigatingFrom();
-        CurrentWizardPage = wizardViewModel;
     }
 
     private WizardViewModelBase _currentWizardPage;
@@ -159,6 +156,20 @@ public partial class HomeViewModel :ViewModelBase, INotifyPropertyChanged
         set { this.RaiseAndSetIfChanged(ref _isSurveyLoaded, value); }
     }
 
+    private bool _isActionPopupOpen = false;
+    public bool IsActionPopupOpen
+    {
+        get { return _isActionPopupOpen; }
+        set { this.RaiseAndSetIfChanged(ref _isActionPopupOpen, value); }
+    }
+
+    private string _actionMessageText = "Save changes first? (If not changes will be discared)";
+    public string ActionMessageText
+    {
+        get { return _actionMessageText; }
+        set { this.RaiseAndSetIfChanged(ref _actionMessageText, value); }
+    }
+
     public bool IsDirty
     {
         get { return _loadedSurvey is not null && LoadedSurvey.SaveRequired.Any(); }
@@ -172,101 +183,59 @@ public partial class HomeViewModel :ViewModelBase, INotifyPropertyChanged
         set { this.RaiseAndSetIfChanged(ref _canEditSurvey, value); }
     }
 
-    public async Task<bool> NavigatePageById(WizardPagesEnum pageid)
+    public bool NavigatePage(bool goForward)
     {
-        await Task.Run(async () => await NavigatePageByIdAsync(pageid).ContinueWith(
-            result => {
-                // Update the UI on the UI thread
-                Dispatcher.UIThread.Invoke(() =>
-                {
-                    if (CurrentWizardPage is not null)
-                        CurrentWizardPage.OnNavigatingFrom();
-                    CurrentWizardPage = result.Result as WizardViewModelBase;
-                });
-            }
-        ));
+        if (CurrentWizardPage is not null)
+        {
+            WizardPagesEnum currentPageId = GetCurrentPageId();
+            currentPageId = goForward ? ++currentPageId : --currentPageId;
+            NavigatePageById(currentPageId);
+        }
         return true;
     }
 
-    private async Task<WizardViewModelBase> NavigatePageByIdAsync(WizardPagesEnum pageId)
+    internal void NavigatePageById(WizardPagesEnum pageId)
     {
+        if (CurrentWizardPage is not null)
+            CurrentWizardPage.OnNavigatingFrom();
         try
         {
             if (pageId < WizardPagesEnum.FirstPage)
             {
                 if (CanEditSurvey)
                 {
-                    var currentPage = CurrentWizardPage;
-                    if (CanEditSurvey && currentPage is WizardViewModelBase wizardPage)
-                    {
-                        await Dispatcher.UIThread.InvokeAsync(() =>
-                        {
-                            wizardPage.SaveChanges();
-                        });
-                    }
-
-                    if (pageId < WizardPagesEnum.FirstPage)
-                    {
-                        pageId = await CheckForSaveRequired(pageId);
-                    }
+                    if (CheckForSaveRequired(pageId))
+                        return;
                 }
-
-                if (pageId < WizardPagesEnum.FirstPage) // we may have aborted the move do to need to save
-                    ClearCurrentSurvey();
+                ClearCurrentSurvey();
             }
-            else if (pageId >= WizardPagesEnum.LastPage)
+            if (pageId >= WizardPagesEnum.LastPage)
             {
                 pageId = WizardPagesEnum.FirstPage; // Go back to first page
             }
-            return GetViewModelById(pageId);
+            CurrentWizardPage = GetViewModelById(pageId);
         }
         catch (Exception ex)
         {
             var message = "Error parsing current page type and converting to enum";
-            return GetViewModelById(FirstPageToShow);
+            GetViewModelById(FirstPageToShow);
         }
     }
 
-    public async Task<bool> NavigatePage(bool goForward)
-    {
-        if (CurrentWizardPage is not null)
-        {
-            WizardPagesEnum currentPageId = GetCurrentPageId();
-            currentPageId = goForward ? ++currentPageId : --currentPageId;
-            Dispatcher.UIThread.Invoke(async () =>
-            {
-                if (CurrentWizardPage is not null)
-                    CurrentWizardPage.OnNavigatingFrom();
-                CurrentWizardPage = await NavigatePageByIdAsync(currentPageId);
-            });
-        }
-        else
-        {
-            return false;
-        }
-        return true;
-    }
 
-    private async Task<WizardPagesEnum> CheckForSaveRequired(WizardPagesEnum pageId)
+    WizardPagesEnum _pageToMoveTo = WizardPagesEnum.FirstPage;
+    private bool CheckForSaveRequired(WizardPagesEnum pageId)
     {
-        if (!CanEditSurvey || LoadedSurvey is null || !LoadedSurvey.SaveRequired.Any()) return pageId;
-
-        Console.Beep();
-        // Run messagebox/show logic on UI thread and await it.
-        var result = await Dispatcher.UIThread.InvokeAsync(async () =>
+        if (!CanEditSurvey || LoadedSurvey is null || !LoadedSurvey.SaveRequired.Any()) return false;
+        
+        _pageToMoveTo = pageId;
+        TraceLogger.LogWarningAuto("Beep");
+        Dispatcher.UIThread.Invoke(() =>
         {
-            var box = MessageBoxManager.GetMessageBoxStandard(
-                "Caution",
-                "Unsaved changes will be lost. Do you want to continue?",
-                ButtonEnum.YesNo);
-            return await box.ShowAsync();
+            IsActionPopupOpen = true;
         });
-        if (result == ButtonResult.No)
-        {
-            // Stay on the current page
-            return GetCurrentPageId();
-        }
-        return pageId;
+
+        return true;
     }
 
     private void ClearCurrentSurvey()
@@ -356,11 +325,52 @@ public partial class HomeViewModel :ViewModelBase, INotifyPropertyChanged
             if (!forcesave) return;
             _ = SurveyCrud.SaveSurvey(LoadedSurvey);
         }
-        this.RaisePropertyChanged(nameof(IsDirty));
     }
 
     internal void RefreshData()
     {
-        // Todo: Implement any logic needed to refresh data when returning to the home page, if necessary.
+        if (IsSurveyLoaded && CurrentWizardPage is not null)
+        {
+            var pageId = GetCurrentPageId();
+            if (pageId > WizardPagesEnum.SurveyViewModel)
+            {
+                CurrentWizardPage.OnNavigatingFrom();
+            }
+        }
+    }
+
+    internal void SaveSurvey()
+    {
+        if (this.LoadedSurvey is not null)
+        {
+           Task.Run(async () => await SurveyCrud.SaveSurvey(this.LoadedSurvey).ContinueWith(
+               result =>
+               {
+                   // Update the UI on the UI thread
+                   Dispatcher.UIThread.Invoke(() =>
+                   {
+                       RevertChanges();
+                   });
+               }
+           ));
+        }
+        else
+        {
+            RevertChanges();
+        }
+    }
+
+    internal void RevertChanges()
+    {
+        ClearCurrentSurvey();
+        CurrentWizardPage = GetViewModelById(WizardPagesEnum.SurveyViewModel);
+    }
+
+    internal void CloseActionPopup()
+    {
+        Dispatcher.UIThread.Invoke(() =>
+        {
+            IsActionPopupOpen = false;
+        });
     }
 }

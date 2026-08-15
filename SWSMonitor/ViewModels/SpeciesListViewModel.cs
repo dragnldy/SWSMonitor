@@ -1,4 +1,5 @@
-﻿using DataLibrary.Crud;
+﻿using Avalonia.Threading;
+using DataLibrary.Crud;
 using Models;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
@@ -7,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -43,7 +45,6 @@ public class SpeciesObservation : ReactiveObject
         set {
             if (!string.IsNullOrEmpty(value) && string.IsNullOrEmpty(Species))
             {
-                Console.Beep();
                 value = string.Empty;
             }
             this.RaiseAndSetIfChanged(ref _notes, value); }
@@ -159,7 +160,7 @@ public class SpeciesListViewModel : WizardViewModelBase
     {
         List<SpeciesListBase> speciesList = SpeciesListBase.DecodeSpeciesList(beachEvent.SpeciesObserved).ToList();
         // Normalize the list to ensure consistent formatting 
-        string? observedSpeciesString = beachEvent.SpeciesObserved = CleanupString(SpeciesListBase.EncodeSpeciesList(speciesList, noSpeciesId: true));
+        string? observedSpeciesString = CleanupString(SpeciesListBase.EncodeSpeciesList(speciesList, noSpeciesId: true));
         return JsonSerializer.Serialize(observedSpeciesString);
 
     }
@@ -189,7 +190,10 @@ public class SpeciesListViewModel : WizardViewModelBase
         string newObservations = NormalizeSpeciesList(beachEvent, noSpeciesId: true);
 
         if (!_originalSpeciesList.Equals(newObservations))
+        {
+            loadedSurvey.BeachEvent.SpeciesObserved = newObservations;
             loadedSurvey.SaveRequired.Add(ComponentsToSaveEnum.BeachEvent);
+        }
     }
 
     #endregion Load and Save
@@ -276,6 +280,26 @@ public class SpeciesListViewModel : WizardViewModelBase
         set { this.RaiseAndSetIfChanged(ref _minimumPrefixCharacters, value); }
     }
 
+    private bool _isDeletePopupOpen = false;
+    public bool IsDeletePopupOpen
+    {
+        get => _isDeletePopupOpen;
+        set { this.RaiseAndSetIfChanged(ref _isDeletePopupOpen, value); }
+    }
+
+    private string _errorMessageText = string.Empty;
+    public string ErrorMessageText
+    {
+        get => _errorMessageText;
+        set { this.RaiseAndSetIfChanged(ref _errorMessageText, value); }
+    }
+
+    private bool _isErrorMessageOpen = false;
+    public bool IsErrorMessageOpen
+    {
+        get => _isErrorMessageOpen;
+        set { this.RaiseAndSetIfChanged(ref _isErrorMessageOpen, value); }
+    }
     public ObservableCollection<SpeciesObservation> ObservedSpecies { get; set; } = new();
 
     private SpeciesObservation selectedSpeciesObservation = null;
@@ -435,10 +459,19 @@ public class SpeciesListViewModel : WizardViewModelBase
 
     internal void DeleteSpeciesObservation(SpeciesObservation observation)
     {
-        if (ObservedSpecies.Contains(observation))
-        {
-            ObservedSpecies.Remove(observation);
-            SelectedSpeciesObservation = ObservedSpecies.First();
+        if (observation is not null)
+        { 
+            SpeciesObservation? obstodelete = ObservedSpecies!.FirstOrDefault(n => n.Species.Equals(observation!.Species, StringComparison.OrdinalIgnoreCase)
+                && n.Notes!.Equals(observation!.Notes, StringComparison.OrdinalIgnoreCase));
+
+            if (obstodelete is not null)
+            {
+                Dispatcher.UIThread.Invoke(async () =>
+                {
+                    ObservedSpecies.Remove(obstodelete);
+                    SelectedSpeciesObservation = ObservedSpecies.First();
+                });
+            }
         }
     }
 

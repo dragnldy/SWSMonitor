@@ -1,10 +1,13 @@
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
+using Models;
 using ReactiveUI;
 using ReactiveUI.Avalonia;
 using SWSMonitor.ViewModels;
+using System;
 using System.Diagnostics;
+using System.Linq;
 
 namespace SWSMonitor;
 
@@ -12,7 +15,7 @@ public partial class ProfileView : ReactiveUserControl<ProfileViewModel>
 {
     public ProfileView()
     {
-        this.WhenActivated((ReactiveUI.Primitives.Disposables.MultipleDisposable disposables) => { }); 
+        this.WhenActivated((ReactiveUI.Primitives.Disposables.MultipleDisposable disposables) => { });
         AvaloniaXamlLoader.Load(this);
     }
     public void RemoveDetail_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
@@ -21,19 +24,6 @@ public partial class ProfileView : ReactiveUserControl<ProfileViewModel>
         if (detail is not null)
         {
             this.ViewModel!.RemoveDetail(detail);
-        }
-    }
-    private void SpeciesSearch_SelectionChanged(object? sender, SelectionChangedEventArgs e)
-    {
-        if (sender is not null && sender is AutoCompleteBox selector)
-        {
-            if (e.AddedItems is not null && e.AddedItems.Count > 0)
-            {
-                this.ViewModel!.AddMember(e.AddedItems[0].ToString());
-                e.AddedItems.RemoveAt(0);
-                this.ViewModel!.SpeciesToAdd = string.Empty;
-            }
-            e.Handled = true;
         }
     }
 
@@ -142,26 +132,68 @@ public partial class ProfileView : ReactiveUserControl<ProfileViewModel>
         e.Handled = rejectKey;
     }
 
-    private async void species_search_LostFocus(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    private async void species_search_LostFocus(object? sender, FocusChangedEventArgs e)
     {
-        if (e.Source is TextBox textBox && !listOpened)
+        if (e.Source is TextBox textBox && e.NewFocusedElement is not null)
         {
             if (textBox.DataContext is ProfileViewModel vm)
             {
-                textBox.Text = await this.ViewModel!.TestSpeciesFound(vm.SpeciesToAdd);
-                this.ViewModel!.SpeciesToAdd = string.Empty;
+                if (e.NewFocusedElement is ListBoxItem listItem)
+                {
+                    if (listItem.Content is string)
+                    {
+                        string picked = listItem.Content?.ToString() ?? string.Empty;
+                        this.ViewModel!.AddMember(picked);
+                        e.Handled = true;
+                    }
+                }
+                //else
+                //{
+                //    this.ViewModel!.TestSpeciesFound(vm.SpeciesToAdd);
+                //    this.ViewModel!.SpeciesToAdd = string.Empty;
+                //}
             }
         }
     }
 
-    private bool listOpened = false;
-    private void species_search_DropDownClosed(object? sender, System.EventArgs e)
+    private void Action_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        listOpened = false;
+        this.ViewModel!.AddNewSpecies();
+        this.ViewModel!.IsActionPopupOpen = false;
     }
 
-    private void species_search_DropDownOpened(object? sender, System.EventArgs e)
+    private void Cancel_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        listOpened = true;
+        this.ViewModel!.ClearSpeciesField();
+        this.ViewModel!.IsActionPopupOpen = false;
+    }
+
+    private void CancelError_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        this.ViewModel!.ClearSpeciesField();
+        this.ViewModel!.IsErrorMessageOpen = false;
+    }
+
+    private void species_search_KeyDown(object? sender, KeyEventArgs e)
+    {
+        if (sender is AutoCompleteBox autotextBox && e.Source is TextBox textBox)
+        {
+            if (e.Key == Key.Enter || e.Key == Key.Return || e.Key == Key.Tab || e.Key == Key.Back)
+            {
+                string textboxtext = textBox.Text;
+                e.Handled = true;
+                Species? speciesFound = StaticData.Species.FirstOrDefault(n=>n.ScientificName.Equals(
+                    textboxtext, StringComparison.InvariantCultureIgnoreCase));
+                if (speciesFound is null) 
+                    this.ViewModel!.SpeciesNotFound(textboxtext);
+                else
+                    this.ViewModel!.AddMember(speciesFound.ScientificName); // force standardized capitalization
+
+            }
+            else if (e.Key == Key.Escape)
+            {
+                this.ViewModel!.ClearSpeciesField();
+            }
+        }
     }
 }

@@ -1,9 +1,8 @@
-using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using ReactiveUI.Avalonia;
 using SWSMonitor.Models;
 using SWSMonitor.ViewModels;
-using ReactiveUI.Avalonia;
 using System.Threading.Tasks;
 
 namespace SWSMonitor;
@@ -32,6 +31,7 @@ public partial class HomeView : ReactiveUserControl<HomeViewModel>
     protected override async void OnLoaded(RoutedEventArgs e)
     {
         base.OnLoaded(e);
+
         await SetBusy(false);
         // Control is fully ready, layout has occurred, and templates are applied.
         // Go to either the first wizard page or the last loaded
@@ -63,41 +63,57 @@ public partial class HomeView : ReactiveUserControl<HomeViewModel>
     private void NavigateToTeams(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         HomeViewModel vm = this.DataContext as HomeViewModel;
-        vm.NavigatePageById(pageid: WizardPagesEnum.TeamViewModel);
+        vm.NavigatePageById(pageId: WizardPagesEnum.TeamViewModel);
     }
 
     private void NavigateToConditions(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         HomeViewModel vm = this.DataContext as HomeViewModel;
-        vm.NavigatePageById(pageid: WizardPagesEnum.ConditionViewModel);
+        vm.NavigatePageById(pageId: WizardPagesEnum.ConditionViewModel);
     }
 
     private void NavigateToBeachSetting(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         HomeViewModel vm = this.DataContext as HomeViewModel;
-        vm.NavigatePageById(pageid: WizardPagesEnum.BeachSettingViewModel);
+        vm.NavigatePageById(pageId: WizardPagesEnum.BeachSettingViewModel);
     }
 
     private void NavigateToProfiles(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         HomeViewModel vm = this.DataContext as HomeViewModel;
-        vm.NavigatePageById(pageid: WizardPagesEnum.ProfileViewModel);
+        vm.NavigatePageById(pageId: WizardPagesEnum.ProfileViewModel);
     }
 
     private void NavigateToQuadrats(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         HomeViewModel vm = this.DataContext as HomeViewModel;
-        vm.NavigatePageById(pageid: WizardPagesEnum.QuadratViewModel);
+        vm.NavigatePageById(pageId: WizardPagesEnum.QuadratViewModel);
     }
     private void NavigateToSpeciesList(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         HomeViewModel vm = this.DataContext as HomeViewModel;
-        vm.NavigatePageById(pageid: WizardPagesEnum.SpeciesListViewModel);
+        vm.NavigatePageById(pageId: WizardPagesEnum.SpeciesListViewModel);
     }
 
     private void NavigateToSelectDifferentStudy(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         HomeViewModel vm = this.DataContext as HomeViewModel;
-        vm.NavigatePageById(pageid: WizardPagesEnum.SurveyViewModel);
+        vm.NavigatePageById(pageId: WizardPagesEnum.SurveyViewModel);
+    }
+
+    private void Action_Click(object? sender, RoutedEventArgs e)
+    {
+        if (this.ViewModel!.LoadedSurvey is not null)
+        {
+            this.ViewModel!.SaveSurvey();
+            this.ViewModel!.CloseActionPopup();
+        }
+        return;
+    }
+
+    private void Cancel_Click(object? sender, RoutedEventArgs e)
+    {
+        this.ViewModel!.RevertChanges();
+        this.ViewModel!.CloseActionPopup();
     }
 }

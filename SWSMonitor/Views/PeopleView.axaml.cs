@@ -87,7 +87,7 @@ public partial class PeopleView : ReactiveUserControl<PeopleViewModel>
     {
         if (this.ViewModel!.SelectedVolunteer is null)
         {
-            Console.Beep(); return;
+            TraceLogger.LogWarningAuto("Beep"); return;
         }
         if (this.ViewModel!.UserIsAdmin)
             EditVolunteer();
@@ -99,7 +99,7 @@ public partial class PeopleView : ReactiveUserControl<PeopleViewModel>
     {
         if (this.ViewModel!.SelectedVolunteer is null)
         {
-            Console.Beep(); return false;
+            TraceLogger.LogWarningAuto("Beep"); return false;
         }
         string target = this.ViewModel!.SelectedVolunteer?.FirstLast ?? string.Empty;
         VolunteerViewModel? vview = VolunteerViewModel.Instance;
@@ -113,7 +113,7 @@ public partial class PeopleView : ReactiveUserControl<PeopleViewModel>
     {
         if (this.ViewModel!.SelectedVolunteer is null)
         {
-            Console.Beep(); return false;
+            TraceLogger.LogWarningAuto("Beep"); return false;
         }
         string target = this.ViewModel!.SelectedVolunteer?.FirstLast ?? string.Empty;
         VolunteerViewModel? vview = VolunteerViewModel.Instance;
@@ -162,7 +162,7 @@ public partial class PeopleView : ReactiveUserControl<PeopleViewModel>
 
     private async Task<bool> ConfirmDelete(Volunteer volunteer)
     {
-        Console.Beep();
+        TraceLogger.LogWarningAuto("Beep");
         // Run messagebox/show logic on UI thread and await it.
         var result = await Dispatcher.UIThread.InvokeAsync(async () =>
         {

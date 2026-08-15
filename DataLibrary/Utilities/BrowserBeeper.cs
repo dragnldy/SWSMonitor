@@ -13,6 +13,6 @@ public static partial class SoundManager
         if (StaticData.RunningInBrowser)
             PlayBeep();
         else
-            Console.Beep();
+            TraceLogger.LogWarningAuto("Beep");
     }
 }

@@ -304,10 +304,6 @@ public class SurveyCrud
     public static async Task<bool> SaveSurvey(Survey? loadedSurvey)
     {
         if (loadedSurvey == null) { return false; }
-
-        // send the surveybase info to temporary cache that will be sent to permanent storage in the background
-        // this allows us to collect data offline when necessary
-     //   if (ExportSurvey.ExportToCache(loadedSurvey))
         {
             // update the in-memory list of surveys
             SurveyBase? existingSurvey = StaticData.Surveys?.FirstOrDefault(
