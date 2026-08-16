@@ -208,7 +208,7 @@ public class MainViewModel : MainWindowModel
             new BrowserItemViewModel("Maps", @"avares://SWSMonitor/Assets/map.svg",new MapWebViewModel(), AppRoleEnum.Public),
             new BrowserItemViewModel("Data", @"avares://SWSMonitor/Assets/View-Details.svg",new DynamicGridViewModel(), AppRoleEnum.Public),  
             new BrowserItemViewModel("Species", @"avares://SWSMonitor/Assets/Fish.svg",new GlossariesViewModel(), AppRoleEnum.Public),
-            new BrowserItemViewModel("Beaches", @"avares://SWSMonitor/Assets/beach.svg",new BeachesViewModel(), AppRoleEnum.Public),
+            new BrowserItemViewModel("Beaches", @"avares://SWSMonitor/Assets/Palm-Tree.svg",new BeachesViewModel(), AppRoleEnum.Public),
             new BrowserItemViewModel("Surveys", @"avares://SWSMonitor/Assets/Surveys.svg", new HomeViewModel(), AppRoleEnum.Public),
             new BrowserItemViewModel("People", @"avares://SWSMonitor/Assets/people.svg", new PeopleViewModel(), AppRoleEnum.Edit),
         };
