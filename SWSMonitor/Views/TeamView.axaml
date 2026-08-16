@@ -11,7 +11,7 @@
 	<Design.DataContext>
 		<vm:TeamViewModel />
 	</Design.DataContext>
-	<Grid ColumnDefinitions="*,10,*" RowDefinitions="auto,auto,auto,auto,auto" Width="800" Margin="0,20,0,0">
+	<Grid ColumnDefinitions="*,10,*" RowDefinitions="auto,auto,201,auto,auto" Width="800" Margin="0,20,0,0">
 		<!-- Times -->
 		<StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" 
 			  Margin="0,0,0,5">
@@ -29,19 +29,24 @@
 		<!-- Leads and Monitors -->
 		<StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="1">
 			<Label Content="Leads and Monitors" FontSize="16" FontWeight="Bold" FontStyle="Italic" HorizontalAlignment="Center"/>
-			<AutoCompleteBox IsVisible="{Binding CanEditSurvey}" x:Name="volunteer_search" 
+			<AutoCompleteBox IsVisible="{Binding CanEditSurvey}" Name="volunteer_search" 
 					Width="300" Margin="0" 
 							HorizontalAlignment="Center" VerticalAlignment="Center"
 							AsyncPopulator="{Binding VolunteerSearchFunction}"
 							FilterMode="None"
 							PlaceholderText="Search volunteers ...."
-							SelectionChanged="VolunteerSearch_SelectionChanged"
-						Text="{Binding MemberToAdd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            IsTextCompletionEnabled="True"
+                            LostFocus="volunteer_search_LostFocus"
+						Text="{Binding MemberToAdd, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
 						MinimumPrefixLength="2" MaxDropDownHeight="200">
 				</AutoCompleteBox>
-		</StackPanel>
-		<ListBox x:Name="members_list" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center"
-				MaxHeight="200" Width="500"
+            </StackPanel>
+            <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Column="0" Grid.Row="2">
+        		<ListBox Name="members_list" HorizontalAlignment="Center"
+    				MaxHeight="200" Width="490" Margin="0,0,10,0"
+                    SelectionMode="Single"
+                    SelectedItem="{Binding SelectedSurveyMember, Mode=TwoWay}"
+                    SelectedIndex="{Binding SelectedMemberIndex, Mode=TwoWay}"
 				ItemsSource="{Binding SurveyMembers}">
 				<ListBox.Styles>
 						<Style Selector="ListBoxItem">
@@ -64,6 +69,8 @@
 					</DataTemplate>
 				</ListBox.ItemTemplate>
 			</ListBox>
+        </ScrollViewer>
+
 		<!-- Checklist -->
 		<Label Grid.Column="2" Grid.Row="1" Content="Check List" FontSize="16" FontWeight="Bold" FontStyle="Italic" 
 			VerticalAlignment="Bottom"

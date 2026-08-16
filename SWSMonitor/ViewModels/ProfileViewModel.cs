@@ -1,17 +1,13 @@
 ﻿using Avalonia.Threading;
 using DataLibrary.Crud;
 using Models;
-using MsBox.Avalonia;
-using MsBox.Avalonia.Enums;
 using ReactiveUI;
-using ReactiveUI.Primitives.Extensions.Operators;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Security.AccessControl;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading;

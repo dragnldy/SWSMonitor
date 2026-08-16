@@ -96,6 +96,7 @@
 							    AsyncPopulator="{Binding SpeciesSearchFunction}"
 							    FilterMode="None"
 							    PlaceholderText="Search Species ...."
+                                IsTextCompletionEnabled="True"
                                 LostFocus="species_search_LostFocus"
 						    Text="{Binding SpeciesToAdd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 						    MinimumPrefixLength="2" MaxDropDownHeight="200">

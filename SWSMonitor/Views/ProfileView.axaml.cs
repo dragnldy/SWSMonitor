@@ -182,13 +182,15 @@ public partial class ProfileView : ReactiveUserControl<ProfileViewModel>
             {
                 string textboxtext = textBox.Text;
                 e.Handled = true;
-                Species? speciesFound = StaticData.Species.FirstOrDefault(n=>n.ScientificName.Equals(
-                    textboxtext, StringComparison.InvariantCultureIgnoreCase));
-                if (speciesFound is null) 
-                    this.ViewModel!.SpeciesNotFound(textboxtext);
-                else
-                    this.ViewModel!.AddMember(speciesFound.ScientificName); // force standardized capitalization
-
+                if (!string.IsNullOrEmpty(textboxtext))
+                {
+                    Species? speciesFound = StaticData.Species.FirstOrDefault(n => n.ScientificName.Equals(
+                        textboxtext, StringComparison.InvariantCultureIgnoreCase));
+                    if (speciesFound is null)
+                        this.ViewModel!.SpeciesNotFound(textboxtext);
+                    else
+                        this.ViewModel!.AddMember(speciesFound.ScientificName); // force standardized capitalization
+                }
             }
             else if (e.Key == Key.Escape)
             {

@@ -1,6 +1,4 @@
-﻿using Avalonia.Metadata;
-using Microsoft.VisualBasic;
-using Models;
+﻿using Models;
 using ReactiveUI;
 using System;
 using System.Collections;
@@ -8,8 +6,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Reactive.Disposables;
-using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
@@ -646,6 +642,21 @@ public class TeamViewModel : WizardViewModelBase, INotifyDataErrorInfo
                 IsDirty = true; 
         }
     }
+
+    private int _selectedMemberIndex = -1;
+    public int SelectedMemberIndex
+    {
+        get => _selectedMemberIndex;
+        set { _selectedMemberIndex = -1; this.RaisePropertyChanged(nameof(SelectedMemberIndex)); }
+    }
+
+    private SurveyMember? _selectedSurveyMember = null;
+    public SurveyMember? SelectedSurveyMember
+    {
+        get => _selectedSurveyMember;
+        set { _selectedSurveyMember = null; this.RaisePropertyChanged(nameof(SelectedSurveyMember)); }
+    }
+
     internal SurveyMember AddMember(string memberName)
     {
         var foundMember = SurveyMembers.FirstOrDefault(sm => sm.Name.Equals(memberName, StringComparison.InvariantCultureIgnoreCase));
@@ -655,7 +666,7 @@ public class TeamViewModel : WizardViewModelBase, INotifyDataErrorInfo
             if (volunteer is not null)
             {
                 foundMember = new SurveyMember(memberName, false, false, this, CanEditSurvey);
-                SurveyMembers.Add(foundMember);
+                SurveyMembers.Insert(0,foundMember);
                 if (!_isLoading)
                     IsDirty = true;
             }

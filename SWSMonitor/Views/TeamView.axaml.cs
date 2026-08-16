@@ -4,6 +4,8 @@ using Avalonia.Markup.Xaml;
 using SWSMonitor.ViewModels;
 using ReactiveUI;
 using ReactiveUI.Avalonia;
+using Models;
+using DynamicData.Kernel;
 
 namespace SWSMonitor;
 
@@ -12,7 +14,7 @@ public partial class TeamView : ReactiveUserControl<TeamViewModel>
     public TeamView()
     {
         //        InitializeComponent();
-        this.WhenActivated((ReactiveUI.Primitives.Disposables.MultipleDisposable disposables) => { }); 
+        this.WhenActivated((ReactiveUI.Primitives.Disposables.MultipleDisposable disposables) => { });
         AvaloniaXamlLoader.Load(this);
         var firstControl = this.FindControl<Control>("FirstTimeBox");
 
@@ -35,15 +37,29 @@ public partial class TeamView : ReactiveUserControl<TeamViewModel>
             this.ViewModel!.RemoveSelectedMember(member);
         }
     }
-    private void VolunteerSearch_SelectionChanged(object? sender, SelectionChangedEventArgs e)
+    private void volunteer_search_KeyDown(object? sender, KeyEventArgs e)
     {
-        if (sender is not null && sender is AutoCompleteBox selector)
+        if (e.Key == Key.Tab)
         {
-            if (e.AddedItems is not null && e.AddedItems.Count > 0)
+            //NavigateFromTab(sender, e);
+            return;
+        }
+        e.Handled = false;
+    }
+
+    private void volunteer_search_LostFocus(object? sender, FocusChangedEventArgs e)
+    {
+        if (e.Source is TextBox textBox && e.NewFocusedElement is not null)
+        {
+            if (!string.IsNullOrEmpty(textBox.Text))
             {
-                this.ViewModel!.AddMember(e.AddedItems[0].ToString());
+                this.ViewModel!.AddMember(textBox.Text);
             }
-            e.Handled = true;
+            if (e.NavigationMethod  == NavigationMethod.Tab || e.NavigationMethod == NavigationMethod.Directional)
+            {
+                textBox.Focus();
+                e.Handled = true;
+            }
         }
     }
 
@@ -56,32 +72,6 @@ public partial class TeamView : ReactiveUserControl<TeamViewModel>
         }
         return null;
     }
-
-    //    private void AddVolunteer_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-    //    {
-    //        string target = this.ViewModel!.MemberToAdd;
-    ////        string target = ((TeamViewModel)this.DataContext).MemberToAdd;
-    //        VolunteerViewModel? vview = VolunteerViewModel.Instance;
-    //        if (vview != null)
-    //            vview.LoadTargetVolunteer(target);
-    //        this.ViewModel!.IsPopupOpen = true;
-    ////        ((TeamViewModel)this.DataContext).IsPopupOpen = true;
-    //    }
-
-    //    private void AddNewVolunteer_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-    //    {
-    //        VolunteerViewModel? vview = VolunteerViewModel.Instance;
-    //        if (vview != null)
-    //            vview.SaveVolunteer();
-    //        this.ViewModel!.IsPopupOpen = false;
-    ////        ((TeamViewModel)this.DataContext).IsPopupOpen = false;
-    //    }
-
-    //    private void ClosePopup_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-    //    {
-    //        this.ViewModel!.IsPopupOpen = false;
-    ////        ((TeamViewModel)this.DataContext).IsPopupOpen = false;
-    //    }
 
     // Used to be GotFocusEventArgs but that doesn't exist in Avalonia, so using RoutedEventArgs instead and it seems to work fine
     private void TimeBox_GotFocus(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
@@ -141,5 +131,4 @@ public partial class TeamView : ReactiveUserControl<TeamViewModel>
         }
         e.Handled = rejectKey;
     }
-
 }
