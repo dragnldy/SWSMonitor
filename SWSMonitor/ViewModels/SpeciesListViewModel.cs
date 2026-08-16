@@ -1,14 +1,11 @@
 ﻿using Avalonia.Threading;
 using DataLibrary.Crud;
 using Models;
-using MsBox.Avalonia;
-using MsBox.Avalonia.Enums;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Security.AccessControl;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,7 +25,18 @@ public class SpeciesObservation : ReactiveObject
     public bool IsPlaceHolder
     {
         get => _isPlaceHolder;
-        set => this.RaiseAndSetIfChanged(ref _isPlaceHolder, value);
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _isPlaceHolder, value);
+            CanDelete = !_isPlaceHolder;
+        }
+    }
+
+    private bool _canDelete = true;
+    public bool CanDelete
+    {
+        get => !_isPlaceHolder;
+        set => this.RaiseAndSetIfChanged(ref _canDelete, value);
     }
 
     private string? _species;
@@ -70,6 +78,11 @@ public class SpeciesObservation : ReactiveObject
             this.RaisePropertyChanged(nameof(CommonNameOrDescription));
             this.RaisePropertyChanged(nameof(Notes));
         }
+    }
+
+    internal void ResetSpecies()
+    {
+        throw new NotImplementedException();
     }
 }
 public class SpeciesListViewModel : WizardViewModelBase
@@ -236,13 +249,6 @@ public class SpeciesListViewModel : WizardViewModelBase
 
     private void SpeciesListViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
-        if (e.PropertyName.Equals(nameof(SelectedSpeciesObservation)))
-        {
-
-        }
-        if (e.PropertyName.Equals(nameof(SelectedFromDropDown)))
-        {
-        }
     }
 
     #endregion Support methods
@@ -280,6 +286,20 @@ public class SpeciesListViewModel : WizardViewModelBase
         set { this.RaiseAndSetIfChanged(ref _minimumPrefixCharacters, value); }
     }
 
+    private string _actionMessageText = string.Empty;
+    public string ActionMessageText
+    {
+        get => _actionMessageText;
+        set { this.RaiseAndSetIfChanged(ref _actionMessageText, value); }
+    }
+
+    private bool _isActionPopupOpen = false;
+    public bool IsActionPopupOpen
+    {
+        get => _isActionPopupOpen;
+        set { this.RaiseAndSetIfChanged(ref _isActionPopupOpen, value); }
+    }
+
     private bool _isDeletePopupOpen = false;
     public bool IsDeletePopupOpen
     {
@@ -302,23 +322,16 @@ public class SpeciesListViewModel : WizardViewModelBase
     }
     public ObservableCollection<SpeciesObservation> ObservedSpecies { get; set; } = new();
 
-    private SpeciesObservation selectedSpeciesObservation = null;
+    private SpeciesObservation _selectedSpeciesObservation = null;
     public SpeciesObservation SelectedSpeciesObservation
     {
-        get => selectedSpeciesObservation;
+        get => _selectedSpeciesObservation;
         set
         {
-            this.RaiseAndSetIfChanged(ref selectedSpeciesObservation, value);
+            TraceLogger.LogWarningAuto($"SelectedSpeciesObservation changed to: {value?.Species}");
+            this.RaiseAndSetIfChanged(ref _selectedSpeciesObservation, value);
         }
     }
-
-    private string _selectedFromDropDown;
-    public string SelectedFromDropDown
-    {
-        get => _selectedFromDropDown;
-        set { this.RaiseAndSetIfChanged(ref _selectedFromDropDown, value); }
-    }
-
 
     public Func<string?, CancellationToken, Task<IEnumerable<object>>> SpeciesSearchFunction => SpeciesSearchAsync;
 
@@ -333,127 +346,32 @@ public class SpeciesListViewModel : WizardViewModelBase
         if (SearchStartsWith)
             results = StaticData.Species!.Where(n => n.ScientificName!.StartsWith(searchText, StringComparison.OrdinalIgnoreCase) ||
                 (!string.IsNullOrEmpty(n.CommonNameOrDescription) && n.CommonNameOrDescription.StartsWith(searchText, StringComparison.OrdinalIgnoreCase)))
-            .Select(s => FormatSpecies(s.ScientificName, s.CommonNameOrDescription)).OrderBy(n => n).ToList();
+            .Select(s => s.ScientificName).OrderBy(n => n).ToList();
         else
             results = StaticData.Species!.Where(n => n.ScientificName.Contains(searchText, StringComparison.OrdinalIgnoreCase) || 
                 (!string.IsNullOrEmpty(n.CommonNameOrDescription) && !n.CommonNameOrDescription.Contains(searchText, StringComparison.OrdinalIgnoreCase)))
-                    .Select(s => FormatSpecies(s.ScientificName, s.CommonNameOrDescription)).OrderBy(n => n).ToList();
+                    .Select(s => s.ScientificName).OrderBy(n => n).ToList();
         return results.Where(n=>NotPreviouslyObserved(n));
     }
 
-    private bool NotPreviouslyObserved(string speciesAndCommon)
+    private bool NotPreviouslyObserved(string species)
     {
-        return !ObservedSpecies.Any(o => FormatSpecies(o.Species, o.CommonNameOrDescription).Equals(speciesAndCommon));
+        return !ObservedSpecies.Any(o => o.Species!.Equals(species));
     }
 
-    private string FormatSpecies(string scientificName, string? commonNameOrDescription)
+    internal async void GetSpeciesLinkID(SpeciesObservation detail)
     {
-        string combined = scientificName;
-        //if (!string.IsNullOrEmpty(commonNameOrDescription))
-        //{
-        //    combined += $";{commonNameOrDescription}";
-        //}
-        return combined;
-    }
+        if (detail is null || string.IsNullOrEmpty(detail.Species)) return;
 
-    internal async Task TestSpeciesIfChanged(string? text)
-    {
-        string[] parts = text.Split(';');
-        if (parts.Length > 1)
-            text = parts[0];
-        if (SelectedSpeciesObservation is null)
+        Species? possibleSpecies = StaticData.Species!.FirstOrDefault(n=>
+            n.ScientificName.Equals(detail.Species, StringComparison.OrdinalIgnoreCase));
+
+        if (possibleSpecies is not null)
         {
-            // Should not happen theoretically
-            return; 
+            detail.SpeciesLinkId = possibleSpecies.ID;
+            detail!.CommonNameOrDescription = possibleSpecies.CommonNameOrDescription;
+            SelectedSpeciesObservation = detail;
         }
-        if (string.IsNullOrEmpty(text) && SelectedSpeciesObservation.IsPlaceHolder)
-        {
-            // Nothing to do if placeholder
-            return; 
-        }
-        if (SelectedSpeciesObservation.Species.Equals(text))
-        {
-            // No change- nothing to do
-            return;
-            
-        }
-
-        IsDirty = true;
-
-        if (SelectedSpeciesObservation.IsPlaceHolder)
-        {
-            // need to add a new placeholder
-            AddAPlaceholder();
-            SelectedSpeciesObservation.IsPlaceHolder = false;
-
-        }
-        GetSpeciesLinkID(text ?? string.Empty);
-//        this.RaisePropertyChanged(nameof(SelectedSpeciesObservation));
-    }
-
-
-
-    internal async void GetSpeciesLinkID(string text)
-    {
-        if (!string.IsNullOrWhiteSpace(text) && SelectedSpeciesObservation is not null )
-        {
-            SelectedSpeciesObservation!.Species = text;
-            List<Species> possibleSpecies = StaticData.Species.Where(n=>n.ScientificName.Equals(text, StringComparison.OrdinalIgnoreCase)).ToList();
-            if (possibleSpecies.Count == 1)
-            {
-                SelectedSpeciesObservation!.Species = text;
-                SelectedSpeciesObservation!.SpeciesLinkId = possibleSpecies.First().ID;
-                SelectedSpeciesObservation!.CommonNameOrDescription = possibleSpecies.First().CommonNameOrDescription;
-            }
-            else if (possibleSpecies.Count == 0)
-            {
-                // If we get here, species not found
-                var box = MessageBoxManager.GetMessageBoxStandard(
-                    "Not Found",
-                    "Species Not Found- Add it to the glossary?",
-                    ButtonEnum.YesNo);
-                ButtonResult response = await box.ShowAsync();
-                if (response != ButtonResult.Yes)
-                {
-                    SelectedSpeciesObservation!.SpeciesLinkId = 0;
-                    SelectedSpeciesObservation!.CommonNameOrDescription = string.Empty;
-                    SelectedSpeciesObservation.Species = string.Empty;
-                    SelectedSpeciesObservation.SelectedSpeciesItem = string.Empty;
-                    return;
-                }
-                int newID = await AddSpeciesFound(text);
-                SelectedSpeciesObservation!.SpeciesLinkId = newID;
-                SelectedSpeciesObservation!.CommonNameOrDescription = string.Empty;
-                SelectedSpeciesObservation!.SelectedSpeciesItem = text;
-                if (newID == 0)
-                {
-                    SelectedSpeciesObservation.Species = string.Empty;
-                    SelectedSpeciesObservation.SelectedSpeciesItem = string.Empty;
-                }
-            }
-        }
-    }
-
-    internal async Task<int> AddSpeciesFound(string speciesToAdd)
-    {
-        var loadedSurvey = (HostScreen as HomeViewModel)!.LoadedSurvey;
-
-        Species newSpecies = new Species()
-        {
-            ID = -1,
-            ScientificName = speciesToAdd,
-            UsedBySurveys = 1,
-            ProfileData = 1,
-            ChangeDate = DateTime.Today,
-            ChangeReason = $"Added during data entry for Survey ID: {loadedSurvey!.ID} for Beach: {loadedSurvey.BeachName} Date: {loadedSurvey.SurveyDate}",
-        };
-        (bool success, Species created) = await SpeciesCrud.UpdateOrCreateSpeciesAsync(StaticData.DataSourceConfig, newSpecies);
-        if (success)
-        {
-            StaticData.Species.Add(created);
-            return created.ID;
-        }
-        return 0;
     }
 
 
@@ -466,13 +384,70 @@ public class SpeciesListViewModel : WizardViewModelBase
 
             if (obstodelete is not null)
             {
-                Dispatcher.UIThread.Invoke(async () =>
-                {
-                    ObservedSpecies.Remove(obstodelete);
-                    SelectedSpeciesObservation = ObservedSpecies.First();
-                });
+                    Dispatcher.UIThread.Invoke(async () =>
+                    {
+                        if (!obstodelete.IsPlaceHolder)
+                        {
+                            ObservedSpecies.Remove(obstodelete);
+                            SelectedSpeciesObservation = ObservedSpecies.First();
+                        }
+                        else
+                        { 
+                            obstodelete.Species = string.Empty;
+                        }
+                        IsActionPopupOpen = false;
+                    });
             }
         }
+    }
+
+    internal SpeciesObservation? _detailToRemove = null;
+
+    internal SpeciesObservation? _detailToAdd = null;
+    internal bool TestSpeciesFound(SpeciesObservation? detail)
+    {
+        if (!string.IsNullOrEmpty(detail.Species))
+        {
+            bool speciesNotFound = !StaticData.Species.Any(n =>
+                n.ScientificName.Equals(detail.Species, StringComparison.InvariantCultureIgnoreCase));
+
+            if (speciesNotFound)
+            {
+                Dispatcher.UIThread.Post(() =>
+                {
+                    ActionMessageText = $"Species Not Found - [{detail.Species}] - Add it to the glossary?";
+                    _detailToAdd = detail;
+                    IsActionPopupOpen = true;
+                }, DispatcherPriority.Background);
+        }
+            else
+            {
+                AddNewSpeciesObservation(detail);
+            }
+        }
+        return true;
+    }
+
+    internal bool AddNewSpeciesObservation(SpeciesObservation? detail)
+    {
+        if (string.IsNullOrEmpty(detail.Species)) return false;
+
+        IsDirty = true;
+        if (detail.IsPlaceHolder)
+        {
+            // need to add a new placeholder
+            var placeHolder = AddAPlaceholder();
+            detail.IsPlaceHolder = false;
+            SelectedSpeciesObservation = placeHolder;
+            SpeciesListView.Instance?.ScrollIntoView(SelectedSpeciesObservation);
+        }
+        GetSpeciesLinkID(detail);
+        Dispatcher.UIThread.Post(() =>
+        {
+            IsActionPopupOpen = false;
+        }, DispatcherPriority.Background);
+
+        return true;
     }
 
     #region Interface Implementations

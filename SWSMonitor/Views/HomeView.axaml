@@ -17,7 +17,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Popup  PlacementTarget="OuterBorder" Placement="Center" Width="900" Height="750" Topmost="True" VerticalOffset="80"
+        <Popup  PlacementTarget="OuterBorder" Placement="Center" Width="800" Height="750" Topmost="True" VerticalOffset="80"
                     Name="ActionPopup"  IsOpen="{Binding IsActionPopupOpen}">
 				    <Border Background="DarkGray" BorderBrush="{DynamicResource ResourceKey=PaneBackground}" BorderThickness="2" Padding="10" Margin="50,0,0,0">
 					<StackPanel Margin="10,5,10,5" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -31,7 +31,7 @@
     		</Popup>
 
         <ScrollViewer>
-		<Border Name="OuterBorder" BorderBrush="Black" BorderThickness="2" MinWidth="900" MinHeight="770" HorizontalAlignment="Center">
+		<Border Name="OuterBorder" BorderBrush="Black" BorderThickness="2" MinWidth="800" MinHeight="770" HorizontalAlignment="Stretch">
 			<StackPanel Spacing="5" VerticalAlignment="Top">
                  <StackPanel Height="50" Background="{DynamicResource ResourceKey=PaneBackground}">
 					<Label Content="{Binding PageTitle}" FontSize="24" FontWeight="Bold" FontStyle="Italic" HorizontalAlignment="Center" VerticalAlignment="Top"/>

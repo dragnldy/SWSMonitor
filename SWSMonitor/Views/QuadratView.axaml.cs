@@ -199,15 +199,15 @@ public partial class QuadratView : ReactiveUserControl<QuadratViewModel>
         e.Handled = false;
     }
 
-    private async Task AddSpeciesButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-    {
-        SpeciesDetail? detail = GetButtonParameters(sender);
-        if (detail is not null)
-        {
-            ((QuadratViewModel)this.DataContext).AddNewSpecies(detail);
-        }
-        return;
-    }
+    //private async Task AddSpeciesButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    //{
+    //    SpeciesDetail? detail = GetButtonParameters(sender);
+    //    if (detail is not null)
+    //    {
+    //        ((QuadratViewModel)this.DataContext).AddNewSpecies(detail);
+    //    }
+    //    return;
+    //}
 
     // second parameter used to be GotFocusEventArgs but that is not available in Avalonia, so using FocusChangedEventArgs instead and ignoring it since we don't need it
     private void Grid_GotFocus(object? sender, FocusChangedEventArgs e)

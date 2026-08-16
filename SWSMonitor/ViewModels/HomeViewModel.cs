@@ -16,9 +16,11 @@ namespace SWSMonitor.ViewModels;
 
 public partial class HomeViewModel :ViewModelBase, INotifyPropertyChanged
 {
+    public static HomeViewModel? Instance = null;
     #region CTOR
     public HomeViewModel()
     {
+        Instance = this;
         PropertyChanged += HomeViewModel_PropertyChanged;
     }
 

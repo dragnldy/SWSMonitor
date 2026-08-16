@@ -60,19 +60,14 @@
                 CornerRadius="5" 
                 Padding="10" 
                 Margin="10">
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" IsVisible="{Binding CanEditSurvey}">
-				<TextBlock Text="Search Options" FontWeight="Bold" Margin="0,0,0,10" HorizontalAlignment="Center"></TextBlock>
-                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="20" IsVisible="{Binding CanEditSurvey}">
-                          <Label Content="Search As: " FontSize="12" />
-                          <RadioButton Content="Starts With" IsChecked="{Binding SearchStartsWith}" VerticalAlignment="Center"/>
-                          <RadioButton Content="Contains" IsChecked="{Binding !SearchStartsWith}" VerticalAlignment="Center"/>
-                     </StackPanel>
-                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" IsVisible="{Binding CanEditSurvey}" Spacing="10">
-                          <Label Content="Minimum Prefix Characters:" FontSize="12" VerticalAlignment="Center"/>
-                          <NumericUpDown  FontSize="12" AllowSpin="True" FormatString="0" Height="14" Width="100" 
+          <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="20" Margin="0,0,0,0">
+                <Label Content="Species search options: " FontSize="16" HorizontalAlignment="Center"/>
+                <RadioButton Content="Starts With" IsChecked="{Binding SearchStartsWith}" VerticalAlignment="Center"/>
+                <RadioButton Content="Contains" IsChecked="{Binding !SearchStartsWith}" VerticalAlignment="Center"/>
+                <Label Content="Minimum Prefix Characters:" FontSize="12" VerticalAlignment="Center"/>
+                <NumericUpDown  FontSize="12" AllowSpin="True" FormatString="0" Height="14" Width="100" 
                                 VerticalAlignment="Center" VerticalContentAlignment="Center"
                                 Minimum="1" Maximum="5" Value="{Binding MinimumPrefixCharacters}" />
-                 </StackPanel>
             </StackPanel>
         </Border>
         <StackPanel Height="500">
@@ -83,7 +78,19 @@
                         <Label Content="Are you sure you want to delete this observation?"/>
                         <StackPanel Orientation ="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
   					       <Button Content="Yes" Click="DeleteObs_Click" Margin="10,10,15,0"/>
-						   <Button Content="Cancel" Click="DontDeleteObs_Click" Margin="0,10,0,0"/>
+						   <Button Content="Cancel" Click="Cancel_Click" Margin="0,10,0,0"/>
+                       </StackPanel>
+                    </StackPanel>
+				</Border>
+		</Popup>
+			<Popup  PlacementTarget="OuterBorder" Placement="Center" Width="800" Height="700" Topmost="True" VerticalOffset="0"
+                Name="ActionPopup"  IsOpen="{Binding IsActionPopupOpen}">
+				<Border Background="DarkGray" BorderBrush="{DynamicResource ResourceKey=PaneBackground}" BorderThickness="2" Padding="10">
+					<StackPanel Margin="10,5,10,5" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Label Content="{Binding ActionMessageText}"/>
+                        <StackPanel Orientation ="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+  					       <Button Content="Yes" Click="RequestAdd_Click" Margin="10,10,15,0"/>
+						   <Button Content="Cancel" Click="DontAdd_Click" Margin="0,10,0,0"/>
                        </StackPanel>
                     </StackPanel>
 				</Border>
@@ -92,15 +99,14 @@
 				<Border Background="DarkGray" BorderBrush="{DynamicResource ResourceKey=PaneBackground}" BorderThickness="2" Padding="10">
 					<StackPanel Margin="10,5,10,5" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Label Content="{Binding ErrorMessageText}"/>
-						<Button Content="Cancel" Click="DontDeleteObs_Click"/>
+						<Button Content="Cancel" Click="Cancel_Click"/>
 					</StackPanel>
 				</Border>
 		</Popup>
-        <DataGrid ItemsSource="{Binding ObservedSpecies}" x:Name="SpeciesListDataGrid"
+        <DataGrid
+            ItemsSource="{Binding ObservedSpecies}" x:Name="SpeciesListDataGrid"
                 IsReadOnly="{Binding !CanEditSurvey}"
-                SelectedItem="{Binding SelectedSpeciesObservation}"
-                SelectionChanged="SpeciesListDataGrid_SelectionChanged"
-                CellPointerPressed="Table_OnCellPointerPressed"
+                SelectedItem="{Binding SelectedSpeciesObservation, Mode=TwoWay}"
                 Height="450"
                 AutoGenerateColumns="False" 
                 CanUserReorderColumns="True"
@@ -112,43 +118,31 @@
                 BorderBrush="Gray"
                 VerticalScrollBarVisibility="Visible">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Actions">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                            <StackPanel Orientation="Horizontal" Margin="5,0,5,0" IsVisible="{Binding !IsPlaceHolder}" >
-                                <Button IsEnabled="{Binding 
-                                $parent[DataGrid].((vm:SpeciesListViewModel)DataContext).CanEditSurvey}"
-                                    TabIndex="3" Click="DeleteButton_Click" Tag="{Binding .}" ToolTip.Tip="Delete Species" >
-                                    <Image Source="avares://SWSMonitor/Assets/TrashCan.png" 
-									    Width="12" Height="12" Margin="0"/>
-                                </Button>
-                            </StackPanel>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
                 <DataGridTemplateColumn Header="Species">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                                <AutoCompleteBox Classes="SpeciesSelect"  Width="300"
-                                    KeyDown="species_search_KeyDown"
+                               <AutoCompleteBox Classes="SpeciesSelect" Width="300"
+                                         KeyDown="species_search_KeyDown" Tag="{Binding .}"
                                     IsEnabled="{Binding $parent[DataGrid].((vm:SpeciesListViewModel)DataContext).CanEditSurvey}"
                                     x:Name="species_search" 
-		                            AsyncPopulator="{Binding $parent[DataGrid].((vm:SpeciesListViewModel)DataContext).SpeciesSearchFunction}"
-                                    LostFocus="species_search_LostFocus"
-		                            FilterMode="None"
-		                            PlaceholderText="Search Species ...."
-                                    MaxLength="80"
-                                    IsTextCompletionEnabled="False"
-                                    SelectedItem="{Binding SelectedSpeciesItem, Mode=TwoWay}"
-                                    MinimumPrefixLength="{Binding $parent[DataGrid].((vm:SpeciesListViewModel)DataContext).MinimumPrefixCharacters}"
-		                            Text="{Binding Species, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
-                                    Tag="{Binding .}"
+					    			AsyncPopulator="{Binding $parent[DataGrid].((vm:SpeciesListViewModel)DataContext).SpeciesSearchFunction}"
                                     TabIndex="1"
-                                    DropDownOpened="species_search_DropDownOpened"
-                                    DropDownClosed="species_search_DropDownClosed"
-		                            MaxDropDownHeight="200">
-                              </AutoCompleteBox>
+							        FilterMode="None"
+							        PlaceholderText="Search Species ...."
+                                    MaxLength="80"
+                                    LostFocus="species_search_LostFocus"
+                                    IsTextCompletionEnabled="True"
+                                    MinimumPrefixLength="{Binding $parent[DataGrid].((vm:SpeciesListViewModel)DataContext).MinimumPrefixCharacters}"
+						            Text="{Binding Species, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+						            MaxDropDownHeight="200">
+                            			<AutoCompleteBox.InnerRightContent>
+            					            <Button Click="RemoveSpecies_Click" CommandParameter="{Binding .}"  Margin="5,0,0,0" Tag="{Binding .}" >
+    		        				        <Image Source="avares://SWSMonitor/Assets/TrashCan.png" IsVisible="{Binding CanDelete}"
+	    			     			           Width="12" Height="12" Margin="0" />
+					                       </Button>
+				                       </AutoCompleteBox.InnerRightContent>
+                                    </AutoCompleteBox>
                         </StackPanel>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
@@ -162,7 +156,8 @@
                     </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn IsReadOnly="True" Header="Common Name"  Binding="{Binding CommonNameOrDescription}"/>
+                <DataGridTextColumn Tag="{Binding .}" IsReadOnly="True" Header="Common Name"  Binding="{Binding CommonNameOrDescription}"/>
+                <DataGridTextColumn Tag="{Binding .}" IsReadOnly="True" Header="Spare" IsVisible="False" Binding="{Binding SpeciesLinkId}"/>
             </DataGrid.Columns>
         </DataGrid>
       </StackPanel>

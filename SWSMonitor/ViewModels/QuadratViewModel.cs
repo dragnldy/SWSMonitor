@@ -46,7 +46,7 @@ public class SpeciesDetail : ReactiveObject
     {
         get => _species;
         set {
-            if (!_loading && _species != value)
+            if (_species != value)
             {
                 if (_isPlaceHolder)
                 {

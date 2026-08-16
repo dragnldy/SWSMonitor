@@ -12,11 +12,11 @@
 		<vm:SurveyViewModel />
 	</Design.DataContext>
 	<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-	    <Grid ColumnDefinitions="175,175" RowDefinitions="auto,auto,auto,auto,auto" Margin="10,10,0,0"  IsVisible="{Binding !IsSurveySelected}">
-			<RadioButton Grid.Column="0" Grid.Row="0" Name="radioButton2" IsChecked="{Binding IsWhidbey}" GroupName="Island" Content="Whidbey Island" Margin="0,0,3,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-			<RadioButton Grid.Column="1" Grid.Row="0" Name="radioButton1" IsChecked="{Binding IsCamano}" GroupName="Island" Content="Camano Island" Margin="40,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-			<Label Grid.Column="0" Grid.Row="1" Content="Beach:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,3,0"/>
-			<ComboBox Grid.Column="1" Grid.Row="1" ItemsSource="{Binding SurveySites}" SelectedItem="{Binding SelectedBeach}" Width="200" 
+	    <Grid ColumnDefinitions="220,200" RowDefinitions="auto,auto,auto,auto,auto,auto,auto" Margin="10,10,0,0"  IsVisible="{Binding !IsSurveySelected}">
+			<RadioButton Grid.Column="0" Grid.Row="0" Name="radioButton2" IsChecked="{Binding IsWhidbey}" GroupName="Island" Content="Whidbey Island" Margin="0,0,3,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+			<RadioButton Grid.Column="1" Grid.Row="0" Name="radioButton1" IsChecked="{Binding IsCamano}" GroupName="Island" Content="Camano Island" Margin="0,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+			<Label Grid.Column="0" Grid.Row="1" Content="Beach:" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,3,0"/>
+			<ComboBox Grid.Column="0" Grid.Row="2" ItemsSource="{Binding SurveySites}" SelectedItem="{Binding SelectedBeach}" Width="200" 
 						MaxDropDownHeight="200" AutoScrollToSelectedItem="True"
 						HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,5,0,0">
 				<ComboBox.ItemTemplate>
@@ -25,10 +25,10 @@
 					</DataTemplate>
 				</ComboBox.ItemTemplate>
 			</ComboBox>
-			<Label Grid.Column="0" Grid.Row="2" Content="Previous Surveys:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,3,0"/>
-			<Border Grid.Column="1" Grid.Row="2" BorderThickness="2" BorderBrush="{DynamicResource ResourceKey=ListBoxBorder}" Width="200" Margin="12,5,0,5">
+			<Label Grid.Column="1" Grid.Row="1" Content="Available Surveys:" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,3,0"/>
+			<Border Grid.Column="1" Grid.Row="2" Grid.RowSpan="4" BorderThickness="2" BorderBrush="{DynamicResource ResourceKey=ListBoxBorder}" Width="180" Margin="0,5,0,5">
 				<ListBox  SelectedItem="{Binding SelectedDate}"
-					ItemsSource="{Binding SurveyDates}" Width="100" Height="100" HorizontalAlignment="Center" VerticalAlignment="Top">
+					ItemsSource="{Binding SurveyDates}" Width="180" Height="100" HorizontalAlignment="Center" VerticalAlignment="Top">
 					 <ListBox.Styles>
 						<Style Selector="ListBoxItem">
 							<Setter Property="Padding" Value="0"/>
@@ -42,20 +42,20 @@
 					</ListBox.ItemTemplate>
 				</ListBox>		
 			</Border>
-			<Label Content="Survey Date:" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-			<CalendarDatePicker Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" SelectedDateFormat="Short"
+			<Label Content="Survey Date:" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+			<CalendarDatePicker Grid.Column="0" Grid.Row="5" HorizontalAlignment="Left" SelectedDateFormat="Short"
 								SelectedDate="{Binding SurveyDate}" Margin="0,0,3,0" Width="200"/>
 			<!-- Action Buttons -->
-			<StackPanel IsVisible="{Binding IsExistingSurvey}" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+			<StackPanel IsVisible="{Binding IsExistingSurvey}" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
 				<Label Content="For existing survey, do you want to:" VerticalAlignment="Center"></Label>
 				<Button IsEnabled="True" Content="View Survey" Click="ViewSurvey_Click" Margin="0,0,10,0"/>
 	            <Button IsVisible="{Binding UserCanEdit}" Content="Edit Survey" Click="EditSurvey_Click" />
 			</StackPanel>
-			<StackPanel IsVisible="{Binding UserCanCreateStudy}" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+			<StackPanel IsVisible="{Binding UserCanCreateStudy}" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
 				<Label Content="For NEW survey, do you want to:" VerticalAlignment="Center"></Label>
 				<Button IsEnabled="True" Content="Create Survey" Click="CreateSurvey_Click" Margin="0,0,10,0"/>
 			</StackPanel>
-			<StackPanel IsVisible="{Binding DoesSurveyNeedConfirmed}" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+			<StackPanel IsVisible="{Binding DoesSurveyNeedConfirmed}" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
 				<Label Content="For NEW survey, do you want to continue:" VerticalAlignment="Center"></Label>
 				<Button IsEnabled="True" Content="Create" Click="ConfirmNewSurvey_Click" Margin="0,0,10,0"/>
 				<Button IsEnabled="True" Content="Cancel" Click="CancelNewSurvey_Click" Margin="0,0,10,0"/>

@@ -163,24 +163,15 @@
 					           </Button>
 				           </AutoCompleteBox.InnerRightContent>
                         </AutoCompleteBox>
-                        <AutoCompleteBox Grid.Column="0" Grid.Row="1" Classes="SpeciesSelect" TabIndex="2"
-                                         KeyDown="species_search_KeyDown" 
+                        <TextBox Grid.Column="0" Grid.Row="1" Classes="SpeciesSelect" TabIndex="2" AcceptsReturn="True"
                                     IsEnabled="{Binding $parent[ListBox].((vm:QuadratViewModel)DataContext).CanEditSurvey}"
-                                    IsVisible="{Binding !IsPlaceHolder}"
-                                    x:Name="notes_search" 
-					    			AsyncPopulator="{Binding $parent[ListBox].((vm:QuadratViewModel)DataContext).NotesSearchFunction}"
-							        FilterMode="None"
-							        PlaceholderText="Search Notes ...."
+                                    IsVisible="{Binding !IsPlaceHolder}" Tag="{Binding .}" IsReadOnly="{Binding !CanEdit}"
+                                    Name="notes_search" 
+							        PlaceholderText="Enter Notes ...."
                                     MaxLength="80"
-                                    IsTextCompletionEnabled="False"
-                                    MinimumPrefixLength="{Binding $parent[ListBox].((vm:QuadratViewModel)DataContext).MinimumPrefixCharacters}"
-    					            Text="{Binding Notes, Mode=TwoWay}"
-						            MaxDropDownHeight="200">
-                            </AutoCompleteBox>
+                                    KeyDown="NavigateFromTab"
+    					            Text="{Binding Notes, Mode=TwoWay}"> </TextBox>
 
-                        <TextBox KeyDown="TextBox_KeyDown" AcceptsReturn="True"
-                                 PlaceholderText="Enter QA Notes..." Grid.Column="2" Grid.Row="1" TabIndex="12" Tag="{Binding .}"
-                                 Text="{Binding QANotes}" Classes="QANotes"  IsReadOnly="{Binding !CanEdit}"/>
                         <Grid Grid.Column="1" Grid.Row="0"
                             ColumnDefinitions="3,auto,60,auto,60,auto,60,auto" RowDefinitions="auto,auto" Width="200">
 

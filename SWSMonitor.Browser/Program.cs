@@ -50,7 +50,14 @@ internal sealed partial class Program
             else
             {
                 AppBuilder builder = await BuildAvaloniaApp(isNotDesigner: true);
-                await builder.StartBrowserAppAsync("out");
+                try
+                {
+                    await builder.StartBrowserAppAsync("out");
+                }
+                catch (Exception exc)
+                {
+                    TraceLogger.LogWarningAuto(exc.ToString());
+                }
             }
         }
         catch (Exception ex)
