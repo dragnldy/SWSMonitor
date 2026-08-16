@@ -295,7 +295,7 @@ public class TeamViewModel : WizardViewModelBase, INotifyDataErrorInfo
     private bool GoodInt(string value, int min, int max)
     {
         if (string.IsNullOrEmpty(value))
-            return false;
+            return true;
         if (int.TryParse(value, out int num))
             return num >= min && num <= max;
         return false;
@@ -386,6 +386,8 @@ public class TeamViewModel : WizardViewModelBase, INotifyDataErrorInfo
     Regex regexTime = new Regex("^(?:2[0-3]|[01]?\\d):[0-5]\\d$");
     private bool IsGoodTime(string value)
     {
+        if (string.IsNullOrEmpty(value))
+            return true;
         var matches = regexTime.Match(value);
         return matches.Success;
     }
@@ -411,10 +413,6 @@ public class TeamViewModel : WizardViewModelBase, INotifyDataErrorInfo
                 }
             }
 
-            if (!IsGoodTime(value)) 
-            { 
-                value = _endTime; 
-            } 
             this.RaiseAndSetIfChanged(ref _endTime, value); }
     }
     private string ExtractTime(DateTime? datevalue)
@@ -447,41 +445,64 @@ public class TeamViewModel : WizardViewModelBase, INotifyDataErrorInfo
 
     private void OnActivated()
     {
-        _isLoading = true;
-        var loadedSurvey = (HostScreen as HomeViewModel)!.LoadedSurvey;
-        var beachEvent = loadedSurvey?.BeachEvent;
+        try
+        {
+            _isLoading = true;
+            var loadedSurvey = (HostScreen as HomeViewModel)!.LoadedSurvey;
+            var beachEvent = loadedSurvey?.BeachEvent;
 
-        GenerateChecklist(beachEvent);
-        SurveyMembers = new();
+            GenerateChecklist(beachEvent);
+            SurveyMembers = new();
 
-        string originalmembers = beachEvent?.Monitors;
+            string originalmembers = beachEvent?.Monitors;
 
-        IEnumerable<MonitorBase> monitorList = MonitorBase.DecodeMonitorList(originalmembers);
-        // Normalize the list in case there are any issues with nulls or empty strings or ordering
-        loadedSurvey!.BeachEvent!.Monitors = CleanupString(MonitorBase.EncodeMonitorList(monitorList));
+            IEnumerable<MonitorBase> monitorList = MonitorBase.DecodeMonitorList(originalmembers);
+            // Normalize the list in case there are any issues with nulls or empty strings or ordering
+            loadedSurvey!.BeachEvent!.Monitors = CleanupString(MonitorBase.EncodeMonitorList(monitorList));
 
-        monitorList.ToList().ForEach(n => SurveyMembers.Add(new SurveyMember(n.Monitor, n.IsLead, n.IsSpeciesExpert, this, CanEditSurvey)));
+            monitorList.ToList().ForEach(n => SurveyMembers.Add(new SurveyMember(n.Monitor, n.IsLead, n.IsSpeciesExpert, this, CanEditSurvey)));
 
-        this.RaisePropertyChanged(nameof(SurveyMembers));
-        this.Notes = beachEvent.BeachProfileNotes = CleanupString(beachEvent!.BeachProfileNotes);
-        this.QuadratNotes = beachEvent!.QuadratNotes = CleanupString(beachEvent.QuadratNotes);
+            this.RaisePropertyChanged(nameof(SurveyMembers));
+            this.Notes = beachEvent.BeachProfileNotes = CleanupString(beachEvent!.BeachProfileNotes);
+            this.QuadratNotes = beachEvent!.QuadratNotes = CleanupString(beachEvent.QuadratNotes);
 
-        StartTime = loadedSurvey!.StartTime;
-        EndTime = loadedSurvey!.EndTime;
+            // Access saved their times with fake date in front
+            loadedSurvey!.StartTime = PreCleanTimes(loadedSurvey!.StartTime);
+            loadedSurvey!.EndTime = PreCleanTimes(loadedSurvey!.EndTime);
 
-        TideHt1 = loadedSurvey!.Tide1Ht.ToString();
-        TideHt2 = loadedSurvey!.Tide2Ht.ToString();
-        TideHt3 = loadedSurvey!.Tide3Ht.ToString();
+            StartTime = loadedSurvey!.StartTime;
+            EndTime = loadedSurvey!.EndTime;
 
-        beachEvent.BackshoreContents = CleanupString(beachEvent.BackshoreContents);
-        beachEvent.SpeciesObserved = CleanupString(beachEvent!.SpeciesObserved);
+            TideHt1 = loadedSurvey!.Tide1Ht.ToString();
+            TideHt2 = loadedSurvey!.Tide2Ht.ToString();
+            TideHt3 = loadedSurvey!.Tide3Ht.ToString();
 
-        _originalSurveyBase = JsonSerializer.Serialize((SurveyBase)loadedSurvey);
-        _originalBeachEvent = JsonSerializer.Serialize(beachEvent);
+            beachEvent.BackshoreContents = CleanupString(beachEvent.BackshoreContents);
+            beachEvent.SpeciesObserved = CleanupString(beachEvent!.SpeciesObserved);
 
-        _errorsViewModel.ClearErrors();
-        _isLoading = false;
-        IsDirty = false;
+            _originalSurveyBase = JsonSerializer.Serialize((SurveyBase)loadedSurvey);
+            _originalBeachEvent = JsonSerializer.Serialize(beachEvent);
+
+            _errorsViewModel.ClearErrors();
+            _isLoading = false;
+            IsDirty = false;
+        }
+        catch (Exception ex)
+        {
+            // Handle any exceptions that occur during activation
+            TraceLogger.LogWarningAuto($"Error during activation: {ex.Message}");
+        }
+    }
+
+    private string PreCleanTimes(string time)
+    {
+        if (string.IsNullOrEmpty(time)) return time;
+        if (time.StartsWith("1899"))
+            time = time.Replace("1899-12-30 ", "");
+        if (time.EndsWith(":00") && time.Length == 8)
+            time = time[..5];
+
+        return time;
     }
 
     private string? CleanupString(string? instring)
