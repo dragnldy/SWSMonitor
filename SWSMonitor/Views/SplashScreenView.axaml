@@ -14,10 +14,10 @@
         <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Stretch">
             <StackPanel Orientation="Horizontal" Height="50" Background="{DynamicResource ResourceKey=PaneBackground}" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Top" >
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="20,0,0,0">
                     <Label Content="{Binding PageTitle}" Margin="0,0,10,0" FontSize="20" FontWeight="Bold" FontStyle="Italic" 
                       VerticalContentAlignment="Center"/>
-                    <TextBlock Text="or Login" IsVisible="{Binding UserCanSignIn}" PointerPressed="Login_PointerPressed"
+                    <TextBlock Text="or Login" IsVisible="{Binding UserCanSignIn}" Cursor="Hand" PointerPressed="Login_PointerPressed"
                           Foreground="#D41E0E" FontSize="20" FontWeight="Bold" FontStyle="Italic" VerticalAlignment="Center"/>
               </StackPanel>
            </StackPanel>
