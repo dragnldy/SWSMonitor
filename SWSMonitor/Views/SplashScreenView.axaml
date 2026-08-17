@@ -34,7 +34,7 @@
                 </Popup>
 
             <Border Background="Transparent" Height="600" ClipToBounds="True" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-               <Image Source="avares://SWSMonitor/Assets/BeachTransparent.png" 
+               <Image Source="avares://SWSMonitor/Assets/BeachTransparentS.png" 
                       Stretch="UniformToFill"
                       HorizontalAlignment="Stretch" 
                       VerticalAlignment="Top"
