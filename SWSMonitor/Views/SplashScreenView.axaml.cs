@@ -40,6 +40,31 @@ public partial class SplashScreenView : ReactiveUserControl<SplashScreenViewMode
     }
 
 
+    private async void Login_PointerPressed(object? sender, Avalonia.Input.PointerPressedEventArgs e)
+    {
+        if (DataContext is SplashScreenViewModel viewModel)
+        {
+            //var cloudAuthConfig =
+            //    StaticData.ServiceProvider?.GetRequiredService<ICloudAuthConfig>()
+            //    ?? throw new InvalidOperationException("ICloudAuthConfig not registered in DI container");
+
+
+            if (!StaticData.UserCanLogin)
+            {
+                var result = await Dispatcher.InvokeAsync(async () =>
+                {
+                    var box = MessageBoxManager.GetMessageBoxStandard(
+                        "Not Supported",
+                        "Error logging in as authorized user\n" +
+                        "-- Only supported on Chrome\n-- Requires gmail account.",
+                        ButtonEnum.Ok);
+
+                    return await box.ShowAsync();
+                });
+            }
+            await viewModel.DoLoginAsync();
+        }
+    }
     private async void LoginButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         if (DataContext is SplashScreenViewModel viewModel)
@@ -72,3 +97,4 @@ public partial class SplashScreenView : ReactiveUserControl<SplashScreenViewMode
         ViewModel.ClosePopup();
     }
 }
+ 

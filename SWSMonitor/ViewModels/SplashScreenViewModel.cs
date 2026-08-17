@@ -31,8 +31,20 @@ namespace SWSMonitor.ViewModels
             set { this.RaiseAndSetIfChanged(ref _pageTitle, value); }
         }
 
+        public bool _userCanSignIn = false;
+        public bool UserCanSignIn
+        {
+            get => !StaticData.UserIsSignedIn && StaticData.UserCanLogin && _userCanSignIn;
+            set { this.RaiseAndSetIfChanged(ref _userCanSignIn, value); }
+        }
+
+
         public bool _titleVisible = false;
-        public bool TitleVisible => _titleVisible;
+        public bool TitleVisible
+        {
+            get => _titleVisible;
+            set { this.RaiseAndSetIfChanged(ref _titleVisible, value); }
+        }
 
         private string _splashMessage = "Welcome to  SWS Intertidal Monitoring!";
         public string SplashMessage
@@ -101,6 +113,7 @@ namespace SWSMonitor.ViewModels
                     }
 
                     PageTitle = $"Welcome {StaticData.UserName}";
+                    UserCanSignIn = !StaticData.UserIsSignedIn;
                 }
                 else
                 {
@@ -122,8 +135,9 @@ namespace SWSMonitor.ViewModels
         {
             if (StaticData.UserCanLogin)
             {
-                _pageTitle = "Browse as our Guest or Login";
+                _pageTitle = "Browse as our Guest";
                 _titleVisible = true;
+                UserCanSignIn = true;
             }
             else
             {

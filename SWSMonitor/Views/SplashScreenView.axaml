@@ -12,9 +12,14 @@
         </Design.DataContext>
     <Border BorderBrush="Black" BorderThickness="2">
         <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Stretch">
-           <StackPanel Height="50" Background="{DynamicResource ResourceKey=PaneBackground}" VerticalAlignment="Top">
-			    <Button Content="{Binding PageTitle}" IsVisible="{Binding TitleVisible}" FontSize="24" FontWeight="Bold" FontStyle="Italic" HorizontalAlignment="Center" VerticalAlignment="Top"
-                   Click="LoginButton_Click"/>
+            <StackPanel Orientation="Horizontal" Height="50" Background="{DynamicResource ResourceKey=PaneBackground}" 
+                        HorizontalAlignment="Stretch" VerticalAlignment="Top" >
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
+                    <Label Content="{Binding PageTitle}" Margin="0,0,10,0" FontSize="20" FontWeight="Bold" FontStyle="Italic" 
+                      VerticalContentAlignment="Center"/>
+                    <TextBlock Text="or Login" IsVisible="{Binding UserCanSignIn}" PointerPressed="Login_PointerPressed"
+                          Foreground="#D41E0E" FontSize="20" FontWeight="Bold" FontStyle="Italic" VerticalAlignment="Center"/>
+              </StackPanel>
            </StackPanel>
             <Popup IsOpen="{Binding IsPopupOpen}">
                <Border Background="DarkGray" BorderBrush="{DynamicResource ResourceKey=PaneBackground}" BorderThickness="2" Padding="10">
@@ -27,13 +32,25 @@
 				</Border>
 
                 </Popup>
-           <StackPanel Orientation="Vertical">
-	    	<Label Content="{Binding SplashMessage}" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,150,0,0"/>
-            <Image Source="avares://SWSMonitor/Assets/Sound-water-stewards-logo-ic.png" HorizontalAlignment="Center"
-               Margin="0,50,0,0" Height="200" />
+
+            <Border Background="Transparent" Height="600" ClipToBounds="True" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+               <Image Source="avares://SWSMonitor/Assets/BeachTransparent.png" 
+                      Stretch="UniformToFill"
+                      HorizontalAlignment="Stretch" 
+                      VerticalAlignment="Top"
+                      Margin="0,0,0,0" />
+           </Border>
+           <StackPanel Orientation="Vertical" Margin="0,-350,0,0">
+               <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top">
+	    	        <Label Background="#0C59F2DF" Content="{Binding SplashMessage}" FontSize="26" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,10,0,0"/>
+                   <StackPanel Background="#0C59F2FC" Margin="0,50,0,0">
+                    <Image Source="avares://SWSMonitor/Assets/Sound-water-stewards-logo-ic.png" HorizontalAlignment="Center"
+                       Height="200" />
+                    </StackPanel>
+               </StackPanel>
                <Label Content="{Binding SplashMessage2}" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,50,0,0"/>
                <Label Content="{Binding SplashMessage3}" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,15,0,15"/>
-               <HyperlinkButton NavigateUri="{Binding SWSUrl}" Foreground="Red" FontSize="18" FontStyle="Italic" HorizontalAlignment="Center"
+               <HyperlinkButton NavigateUri="{Binding SWSUrl}" Foreground="#D41E0E" FontSize="18" FontStyle="Italic" HorizontalAlignment="Center"
                          Content="{Binding SWSLink}" />
           </StackPanel>
         </StackPanel>
