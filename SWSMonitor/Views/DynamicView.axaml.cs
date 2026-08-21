@@ -61,7 +61,7 @@ public partial class DynamicView : UserControl
         }
         catch (Exception ex)
         {
-
+            TraceLogger.LogErrorAuto(ex.ToString());
         }
     }
 

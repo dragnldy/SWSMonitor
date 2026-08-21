@@ -9,17 +9,17 @@
              x:Class="SWSMonitor.MapWebView"
              x:CompileBindings="False"
              x:DataType="vm:MapWebViewModel"
-             Width="1600"
+             Width="1200"
              Height="800">
 	<Design.DataContext>
 		<vm:MapWebViewModel />
 	</Design.DataContext>
 
-    <Grid ColumnDefinitions="*,*" RowDefinitions="800" Margin="10,0,0,0">
+    <Grid ColumnDefinitions="400,800" RowDefinitions="800" Margin="0,0,0,0" Name="OuterView">
         <StackPanel Grid.Column="0" Grid.Row ="0" VerticalAlignment="Top" HorizontalAlignment="Stretch">
             <TextBlock Text="Beaches Monitored by SWS" FontSize="18" Margin="10" HorizontalAlignment="Center"/>
             <!-- The map control will stretch to fill this grid row -->
-            <local:EmbedLeaflet MaxWidth="400" MaxHeight="600" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <local:EmbedLeaflet MaxWidth="400" MaxHeight="800" HorizontalAlignment="Left" VerticalAlignment="Center"/>
         </StackPanel>
          <Grid Grid.Column="1" Grid.Row ="0" ColumnDefinitions="3*,2*" RowDefinitions="*,*">
             <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Stretch">
@@ -41,7 +41,7 @@
                     BorderThickness="1" 
                     BorderBrush="{DynamicResource SystemAccentColor}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Beach" Width="250"  Binding="{Binding BeachName}"/>
+                    <DataGridTextColumn Header="Beach" Width="220"  Binding="{Binding BeachName}"/>
                     <DataGridTextColumn Header="Latitude"  Binding="{Binding Lat}" MaxWidth="100"/>
                     <DataGridTextColumn Header="Longitude"  Binding="{Binding Long}" MaxWidth="120"/>
                     <DataGridCheckBoxColumn Header="Active?"  Binding="{Binding IsCurrentlyMonitored}"/>
@@ -62,7 +62,7 @@
                     BorderThickness="1" 
                     BorderBrush="{DynamicResource SystemAccentColor}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Beach" Binding="{Binding BeachName}" Width="200"/>
+                    <DataGridTextColumn Header="Beach" Binding="{Binding BeachName}" Width="150"/>
                     <DataGridTextColumn Header="Survey Date" Binding="{Binding SurveyDateOnly}"/>
                 </DataGrid.Columns>
             </DataGrid>

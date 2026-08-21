@@ -112,6 +112,10 @@ public class MapWebViewModel : ViewModelBase, INotifyPropertyChanged
             ((n.Island.Equals("Whidbey") && IsWhidbey) || (n.Island.Equals("Camano") && IsCamano))
             ))
         {
+            // Skip beaches with invalid coordinates
+            if (beach.Lat == 0.0 || beach.Long == 0.0)
+                continue;
+
             Beaches.Add(beach);
             foreach (SurveyBase surveybase in StaticData.Surveys!.Where(s => s.BeachName == beach.BeachName).
                 OrderByDescending(o => o.SurveyDate))
@@ -127,8 +131,8 @@ public class MapWebViewModel : ViewModelBase, INotifyPropertyChanged
             StaticData.Beaches = await BeachDataCrud.ReadAllBeachDataAsync(StaticData.DataSourceConfig);
         }
         FilterBeachList();
-        MapPositionLat = StaticData.Beaches.Where(b => (b.Lat != null) && b.Lat > 0).Average(b => b.Lat);
-        MapPositionLong = StaticData.Beaches.Where(b => (b.Long != null) && Math.Abs(b.Long) > 0).Average(b => b.Long);
+        MapPositionLat = StaticData.Beaches.Where(b => (b.Lat > 0)).Average(b => b.Lat);
+        MapPositionLong = StaticData.Beaches.Where(b => (Math.Abs(b.Long) > 0)).Average(b => b.Long);
 
     }
 

@@ -220,6 +220,7 @@ public partial class HomeViewModel :ViewModelBase, INotifyPropertyChanged
         catch (Exception ex)
         {
             var message = "Error parsing current page type and converting to enum";
+            TraceLogger.LogErrorAuto(message + " " + ex.ToString());
             GetViewModelById(FirstPageToShow);
         }
     }

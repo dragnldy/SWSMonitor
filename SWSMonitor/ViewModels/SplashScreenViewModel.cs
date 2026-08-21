@@ -1,4 +1,7 @@
-﻿using DataLibrary.ApiServices;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
+using DataLibrary.ApiServices;
 using DataLibrary.DataSources.CloudAuth;
 using ReactiveUI;
 using System;
@@ -53,21 +56,21 @@ namespace SWSMonitor.ViewModels
             set { this.RaiseAndSetIfChanged(ref _splashMessage, value); }
         }
 
-        private string _splashMessage2 = "Use this site to view and download data from our Intertidal Monitoring Projects";
+        private string _splashMessage2 = "View and Download\nIntertidal Monitoring Data";
         public string SplashMessage2
         {
             get => _splashMessage2;
             set { this.RaiseAndSetIfChanged(ref _splashMessage2, value); }
         }
 
-        private string _splashMessage3 = "Please use the side-bar menu for navigation.";
+        private string _splashMessage3 = "Use the Side-Bar Menu\n For Navigation.\n\nSite Best Viewed\nOn High Resolution Devices";
         public string SplashMessage3
         {
             get => _splashMessage3;
             set { this.RaiseAndSetIfChanged(ref _splashMessage3, value); }
         }
 
-        public string SWSLink => "Visit Sound Water Stewards to find out more about our projects";
+        public string SWSLink => "Visit Sound Water Stewards For Project Information";
         public string SWSUrl => "https://soundwaterstewards.org/projects/intertidal-monitoring/";
 
         private string _userEmail = "Loading...";
@@ -77,6 +80,89 @@ namespace SWSMonitor.ViewModels
             set => this.RaiseAndSetIfChanged(ref _userEmail, value);
         }
 
+        // Properties for device and window dimensions
+        private double _viewportWidth;
+        public double ViewportWidth
+        {
+            get => _viewportWidth;
+            set => this.RaiseAndSetIfChanged(ref _viewportWidth, value);
+        }
+
+        private double _viewportHeight;
+        public double ViewportHeight
+        {
+            get => _viewportHeight;
+            set => this.RaiseAndSetIfChanged(ref _viewportHeight, value);
+        }
+
+        private double _screenWidth;
+        public double ScreenWidth
+        {
+            get => _screenWidth;
+            set => this.RaiseAndSetIfChanged(ref _screenWidth, value);
+        }
+
+        private double _screenHeight;
+        public double ScreenHeight
+        {
+            get => _screenHeight;
+            set => this.RaiseAndSetIfChanged(ref _screenHeight, value);
+        }
+
+        private double _clientHeight;
+        public double ClientHeight
+        {
+            get => _clientHeight;
+            set => this.RaiseAndSetIfChanged(ref _clientHeight, value);
+        }
+
+        private double _clientWidth;
+        public double ClientWidth
+        {
+            get => _clientWidth;
+            set => this.RaiseAndSetIfChanged(ref _clientWidth, value);
+        }
+
+        /// <summary>
+        /// Called when the view is loaded to capture device and window/viewport dimensions
+        /// Works for both Desktop and WASM/Browser applications
+        /// </summary>
+        /// <param name="control">The control to get the TopLevel from</param>
+        public void OnLoad(Control control)
+        {
+            try
+            {
+                // Get the TopLevel (works for both Desktop Window and Browser ViewPort)
+                var topLevel = TopLevel.GetTopLevel(control);
+
+                if (topLevel != null)
+                {
+                    // Get viewport/window client dimensions
+                    ViewportWidth = topLevel.ClientSize.Width;
+                    ViewportHeight = topLevel.ClientSize.Height;
+
+                    // Get screen dimensions
+                    var screen = topLevel!.Screens!.Primary;
+                    if (screen != null)
+                    {
+                        ScreenWidth = screen.Bounds.Width;
+                        ScreenHeight = screen.Bounds.Height;
+                    }
+
+                    // Subscribe to size changes to keep dimensions updated
+                    topLevel.SizeChanged += (sender, e) =>
+                    {
+                        ViewportWidth = e.NewSize.Width;
+                        ViewportHeight = e.NewSize.Height;
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log error if needed
+                System.Diagnostics.Debug.WriteLine($"Error getting dimensions: {ex.Message}");
+            }
+        }
         public async Task DoLoginAsync()
         {
             try

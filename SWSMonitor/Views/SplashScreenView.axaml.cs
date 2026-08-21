@@ -21,6 +21,7 @@ public partial class SplashScreenView : ReactiveUserControl<SplashScreenViewMode
         this.WhenActivated((ReactiveUI.Primitives.Disposables.MultipleDisposable disposables) => { });
         AvaloniaXamlLoader.Load(this);
     }
+
     public async Task SetBusy(bool isBusy)
     {
         //this.Cursor = isBusy
@@ -35,8 +36,15 @@ public partial class SplashScreenView : ReactiveUserControl<SplashScreenViewMode
     protected override async void OnLoaded(RoutedEventArgs e)
     {
         base.OnLoaded(e);
+
+        if (ViewModel != null)
+        {
+            ViewModel.OnLoad(this);
+        }
+
         await SetBusy(false);
         // Control is fully ready, layout has occurred, and templates are applied.
+        // Call the ViewModel's OnLoad to get device and window dimensions
     }
 
 

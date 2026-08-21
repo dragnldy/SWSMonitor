@@ -298,7 +298,6 @@ public partial class LoginPopupViewModel : ViewModelBase, INotifyPropertyChanged
             MainWindowViewModel.Current?.ShowStatus($"Google sign-in error: {ex.Message}", useTimer: true);
             return null;
         }
-        return null;
     }
     public static async Task<GoogleAuthUser?> ParseUserCredentials(GoogleAuthUser? user)
     {

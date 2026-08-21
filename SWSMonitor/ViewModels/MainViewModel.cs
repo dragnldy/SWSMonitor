@@ -8,36 +8,42 @@ namespace SWSMonitor.ViewModels;
 
 public class MainViewModel : MainWindowModel
 {
+    public static double XOffsetMainView = 0.0;
+    public static double YOffsetMainView = 0.0;
     public void SetBusy(bool isBusy)
     {
-        IsPopupOpen = isBusy;
+        MainView.ViewInstance.SetBusy(isBusy);
+//        IsPopupOpen = isBusy;
     }
 
     public override async Task ShowBusyPopup(string? message) 
     {
-        Dispatcher.UIThread.Post(() =>
-        {
-            SetBusy(true);
-            MainView.ViewInstance.LoadingText.Text = message;
-            MainView.ViewInstance.PopupOverlay.IsVisible = true;
-            MainView.ViewInstance.PopupOverlay.InvalidateVisual();
-        });
+        SetBusy(true);
 
-        await Dispatcher.UIThread.InvokeAsync(async () =>
-        {
-            MainView.ViewInstance.PopupOverlay.InvalidateVisual();
-            // Heavy work or UI updates happen here
-            await Task.Delay(100);
-        });
+        //Dispatcher.UIThread.Post(() =>
+        //{
+        //    SetBusy(true);
+        //    //MainView.ViewInstance.LoadingText.Text = message;
+        //    //MainView.ViewInstance.PopupOverlay.IsVisible = true;
+        //    //MainView.ViewInstance.PopupOverlay.InvalidateVisual();
+        //});
+
+        //await Dispatcher.UIThread.InvokeAsync(async () =>
+        //{
+        //    MainView.ViewInstance.PopupOverlay.InvalidateVisual();
+        //    // Heavy work or UI updates happen here
+        //    await Task.Delay(100);
+        //});
     }
     public override async Task ShowNoBusyPopup()
     {
-        await Dispatcher.UIThread.InvokeAsync(() =>
-        {
-            SetBusy(false);
-            MainView.ViewInstance.PopupOverlay.IsVisible = false;
-            MainView.ViewInstance.PopupOverlay.InvalidateVisual();
-        });
+        SetBusy(false);
+
+        //await Dispatcher.UIThread.InvokeAsync(() =>
+        //{
+        //    //MainView.ViewInstance.PopupOverlay.IsVisible = false;
+        //    //MainView.ViewInstance.PopupOverlay.InvalidateVisual();
+        //});
     }
 
     public static MainViewModel? Current;
@@ -322,10 +328,9 @@ public partial class BrowserItemViewModel : ViewModelBase, INotifyPropertyChange
     {
         // Called after user logs in or out to refresh menu item access
         // Call this to trigger menu changes
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsAllowedForCurrentUser)));
+        this.RaisePropertyChanged(nameof(IsAllowedForCurrentUser));
     }
 
-    public event PropertyChangedEventHandler? PropertyChanged;
     public BrowserItemViewModel(string header, string svgImagePath, ViewModelBase contentViewModel, AppRoleEnum roleRequired)
     {
         Header = header;

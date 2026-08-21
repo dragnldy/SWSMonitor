@@ -66,10 +66,10 @@
     </Application.Styles>
 
     <Application.Resources>
-        <SolidColorBrush x:Key="ListBoxBorder">#ab19d5</SolidColorBrush>
+        <SolidColorBrush x:Key="ListBoxBorder">#FD5615</SolidColorBrush>
         <SolidColorBrush x:Key="PrimaryText">#CFCFCF</SolidColorBrush>
         <LinearGradientBrush x:Key="PaneBackground" StartPoint="0%,0%" EndPoint="0%,100%">
-            <GradientStop Color="#ab19d5" Offset="0"/>
+            <GradientStop Color="#FD5615" Offset="0"/>
             <GradientStop Color="#111214" Offset="1"/>
         </LinearGradientBrush>
         <SolidColorBrush x:Key="PrimaryBackground">#14172D</SolidColorBrush>

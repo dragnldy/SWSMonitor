@@ -1,3 +1,4 @@
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform;
@@ -17,6 +18,10 @@ public partial class MapWebView : UserControl
     public static double MapStartPositionLong;
     public static double MapStartPositionLat;
     public static int MapStartZoom = 10;
+
+    public static int lastXOffset = 0;
+    public static int lastYOffset = 0;
+
 
     private bool _beachesLoaded = false;
     private BeachData _lastSelectedBeach = null;
@@ -149,6 +154,40 @@ public class EmbedLeaflet : NativeControlHost
     {
         // Always call the base method first to raise the Loaded event
         base.OnLoaded(args);
+        var topLevel = TopLevel.GetTopLevel(this);
+        if (topLevel != null)
+        {
+            topLevel.SizeChanged += TopLevel_SizeChanged;
+            // Translates the control's top-left corner (0,0) relative to the window/toplevel root
+            Point? relativePoint = this.TranslatePoint(new Point(0, 0), topLevel);
+            MapWebView.lastXOffset = (int)relativePoint.Value.X;
+            MapWebView.lastYOffset = (int)relativePoint.Value.Y;
+        }
+    }
+    private void TopLevel_SizeChanged(object? sender, SizeChangedEventArgs e)
+    {
+        var topLevel = TopLevel.GetTopLevel(this);
+        // Translates the control's top-left corner (0,0) relative to the window/toplevel root
+        Point? relativePoint = this.TranslatePoint(new Point(0, 0), topLevel);
+
+        if (relativePoint.HasValue)
+        {
+            if ((int)MapWebView.lastXOffset != (int)relativePoint.Value.X || (int)MapWebView.lastYOffset != (int)relativePoint.Value.Y)
+            {
+               RepositionMap((int)relativePoint.Value.X - MapWebView.lastXOffset, 
+                   (int)relativePoint.Value.Y - MapWebView.lastYOffset);
+
+                MapWebView.lastXOffset = (int)relativePoint.Value.X;
+                MapWebView.lastYOffset = (int)relativePoint.Value.Y;
+            }
+        }
+
+
+    }
+
+    internal void RepositionMap(int x, int y)
+    {
+        NativeMethods.RepositionDivRelative("leftlet-map", x, y);
     }
 
     public void LoadMapMarkersAfterTimeout(IEnumerable<BeachData> beaches)

@@ -18,7 +18,7 @@
                     <Label Content="{Binding PageTitle}" Margin="0,0,10,0" FontSize="20" FontWeight="Bold" FontStyle="Italic" 
                       VerticalContentAlignment="Center"/>
                     <TextBlock Text="or Login" IsVisible="{Binding UserCanSignIn}" Cursor="Hand" PointerPressed="Login_PointerPressed"
-                          Foreground="#D41E0E" FontSize="20" FontWeight="Bold" FontStyle="Italic" VerticalAlignment="Center"/>
+                          Foreground="Black" FontSize="20" FontWeight="Bold" FontStyle="Italic" VerticalAlignment="Center"/>
               </StackPanel>
            </StackPanel>
             <Popup IsOpen="{Binding IsPopupOpen}">
@@ -40,19 +40,24 @@
                       VerticalAlignment="Top"
                       Margin="0,0,0,0" />
            </Border>
-           <StackPanel Orientation="Vertical" Margin="0,-350,0,0">
+           <StackPanel Orientation="Vertical" Margin="0,-530,0,0">
                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top">
-	    	        <Label Content="{Binding SplashMessage}" FontSize="26" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,10,0,0"/>
-                   <StackPanel Margin="0,50,0,0">
-                    <Image Source="avares://SWSMonitor/Assets/Sound-water-stewards-logo-ic.png" HorizontalAlignment="Center"
-                       Height="200" />
-                    </StackPanel>
+                    <Image Source="avares://SWSMonitor/Assets/Sound Water Graphic.png" HorizontalAlignment="Center"
+                       Height="400" />
                </StackPanel>
-               <Label Content="{Binding SplashMessage2}" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,50,0,0"/>
-               <Label Content="{Binding SplashMessage3}" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,15,0,15"/>
-               <HyperlinkButton NavigateUri="{Binding SWSUrl}" Foreground="#D41E0E" FontSize="18" FontStyle="Italic" HorizontalAlignment="Center"
-                         Content="{Binding SWSLink}" />
           </StackPanel>
+          <Grid ColumnDefinitions="*,*,*" RowDefinitions="200" >
+              <TextBlock Text="{Binding SplashMessage3}" FontSize="12" HorizontalAlignment="Center" TextAlignment="Center"
+                         VerticalAlignment="Top"/>
+              <StackPanel Orientation="Vertical" Grid.Column="1" VerticalAlignment="Top">
+                   <TextBlock Text="{Binding SplashMessage2}" FontSize="22" FontWeight="Bold" HorizontalAlignment="Center"  
+                          TextAlignment="Center"/>
+              </StackPanel>
+              <HyperlinkButton Grid.Column="2" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Center"
+                  NavigateUri="{Binding SWSUrl}" Foreground="#D41E0E" FontSize="12" FontStyle="Italic" 
+                             Content="{Binding SWSLink}" />
+
+          </Grid>
         </StackPanel>
     </Border>
 </UserControl>

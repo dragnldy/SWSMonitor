@@ -371,7 +371,7 @@ public class SurveyViewModel : WizardViewModelBase
             }
             catch (Exception ex)
             {
-
+                TraceLogger.LogErrorAuto(ex.ToString());
             }
         }
         if (e.PropertyName == nameof(IsWhidbey) || e.PropertyName == nameof(IsCamano))

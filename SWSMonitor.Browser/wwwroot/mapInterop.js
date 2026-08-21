@@ -1,15 +1,23 @@
-﻿export function createAndInitializeMap(elementId, lat, lng, zoom) {
+﻿export function createAndInitializeMap(elementId, lat, lng, zoom, xoffset, yoffset, width, height) {
+    // Find the position of the nativehost container in the DOM
+    // This is important to ensure the map div is positioned correctly relative to the Avalonia native host
+    const nativeHostContainer = document.querySelector('.avalonia-native-host');
+    if (!nativeHostContainer) {
+        console.error("Native host container not found. Ensure that the Avalonia native host is present in the DOM.");
+        return null;
+    }
     // 1. Create the native HTML div container directly in JS
     const mapDiv = document.createElement('div');
+    nativeHostContainer.appendChild(mapDiv);
     console.log("Creating div for Leaflet map with ID:", elementId);
     mapDiv.id = elementId;
     mapDiv.style.position = 'relative';
-    mapDiv.style.top = '100px';
-    mapDiv.style.left = '200px';
-    mapDiv.style.width = '40%';
-    mapDiv.style.height = '80%';
-    mapDiv.style.zIndex = '1000'; // Ensure it appears above other elements
-    mapDiv.style.backgroundColor = 'transparent'; // Optional: Set a background color for visibility
+    mapDiv.style.top = `${yoffset}px`;
+    mapDiv.style.left = `${xoffset}px`;
+    mapDiv.style.width = `${width}px`;
+    mapDiv.style.height = `${height}px`;
+    mapDiv.style.zIndex = '999'; // Ensure it appears above other elements
+    mapDiv.style.backgroundColor = 'white'; // Optional: Set a background color for visibility
 
     // 2. Initialize Leaflet onto the created element layout
     // A short timeout gives Avalonia time to finish embedding the element into the layout frame

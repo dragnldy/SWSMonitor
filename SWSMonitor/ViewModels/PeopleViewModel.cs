@@ -210,7 +210,7 @@ public partial class PeopleViewModel : ViewModelBase, INotifyPropertyChanged
         }
         catch (Exception ex)
         {
-            TraceLogger.LogErrorAuto("Error loading volunteers");
+            TraceLogger.LogErrorAuto("Error loading volunteers " + ex.ToString());
         }
     }
 

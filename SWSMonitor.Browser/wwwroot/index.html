@@ -7,16 +7,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Sound Water Stewards Beach Survey Application">
     <meta name="theme-color" content="#0066cc">
-    <base href="/SWSMonitor/" />
+    <base href="/" />
     <link rel="manifest" href="./manifest.json">
     <link rel="stylesheet" href="./app.css" />
 
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="leaflet.awesome-markers.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
-</head>
+        <style>
+        #spinner-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
 
+        .spinner {
+            width: 300px;
+            height: 300px;
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        #spinner-overlay.hidden {
+            display: none;
+        }
+    </style>
+
+</head>
 <body style="margin: 0; overflow: hidden; background-color: black; background-image: url('./HeroBanner.png'); background-size: cover; background-position: center; background-repeat: repeat-y;">
+    <div id="spinner-overlay" >
+        <div class="spinner"></div>
+    </div>
+
     <div id="out">
         <div class="avalonia-splash" style="background-color: transparent">
             <div>
@@ -37,6 +78,48 @@
     <script type='module' src="./errorInterop.js"></script>
     <script type='module' src="./mapInterop.js"></script>
     <script src="https://accounts.google.com/gsi/client"></script>
-</body>
+    <script>
+        window.getCanvasCoordinates = function (elementId) {
+            // Avalonia's default template usually uses 'out' or an explicit ID for the canvas container
+            const element = document.getElementById(elementId || 'out');
+            if (!element) return { x: 0, y: 0 };
 
+            const rect = element.getBoundingClientRect();
+            console.log(`Element ${elementId || 'out'} position: left=${rect.left}, top=${rect.top}`);
+
+            return {
+                x: rect.left,
+                y: rect.top
+            };
+        };
+    </script>
+    <script>
+        window.repositionDivRelative = function (divId, deltaX, deltaY) {
+            // Relative positioning from current position
+            const element = document.getElementById(divId);
+            if (element) {
+                const rect = element.getBoundingClientRect();
+                element.style.position = 'absolute';
+                element.style.left = (rect.left + deltaX) + 'px';
+                element.style.top = (rect.top + deltaY) + 'px';
+            }
+        };
+        // Show spinner
+        window.showSpinner = function () {
+            document.getElementById('spinner-overlay').classList.remove('hidden');
+        };
+
+        // Hide spinner
+        window.hideSpinner = function () {
+            var element = document.getElementById('spinner-overlay');
+            if (element) {
+                element.classList.add('hidden');
+            }
+        };
+        //window.addEventListener("load", () => {
+        //    console.log("The entire page, including images, has fully loaded!");
+        //    globalThis.hideSpinner();
+        //});
+    </script>
+</body>
 </html>

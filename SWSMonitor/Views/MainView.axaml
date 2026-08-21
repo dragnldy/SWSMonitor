@@ -5,7 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:SWSMonitor.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             Width="900" Height="800"
+             Width="1200" Height="800"
              x:Class="SWSMonitor.MainView"
              xmlns:svg="using:Avalonia.Svg.Skia"
              x:DataType="vm:MainViewModel">
@@ -14,6 +14,7 @@
          to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:DesignMainViewModel/>
   </Design.DataContext>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Visible">
     <Grid HorizontalAlignment="Stretch">
         <Grid.RowDefinitions >
 			<RowDefinition  Height ="*"/>
@@ -86,4 +87,5 @@
         </StackPanel>
     </Grid>
 </Grid>
+        </ScrollViewer>
 </UserControl>
