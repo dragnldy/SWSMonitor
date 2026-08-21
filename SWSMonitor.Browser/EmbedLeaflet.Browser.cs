@@ -18,7 +18,7 @@ public class EmbedLeafletBrowser : INativeMapControl
         MapWebView.lastYOffset = (int)MainViewModel.YOffsetMainView + 35;
         
 
-        var mapdiv = EmbedInterop.CreateAndInitializeMap("leftlet-map", mapstartlat, mapstartlong, mapstartzoom,
+        var mapdiv = EmbedInterop.CreateAndInitializeMap("MapContainerName", mapstartlat, mapstartlong, mapstartzoom,
             MapWebView.lastXOffset, MapWebView.lastYOffset, 350, 760);
 
         if (mapdiv is null)

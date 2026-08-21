@@ -189,14 +189,14 @@ public class EmbedLeaflet : NativeControlHost
 
     internal void RepositionMap(int x, int y)
     {
-        NativeMethods.RepositionDivRelative("leftlet-map", x, y);
+        NativeMethods.RepositionDivRelative("MapContainerName", x, y);
     }
 
     public void LoadMapMarkersAfterTimeout(IEnumerable<BeachData> beaches)
     {
         foreach (var beach in beaches)
         {
-            MarkersInterop.AddMarker2Map("leftlet-map", beach.Lat, beach.Long, beach.IsMonitored, beach.BeachName, beach.ID.ToString());
+            MarkersInterop.AddMarker2Map("MapContainerName", beach.Lat, beach.Long, beach.IsMonitored, beach.BeachName, beach.ID.ToString());
         }
     }
 

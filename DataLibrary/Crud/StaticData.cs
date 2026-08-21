@@ -31,7 +31,7 @@ public static class StaticData
 
     public static double MapCenterLatitude { get; set; } = 48.13904296296296;
     public static double MapCenterLongitude { get; set; } = -122.52544333333336;
-
+    public static string MapContainerName { get; set; } = "leaflet-map";
     public static bool RunningInBrowser { get; set; } = false;
     public static object MainWindowModel { get; set; } = null;
     public static IServiceProvider? ServiceProvider { get; set; }
