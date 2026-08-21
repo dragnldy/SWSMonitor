@@ -1,7 +1,5 @@
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using MsBox.Avalonia;
-using MsBox.Avalonia.Enums;
 using ReactiveUI;
 using ReactiveUI.Avalonia;
 using SWSMonitor.ViewModels;
@@ -52,57 +50,14 @@ public partial class SplashScreenView : ReactiveUserControl<SplashScreenViewMode
     {
         if (DataContext is SplashScreenViewModel viewModel)
         {
-            //var cloudAuthConfig =
-            //    StaticData.ServiceProvider?.GetRequiredService<ICloudAuthConfig>()
-            //    ?? throw new InvalidOperationException("ICloudAuthConfig not registered in DI container");
-
-
             if (!StaticData.UserCanLogin)
             {
-                var result = await Dispatcher.InvokeAsync(async () =>
-                {
-                    var box = MessageBoxManager.GetMessageBoxStandard(
-                        "Not Supported",
-                        "Error logging in as authorized user\n" +
-                        "-- Only supported on Chrome\n-- Requires gmail account.",
-                        ButtonEnum.Ok);
-
-                    return await box.ShowAsync();
-                });
+                // SHouldn't be able to get here as the login button isn't displayed 
+                TraceLogger.LogErrorAuto("User attempted to login from nonsupported browser");
+                return;
             }
             await viewModel.DoLoginAsync();
         }
-    }
-    private async void LoginButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-    {
-        if (DataContext is SplashScreenViewModel viewModel)
-        {
-            //var cloudAuthConfig =
-            //    StaticData.ServiceProvider?.GetRequiredService<ICloudAuthConfig>()
-            //    ?? throw new InvalidOperationException("ICloudAuthConfig not registered in DI container");
-
-
-            if (!StaticData.UserCanLogin)
-            {
-                var result = await Dispatcher.InvokeAsync(async () =>
-                {
-                    var box = MessageBoxManager.GetMessageBoxStandard(
-                        "Not Supported",
-                        "Error logging in as authorized user\n" +
-                        "-- Only supported on Chrome\n-- Requires gmail account.",
-                        ButtonEnum.Ok);
-
-                    return await box.ShowAsync();
-                });
-            }
-            await viewModel.DoLoginAsync();
-        }
-    }
-
-
-    private void ClosePopup_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-    {
-        ViewModel.ClosePopup();
     }
 }
  

@@ -172,11 +172,8 @@ public partial class MainWindowViewModel : MainWindowModel
         TopMenuItems = new ObservableCollection<MenuItemViewModel>
         {
             // Allowed for all users
-            new MenuItemViewModel("Login", @"avares://SWSMonitor/Assets/user-login.svg", new LoginViewModel(), AppRoleEnum.Public),
             // Only allowed for logged-in users with at least 'view' role
             new MenuItemViewModel("Home", @"avares://SWSMonitor/Assets/home.svg", new HomeViewModel(), AppRoleEnum.View),
-            // Allowed for all users
-            new MenuItemViewModel("Maps", @"avares://SWSMonitor/Assets/map.svg",new MapsViewModel(), AppRoleEnum.Public),
             // Allowed for all users
             new MenuItemViewModel("Data", @"avares://SWSMonitor/Assets/View-Details.svg",new DynamicGridViewModel(), AppRoleEnum.Public),
             // Only allowed for logged-in users with at least 'edit' role

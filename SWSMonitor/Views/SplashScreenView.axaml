@@ -21,17 +21,6 @@
                           Foreground="Black" FontSize="20" FontWeight="Bold" FontStyle="Italic" VerticalAlignment="Center"/>
               </StackPanel>
            </StackPanel>
-            <Popup IsOpen="{Binding IsPopupOpen}">
-               <Border Background="DarkGray" BorderBrush="{DynamicResource ResourceKey=PaneBackground}" BorderThickness="2" Padding="10">
-					<StackPanel>
-						<views:LoginPopupView />
-						<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-							<Button Content="Cancel" Click="ClosePopup_Click"/>
-						</StackPanel>
-					</StackPanel>
-				</Border>
-
-                </Popup>
 
             <Border Background="Transparent" Height="600" ClipToBounds="True" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                <Image Source="avares://SWSMonitor/Assets/BeachTransparentS.png" 
@@ -47,16 +36,19 @@
                </StackPanel>
           </StackPanel>
           <Grid ColumnDefinitions="*,*,*" RowDefinitions="200" >
-              <TextBlock Text="{Binding SplashMessage3}" FontSize="12" HorizontalAlignment="Center" TextAlignment="Center"
+              <TextBlock Grid.Column="0" Grid.Row="0"
+                  Text="{Binding SplashMessage3}" FontSize="12" HorizontalAlignment="Center" TextAlignment="Center"
                          VerticalAlignment="Top"/>
               <StackPanel Orientation="Vertical" Grid.Column="1" VerticalAlignment="Top">
                    <TextBlock Text="{Binding SplashMessage2}" FontSize="22" FontWeight="Bold" HorizontalAlignment="Center"  
                           TextAlignment="Center"/>
               </StackPanel>
-              <HyperlinkButton Grid.Column="2" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Center"
+              <StackPanel Grid.Column="2" Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top">
+                <HyperlinkButton VerticalAlignment="Top" HorizontalAlignment="Center"
                   NavigateUri="{Binding SWSUrl}" Foreground="#D41E0E" FontSize="12" FontStyle="Italic" 
                              Content="{Binding SWSLink}" />
-
+                  <Label Content="{Binding SplashMessage}" Margin="0,15,0,0" HorizontalAlignment="Center"/>
+              </StackPanel>
           </Grid>
         </StackPanel>
     </Border>

@@ -63,7 +63,7 @@ namespace SWSMonitor.ViewModels
             set { this.RaiseAndSetIfChanged(ref _splashMessage2, value); }
         }
 
-        private string _splashMessage3 = "Use the Side-Bar Menu\n For Navigation.\n\nSite Best Viewed\nOn High Resolution Devices";
+        private string _splashMessage3 = "Use the Side-Bar Menu\n For Navigation.\n\nSite Best Viewed\nOn High Resolution Devices\n\nLog Into Chrome Via Gmail\nFor Advanced Features";
         public string SplashMessage3
         {
             get => _splashMessage3;
@@ -199,16 +199,18 @@ namespace SWSMonitor.ViewModels
                     }
 
                     PageTitle = $"Welcome {StaticData.UserName}";
+                    SplashMessage = $"Successfully logged In As {StaticData.UserRole}";
                     UserCanSignIn = !StaticData.UserIsSignedIn;
                 }
                 else
                 {
-                    SplashMessage = $"Error logging in.";
+                    SplashMessage = $"Error logging In.";
                 }
             }
             catch(Exception ex)
             {
-                PageTitle = $"Error logging in {ex.Message}";
+                TraceLogger.LogErrorAuto($"Error logging in {ex.Message}");
+                SplashMessage = $"Error logging In.";
             }
         }
 
@@ -229,7 +231,6 @@ namespace SWSMonitor.ViewModels
             {
                 _pageTitle = "Browse as our Guest";
                 _titleVisible = true;
-
             }
         }
     }

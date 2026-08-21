@@ -240,9 +240,7 @@ public class MainViewModel : MainWindowModel
                 homePage.RefreshData();
             }
             if (/*CurrentPage != value.ContentViewModel &&*/
-                value.ContentViewModel is not SplashScreenViewModel &&
-                value.ContentViewModel is not MapWebViewModel &&
-                value.ContentViewModel is not MapsViewModel)
+                value.ContentViewModel is not SplashScreenViewModel)
                 await ShowBusyPopup($"Loading Data...");
             else
                 await ShowNoBusyPopup();

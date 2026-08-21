@@ -9,17 +9,11 @@
         <DataTemplate DataType="{x:Type vm:SplashScreenViewModel}">
             <views:SplashScreenView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:LoginViewModel}">
-            <views:LoginView/>
-        </DataTemplate>
         <DataTemplate DataType="{x:Type vm:HomeViewModel}">
             <views:HomeView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:SettingsViewModel}">
             <views:SettingsView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:MapsViewModel}">
-            <views:MapsView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:MapWebViewModel}">
             <views:MapWebView/>
@@ -69,7 +63,7 @@
         <SolidColorBrush x:Key="ListBoxBorder">#FD5615</SolidColorBrush>
         <SolidColorBrush x:Key="PrimaryText">#CFCFCF</SolidColorBrush>
         <LinearGradientBrush x:Key="PaneBackground" StartPoint="0%,0%" EndPoint="0%,100%">
-            <GradientStop Color="#FD5615" Offset="0"/>
+            <GradientStop Color="#374FA2" Offset="0"/>
             <GradientStop Color="#111214" Offset="1"/>
         </LinearGradientBrush>
         <SolidColorBrush x:Key="PrimaryBackground">#14172D</SolidColorBrush>

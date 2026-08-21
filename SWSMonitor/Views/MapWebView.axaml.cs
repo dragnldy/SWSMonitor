@@ -5,6 +5,7 @@ using Avalonia.Platform;
 using Microsoft.JSInterop;
 using Models;
 using SWSMonitor.ViewModels;
+using SWSMonitor.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -87,6 +88,7 @@ public partial class MapWebView : UserControl
                 timer.Stop(); // Stop the timer so it only fires once
                 timer.Dispose(); // Dispose the timer
                 SetupMarkers();
+                MainViewModel.Current!.ShowNoBusyPopup();
             };
             timer.AutoReset = false; // Ensure it only fires once
             timer.Start();
