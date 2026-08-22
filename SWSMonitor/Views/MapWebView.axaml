@@ -81,7 +81,7 @@
                             <TextBlock Text="{Binding SelectedBeach.VertRef}" TextWrapping="Wrap" FontSize="12" Margin="8,0,0,1"/>
                             <TextBlock Text="Additional Notes" Foreground="DarkGray" FontSize="14" FontWeight="Bold" FontStyle="Italic"/>
                             <TextBlock Text="{Binding SelectedBeach.AdditionalNotes}" TextWrapping="Wrap" FontSize="12"  Margin="8,0,0,1" />
-                            <Image Source="{Binding Bitmapimage}" Height="200" />
+<!--                            <Image Source="{Binding Bitmapimage}" Height="200" /> -->
                         </StackPanel>
                         </Border>
                     </StackPanel>

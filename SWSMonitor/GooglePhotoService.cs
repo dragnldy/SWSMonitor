@@ -2,6 +2,8 @@
 using Avalonia.Media.Imaging;
 using DynamicData;
 using ExCSS;
+using SkiaSharp;
+using SkiaSharp.Heic;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -125,7 +127,7 @@ public class GooglePhotoService
     }
     public static async Task<Bitmap?> GetGooglePhoto(string year, string beachname)
     {
-        GooglePhotoInfo? photoInfo = Photos.FirstOrDefault(p => !p.Name.EndsWith(".HEIC") && p.YearOfPhoto == year && p.BeachNameOfPhoto == beachname);
+        GooglePhotoInfo? photoInfo = Photos.FirstOrDefault(p => p.YearOfPhoto == year && p.BeachNameOfPhoto == beachname);
         if (photoInfo == null || string.IsNullOrEmpty(photoInfo.Url)) return null;
 
         Bitmap? bitmap = await LoadGoogleDriveImageAsync(photoInfo.Id, photoInfo.Name);
@@ -158,27 +160,26 @@ public class GooglePhotoService
                 case ".jpeg":
                 case ".png":
                 case ".bmp": // default supported formats for Bitmap
+                    using (MemoryStream ms = new MemoryStream(bytes))
+                    {
+                        Bitmap bitmap = new Bitmap(ms);
+                        return bitmap;
+                    }
                     break;
+
                 case ".heic":
                 case ".heif": // Apple file formats, not natively supported by System.Drawing.Bitmap
-
-                    break;
-                default:
+                    using (MemoryStream ms = new MemoryStream(bytes))
+                    {
+                        SKBitmap? bitmap2 = HeicDecoder.Decode(ms);
+                        return ConvertSkBitmapToBitmapUsingStream(bitmap2);
+                    }
+                    default:
                     TraceLogger.LogErrorAuto($"Unsupported image format: {fileExtension}");
                     return null; // Unsupported format
             }
-
-            using (MemoryStream ms = new MemoryStream(bytes))
-            {
-                Bitmap bitmap = new Bitmap(ms);
-                return bitmap;
-            }
-            //// Convert to a base64 encoded string structure 
-            //string base64String = Convert.ToBase64String(bytes);
-
-            // Build structural image tag binding prefix
-            // return $"data:image/jpeg;base64,{base64String}";
         }
+
         catch (Exception ex)
         {
             // Handle errors (e.g., log them, throw exceptions, etc.)
@@ -188,5 +189,16 @@ public class GooglePhotoService
             return null; // Handle network or permission errors
         }
         return null;
+    }
+    public static Bitmap ConvertSkBitmapToBitmapUsingStream(SKBitmap skBitmap)
+    {
+        using (var image = SKImage.FromBitmap(skBitmap))
+        using (var data = image.Encode(SKEncodedImageFormat.Png, 100))
+        using (var stream = new MemoryStream())
+        {
+            data.SaveTo(stream);
+            stream.Seek(0, SeekOrigin.Begin);
+            return new Bitmap(stream);
+        }
     }
 }

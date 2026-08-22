@@ -80,7 +80,7 @@ public partial class MapWebView : UserControl
     {
         // Always call the base method first to raise the Loaded event
         base.OnLoaded(args);
-        _ = SetupTestImage();
+//        _ = SetupTestImage();
 
         if (EmbedLeaflet.Instance is not null)
         {
@@ -102,7 +102,7 @@ public partial class MapWebView : UserControl
 
     private async Task SetupTestImage()
     {
-        Bitmap? _testImage = await GooglePhotoService.GetGooglePhoto("2026", "Coupeville");
+        Bitmap? _testImage = await GooglePhotoService.GetGooglePhoto("2026", "Ala Spit");
         if (_testImage is not null)
         {
             MapWebViewModel.Instance!.Bitmapimage = _testImage;

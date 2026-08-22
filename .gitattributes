@@ -1,0 +1,6 @@
+# Handle text files automatically
+* text=auto
+
+# Explicitly treat WASM and DLL files as binary
+*.wasm binary
+*.dll binary
