@@ -2,14 +2,11 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using Avalonia.VisualTree;
-using MsBox.Avalonia.Enums;
 using ReactiveUI;
 using ReactiveUI.Avalonia;
 using SWSMonitor.ViewModels;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
-using static Google.Apis.Requests.BatchRequest;
 
 namespace SWSMonitor;
 

@@ -4,17 +4,14 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using DataLibrary.Crud;
+using DynamicData;
 using Models;
-using MsBox.Avalonia;
-using MsBox.Avalonia.Enums;
 using ReactiveUI;
 using ReactiveUI.Avalonia;
 using SWSMonitor.ViewModels;
-using DynamicData;
 using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Reactive.Disposables;
 using System.Threading.Tasks;
 
 namespace SWSMonitor;
@@ -49,6 +46,7 @@ public partial class GlossariesView : ReactiveUserControl<GlossariesViewModel>
     {
         this.ViewModel!.IsPopupOpen = false;
         this.ViewModel!.IsReadOnlyPopupOpen = false;
+        this.ViewModel!.PopupIsOpen = false;
     }
 
     private void UpdateSpecies_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
@@ -175,37 +173,12 @@ public partial class GlossariesView : ReactiveUserControl<GlossariesViewModel>
             {
                 if (species is not null)
                 {
-                    ConfirmDelete(species);
+                    this.ViewModel!.SelectedSpecies = species;
+                    this.ViewModel!.PopupMessage = "Species will be permanently deleted. Do you want to continue?";
+                    this.ViewModel!.PopupIsOpen = true;
                 }
             }
         }
-    }
-
-    private async Task<bool> ConfirmDelete(Species species)
-    {
-        TraceLogger.LogWarningAuto("Beep");
-        // Run messagebox/show logic on UI thread and await it.
-        var result = await Dispatcher.UIThread.InvokeAsync(async () =>
-        {
-            var box = MessageBoxManager.GetMessageBoxStandard(
-                "Caution",
-                "Species will be permanently deleted. Do you want to continue?",
-                ButtonEnum.YesNo);
-
-            return await box.ShowAsync();
-        });
-
-        if (result == ButtonResult.Yes)
-        {
-            // DeleteInBackground(species);
-            this.ViewModel!.SelectedSpecies = null;
-            await SpeciesCrud.DeleteSpeciesAsync(StaticData.DataSourceConfig!, species.ID);
-            StaticData.Species.Remove(species);
-            this.ViewModel!.Species.Remove(species);
-
-            return true;
-        }
-        return false;
     }
 
     private void ViewButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
@@ -221,6 +194,20 @@ public partial class GlossariesView : ReactiveUserControl<GlossariesViewModel>
                 }
             }
         }
+    }
+    private void ConfirmDeleteButton_Click(object? sender, RoutedEventArgs e)
+    {
+        // DeleteInBackground(species);
+        var species = this.ViewModel!.SelectedSpecies;
+        this.ViewModel!.PopupIsOpen = false;
+        Dispatcher.UIThread.InvokeAsync(async () =>
+        {
+            // await SpeciesCrud.DeleteSpeciesAsync(StaticData.DataSourceConfig!, species.ID);
+            this.ViewModel!.SelectedSpecies = null;
+            StaticData.Species.Remove(species);
+            this.ViewModel!.Species.Remove(species);
+        });
+
     }
 
     // second parameter used to be GotFocusEventArgs but that is not available in Avalonia, so using RoutedEventArgs instead and ignoring it since we don't need it

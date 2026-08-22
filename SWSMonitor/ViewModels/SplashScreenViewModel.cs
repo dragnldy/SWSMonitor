@@ -56,7 +56,7 @@ namespace SWSMonitor.ViewModels
             set { this.RaiseAndSetIfChanged(ref _splashMessage, value); }
         }
 
-        private string _splashMessage2 = "View and Download\nIntertidal Monitoring Data";
+        private string _splashMessage2 = "Site Provides Tools\nTo View and Download\nIntertidal Monitoring Data";
         public string SplashMessage2
         {
             get => _splashMessage2;

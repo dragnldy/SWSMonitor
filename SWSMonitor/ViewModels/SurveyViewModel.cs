@@ -1,14 +1,10 @@
-﻿using Models;
-using MsBox.Avalonia;
-using MsBox.Avalonia.Enums;
+﻿using Avalonia.Media;
+using Models;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Reactive.Disposables;
-using System.Security.Cryptography.X509Certificates;
 
 namespace SWSMonitor.ViewModels;
 
@@ -111,15 +107,14 @@ public class SurveyViewModel : WizardViewModelBase
     private bool _userCanCreateStudy = false;
     public bool UserCanCreateStudy
     {
-        get => _userCanEdit && !_isExistingSurvey;
+        get => _userCanEdit && !_isExistingSurvey && !_doesSurveyNeedConfirmed;
     }
 
     private bool _doesSurveyNeedConfirmed = false;
     public bool DoesSurveyNeedConfirmed
     {
         get => _doesSurveyNeedConfirmed;
-        set { this.RaiseAndSetIfChanged(ref _doesSurveyNeedConfirmed, value); }
-    }
+        set { this.RaiseAndSetIfChanged(ref _doesSurveyNeedConfirmed, value); this.RaisePropertyChanged(nameof(UserCanCreateStudy)); }    }
 
     private bool _isSurveySelected = false;
     public bool IsSurveySelected
@@ -226,6 +221,20 @@ public class SurveyViewModel : WizardViewModelBase
 
     private bool _okToProceed = false;
 
+    private bool _popupIsOpen = false;
+    public bool PopupIsOpen
+    {
+        get => _popupIsOpen;
+        set { this.RaiseAndSetIfChanged(ref _popupIsOpen, value); }
+    }
+
+    private string _popupMessage = string.Empty;
+    public string PopupMessage
+    {
+        get => _popupMessage;
+        set { this.RaiseAndSetIfChanged(ref _popupMessage, value); }
+    }
+
     public void EditSurvey()
     {
         LoadSelectedSurvey();
@@ -264,12 +273,8 @@ public class SurveyViewModel : WizardViewModelBase
 
         if (existingstudy is not null)
         {
-            // Show error message
-            var box = MessageBoxManager.GetMessageBoxStandard(
-                "Error",
-                "A survey for the selected beach and date already exists. Please choose a different date.",
-                ButtonEnum.Ok);
-            _ = box.ShowAsync();
+            PopupMessage = "A survey for the selected beach and date already exists. Please choose a different date.";
+            PopupIsOpen = true;
             return;
         }
 

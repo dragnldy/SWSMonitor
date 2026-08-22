@@ -3,14 +3,12 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
-using SWSMonitor.ViewModels;
 using DataLibrary.Crud;
-using Models;
 using DynamicData;
-using MsBox.Avalonia;
-using MsBox.Avalonia.Enums;
+using Models;
 using ReactiveUI;
 using ReactiveUI.Avalonia;
+using SWSMonitor.ViewModels;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -47,6 +45,7 @@ public partial class PeopleView : ReactiveUserControl<PeopleViewModel>
     private void ClosePopup_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         this.ViewModel!.IsPopupOpen = false;
+        this.ViewModel!.PopupIsOpen = false;
     }
 
     private void UpdateVolunteer_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
@@ -154,36 +153,12 @@ public partial class PeopleView : ReactiveUserControl<PeopleViewModel>
             {
                 if (volunteer is not null)
                 {
-                    ConfirmDelete(volunteer);
+                    this.ViewModel!.SelectedVolunteer = volunteer;
+                    this.ViewModel!.PopupMessage = "Volunteer will be permanently deleted. Do you want to continue?";
+                    this.ViewModel!.PopupIsOpen = true;
                 }
             }
         }
-    }
-
-    private async Task<bool> ConfirmDelete(Volunteer volunteer)
-    {
-        TraceLogger.LogWarningAuto("Beep");
-        // Run messagebox/show logic on UI thread and await it.
-        var result = await Dispatcher.UIThread.InvokeAsync(async () =>
-        {
-            var box = MessageBoxManager.GetMessageBoxStandard(
-                "Caution",
-                "Volunteer will be permanently deleted. Do you want to continue?",
-                ButtonEnum.YesNo);
-
-            return await box.ShowAsync();
-        });
-
-        if (result == ButtonResult.Yes)
-        {
-            // DeleteInBackground(volunteer);
-            this.ViewModel!.SelectedVolunteer = null;
-            await VolunteersCrud.DeleteVolunteerAsync(StaticData.DataSourceConfig!, volunteer.ID);
-            this.ViewModel!.Volunteers.Remove(volunteer);
-
-            return true;
-        }
-        return false;
     }
 
     private void ViewButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
@@ -199,5 +174,20 @@ public partial class PeopleView : ReactiveUserControl<PeopleViewModel>
                 }
             }
         }
+    }
+    private void ConfirmDeleteButton_Click(object? sender, RoutedEventArgs e)
+    {
+        // DeleteInBackground(beach);
+        var volunteer = this.ViewModel!.SelectedVolunteer;
+        this.ViewModel!.PopupIsOpen = false;
+
+        Dispatcher.UIThread.InvokeAsync(async () =>
+        {
+            this.ViewModel!.SelectedVolunteer = null;
+            // await VolunteersCrud.DeleteVolunteerAsync(StaticData.DataSourceConfig!, volunteer.ID);
+            this.ViewModel!.Volunteers.Remove(volunteer);
+            StaticData.Volunteers.Remove(volunteer);
+            this.ViewModel!.PopupIsOpen = false;
+        });
     }
 }

@@ -35,6 +35,22 @@ public partial class GlossariesViewModel : ViewModelBase, INotifyPropertyChanged
         }
     }
 
+    private string _popupMessage = string.Empty;
+    public string PopupMessage
+    {
+        get => _popupMessage;
+        set { this.RaiseAndSetIfChanged(ref _popupMessage, value); }
+    }
+
+
+    // this is for error messages
+    private bool _popupIsOpen = false;
+    public bool PopupIsOpen
+    {
+        get => _popupIsOpen;
+        set { this.RaiseAndSetIfChanged(ref _popupIsOpen, value); }
+    }
+
     // Can't change the name of existing species because it might be in use in previous surveys
     private bool _canEditScientificName = false;
     public bool CanEditScientificName

@@ -41,4 +41,9 @@ public partial class SurveyView : ReactiveUserControl<SurveyViewModel>
         var vm = this.DataContext as SurveyViewModel;
         vm.CancelNewSurvey();
     }
+
+    private void ClosePopup_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        this.ViewModel!.PopupIsOpen = false;
+    }
 }

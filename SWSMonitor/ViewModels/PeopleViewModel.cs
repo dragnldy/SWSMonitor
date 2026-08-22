@@ -48,6 +48,22 @@ public partial class PeopleViewModel : ViewModelBase, INotifyPropertyChanged
         set { this.RaiseAndSetIfChanged(ref _selectedVolunteer, value); }
     }
 
+    private string _popupMessage = string.Empty;
+    public string PopupMessage
+    {
+        get => _popupMessage;
+        set { this.RaiseAndSetIfChanged(ref _popupMessage, value); }
+    }
+
+
+    // this is for error messages
+    private bool _popupIsOpen = false;
+    public bool PopupIsOpen
+    {
+        get => _popupIsOpen;
+        set { this.RaiseAndSetIfChanged(ref _popupIsOpen, value); }
+    }
+
     public bool UserIsAdmin { get => (int)StaticData.UserRole == (int)AppRoleEnum.Admin; }
     public bool UserHasViewRole { get => (bool)((int)StaticData.UserRole >= (int)AppRoleEnum.View); }
     public bool UserHasViewOnlyRole { get => (int)StaticData.UserRole == (int)AppRoleEnum.View; }

@@ -1,8 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
-using MsBox.Avalonia;
-using MsBox.Avalonia.Enums;
 using ReactiveUI;
 using ReactiveUI.Avalonia;
 using SWSMonitor.ViewModels;

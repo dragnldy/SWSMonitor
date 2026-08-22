@@ -25,7 +25,7 @@
                 </StackPanel>
               <CheckBox Content="Active Only" IsChecked="{Binding ActiveOnly}"/>
            </StackPanel>
-			<Popup Name="MyPopup"  IsOpen="{Binding IsPopupOpen}">
+			<Popup Name="MyPopup"  IsOpen="{Binding IsPopupOpen}" PlacementTarget="DataGrid" Placement="Center">
 				<Border Background="DarkGray" BorderBrush="{DynamicResource ResourceKey=PaneBackground}" BorderThickness="2" Padding="10">
 					<StackPanel>
 						<views:VolunteerView x:Name="NewVolunteerView" />
@@ -36,7 +36,19 @@
 					</StackPanel>
 				</Border>
 		</Popup>
-        <DataGrid ItemsSource="{Binding Volunteers}" x:Name="VolunteersDataGrid"
+        <Popup Name="ErrorPopup" IsOpen="{Binding PopupIsOpen}" PlacementTarget="DataGrid" Placement="Center">
+				<Border Background="DarkGray" BorderBrush="{DynamicResource ResourceKey=PaneBackground}" BorderThickness="2" Padding="10">
+					<StackPanel>
+                        <Label Content="{Binding PopupMessage}"/>
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Content="Yes" Click="ConfirmDeleteButton_Click"> </Button>
+							<Button Content="Cancel" Click="ClosePopup_Click"/>
+						</StackPanel>
+					</StackPanel>
+				</Border>
+		</Popup>
+
+        <DataGrid Name="DataGrid" ItemsSource="{Binding Volunteers}" x:Name="VolunteersDataGrid"
                                DoubleTapped="DataGrid_DoubleTapped" 
                                SelectedItem="{Binding SelectedVolunteer}"
                                 Height="650"

@@ -28,6 +28,23 @@ public class BeachesViewModel : ViewModelBase, INotifyPropertyChanged
         }
     }
 
+    private string _popupMessage = string.Empty;
+    public string PopupMessage
+    {
+        get => _popupMessage;
+        set { this.RaiseAndSetIfChanged(ref _popupMessage, value); }
+    }
+
+
+    // this is for error messages
+    private bool _popupIsOpen = false;
+    public bool PopupIsOpen
+    {
+        get => _popupIsOpen;
+        set { this.RaiseAndSetIfChanged(ref _popupIsOpen, value); }
+    }
+
+    // This is for viewing beach details in a read-only popup
     private bool _isPopupOpen = false;
     public bool IsPopupOpen
     {

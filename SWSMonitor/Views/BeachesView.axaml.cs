@@ -3,17 +3,15 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
-using SWSMonitor.ViewModels;
 using DataLibrary.Crud;
-using Models;
 using DynamicData;
+using Models;
 using ReactiveUI.Avalonia;
+using SWSMonitor.ViewModels;
 using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using MsBox.Avalonia;
-using MsBox.Avalonia.Enums;
 
 namespace SWSMonitor;
 
@@ -52,6 +50,7 @@ public partial class BeachesView : ReactiveUserControl<BeachesViewModel>
     private void ClosePopup_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         this.ViewModel!.IsPopupOpen = false;
+        this.ViewModel!.PopupIsOpen = false;
     }
 
     private void UpdateBeach_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
@@ -160,36 +159,12 @@ public partial class BeachesView : ReactiveUserControl<BeachesViewModel>
             {
                 if (beach is not null)
                 {
-                    ConfirmDelete(beach);
+                    this.ViewModel!.SelectedBeach = beach;
+                    this.ViewModel!.PopupMessage = "Beach will be permanently deleted. Do you want to continue?";
+                    this.ViewModel!.PopupIsOpen = true;
                 }
             }
         }
-    }
-
-    private async Task<bool> ConfirmDelete(BeachData beach)
-    {
-        TraceLogger.LogWarningAuto("Beep");
-        // Run messagebox/show logic on UI thread and await it.
-        var result = await Dispatcher.UIThread.InvokeAsync(async () =>
-        {
-            var box = MessageBoxManager.GetMessageBoxStandard(
-                "Caution",
-                "Beach will be permanently deleted. Do you want to continue?",
-                ButtonEnum.YesNo);
-
-            return await box.ShowAsync();
-        });
-
-        if (result == ButtonResult.Yes)
-        {
-            // DeleteInBackground(beach);
-            this.ViewModel!.SelectedBeach = null;
-            await BeachDataCrud.DeleteBeachDataAsync(StaticData.DataSourceConfig, beach.ID);
-            this.ViewModel!.Beaches.Remove(beach);
-
-            return true;
-        }
-        return false;
     }
 
     private void ViewButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
@@ -205,5 +180,20 @@ public partial class BeachesView : ReactiveUserControl<BeachesViewModel>
                 }
             }
         }
+    }
+
+    private void ConfirmDeleteButton_Click(object? sender, RoutedEventArgs e)
+    {
+        // DeleteInBackground(beach);
+        var beach = this.ViewModel!.SelectedBeach;
+        this.ViewModel!.PopupIsOpen = false;
+
+        Dispatcher.UIThread.InvokeAsync(async () =>
+        {
+            this.ViewModel!.SelectedBeach = null;
+            //  await BeachDataCrud.DeleteBeachDataAsync(StaticData.DataSourceConfig, beach.ID);
+            this.ViewModel!.Beaches.Remove(beach);
+            StaticData.Beaches.Remove(beach);
+        });
     }
 }

@@ -60,7 +60,7 @@
     </Application.Styles>
 
     <Application.Resources>
-        <SolidColorBrush x:Key="ListBoxBorder">#FD5615</SolidColorBrush>
+        <SolidColorBrush x:Key="ListBoxBorder">#374FA2</SolidColorBrush>
         <SolidColorBrush x:Key="PrimaryText">#CFCFCF</SolidColorBrush>
         <LinearGradientBrush x:Key="PaneBackground" StartPoint="0%,0%" EndPoint="0%,100%">
             <GradientStop Color="#374FA2" Offset="0"/>
