@@ -62,6 +62,7 @@ internal sealed partial class Program
         }
         catch (Exception ex)
         {
+            TraceLogger.LogErrorAuto($"Fatal error: {ex.ToString()}");
             Console.WriteLine($"Fatal error: {ex}");
 
             // Call JavaScript to display a static DOM error overlay
@@ -182,7 +183,7 @@ internal sealed partial class Program
                 .UseReactiveUI(_ => { })
                 .AfterSetup(_ =>
                 {
-                    SWSMonitor.EmbedLeaflet.Implementation = new EmbedLeafletBrowser();
+                    //SWSMonitor.EmbedLeaflet.Implementation = new EmbedLeafletBrowser();
                 });
 
         if (_isNotDesigner)
@@ -295,6 +296,7 @@ internal sealed partial class Program
 
         // Initialize API configuration
         await InitializeApiConfigurationAsync();
+
     }
 
     private static async Task InitializeApiConfigurationAsync()

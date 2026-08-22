@@ -1,4 +1,5 @@
-﻿using DataLibrary.Crud;
+﻿using Avalonia.Media.Imaging;
+using DataLibrary.Crud;
 using Models;
 using ReactiveUI;
 using System;
@@ -92,6 +93,12 @@ public class MapWebViewModel : ViewModelBase, INotifyPropertyChanged
         }
     }
 
+    private Bitmap? _bitmapimage = null;
+    public Bitmap? Bitmapimage
+    {
+        get => _bitmapimage;
+        set => this.RaiseAndSetIfChanged(ref _bitmapimage, value);
+    }
     public ObservableCollection<BeachData> Beaches { get; } = new();
     public ObservableCollection<SurveyBase> SurveyDates { get; } = new();
 

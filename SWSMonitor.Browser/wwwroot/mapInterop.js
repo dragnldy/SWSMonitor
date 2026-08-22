@@ -17,7 +17,7 @@
     mapDiv.style.width = `${width}px`;
     mapDiv.style.height = `${height}px`;
     mapDiv.style.zIndex = '999'; // Ensure it appears above other elements
-    mapDiv.style.backgroundColor = 'white'; // Optional: Set a background color for visibility
+    mapDiv.style.backgroundColor = 'transparent'; // Optional: Set a background color for visibility
 
     // 2. Initialize Leaflet onto the created element layout
     // A short timeout gives Avalonia time to finish embedding the element into the layout frame

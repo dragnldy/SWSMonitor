@@ -1,6 +1,8 @@
 using Avalonia;
+using Avalonia.Browser;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Microsoft.JSInterop;
 using Models;
@@ -78,6 +80,7 @@ public partial class MapWebView : UserControl
     {
         // Always call the base method first to raise the Loaded event
         base.OnLoaded(args);
+        _ = SetupTestImage();
 
         if (EmbedLeaflet.Instance is not null)
         {
@@ -94,6 +97,16 @@ public partial class MapWebView : UserControl
             timer.Start();
 
         }
+
+    }
+
+    private async Task SetupTestImage()
+    {
+        Bitmap? _testImage = await GooglePhotoService.GetGooglePhoto("2026", "Coupeville");
+        if (_testImage is not null)
+        {
+            MapWebViewModel.Instance!.Bitmapimage = _testImage;
+        };
     }
 
     private void SetupMarkers()
@@ -110,7 +123,7 @@ public partial class MapWebView : UserControl
         }
         else
         {
-           EmbedLeaflet.Instance!.ShowMarkers(beachesToMark);
+            EmbedLeaflet.Instance!.ShowMarkers(beachesToMark);
         }
         _beachesLoaded = true;
 
@@ -139,6 +152,10 @@ public partial class MapWebView : UserControl
     {
     }
     private void SurveyDatesDataGrid_DoubleTapped(object? sender, Avalonia.Input.TappedEventArgs e)
+    {
+    }
+
+    private void OuterView_PointerPressed(object? sender, Avalonia.Input.PointerPressedEventArgs e)
     {
     }
 }
@@ -176,8 +193,8 @@ public class EmbedLeaflet : NativeControlHost
         {
             if ((int)MapWebView.lastXOffset != (int)relativePoint.Value.X || (int)MapWebView.lastYOffset != (int)relativePoint.Value.Y)
             {
-               RepositionMap((int)relativePoint.Value.X - MapWebView.lastXOffset, 
-                   (int)relativePoint.Value.Y - MapWebView.lastYOffset);
+                RepositionMap((int)relativePoint.Value.X - MapWebView.lastXOffset,
+                    (int)relativePoint.Value.Y - MapWebView.lastYOffset);
 
                 MapWebView.lastXOffset = (int)relativePoint.Value.X;
                 MapWebView.lastYOffset = (int)relativePoint.Value.Y;
@@ -189,14 +206,14 @@ public class EmbedLeaflet : NativeControlHost
 
     internal void RepositionMap(int x, int y)
     {
-        NativeMethods.RepositionDivRelative("MapContainerName", x, y);
+        NativeMethods.RepositionDivRelative(StaticData.MapContainerName, x, y);
     }
 
     public void LoadMapMarkersAfterTimeout(IEnumerable<BeachData> beaches)
     {
         foreach (var beach in beaches)
         {
-            MarkersInterop.AddMarker2Map("MapContainerName", beach.Lat, beach.Long, beach.IsMonitored, beach.BeachName, beach.ID.ToString());
+            MarkersInterop.AddMarker2Map(StaticData.MapContainerName, beach.Lat, beach.Long, beach.IsMonitored, beach.BeachName, beach.ID.ToString());
         }
     }
 
@@ -245,9 +262,26 @@ public class EmbedLeaflet : NativeControlHost
 
     protected override IPlatformHandle CreateNativeControlCore(IPlatformHandle parent)
     {
-        IPlatformHandle handle =  Implementation?.CreateControl(parent, () => base.CreateNativeControlCore(parent))
+        IPlatformHandle handle = Implementation?.CreateControl(parent, () => base.CreateNativeControlCore(parent))
             ?? base.CreateNativeControlCore(parent);
-        return handle;
+
+        double mapstartlong = MapWebView.MapStartPositionLong;
+        double mapstartlat = MapWebView.MapStartPositionLat;
+        int mapstartzoom = MapWebView.MapStartZoom;
+        MapWebView.lastXOffset = (int)MainViewModel.XOffsetMainView + 50;
+        MapWebView.lastYOffset = (int)MainViewModel.YOffsetMainView + 35;
+
+
+        var mapdiv = MarkersInterop.CreateAndInitializeMap(StaticData.MapContainerName, mapstartlat, mapstartlong, mapstartzoom,
+            MapWebView.lastXOffset, MapWebView.lastYOffset, 350, 760);
+
+        if (mapdiv is null)
+        {
+            TraceLogger.LogErrorAuto("Failed to create and initialize map div.");
+            return null;
+        }
+
+        return new JSObjectControlHandle(mapdiv);
     }
 
     protected override void DestroyNativeControlCore(IPlatformHandle control)
@@ -268,7 +302,7 @@ internal static partial class MarkersInterop
     [JSImport("add_marker", "mapInterop.js")]
     public static partial JSObject AddMarker2Map(string elementId, double lat, double lng, bool isActive, string popupText, string id);
 
-    [JSImport("change_marker_to_original","mapInterop.js")]
+    [JSImport("change_marker_to_original", "mapInterop.js")]
     public static partial JSObject ChangeMarker2Original(string id);
 
     [JSImport("change_marker_to_selected", "mapInterop.js")]
@@ -279,4 +313,8 @@ internal static partial class MarkersInterop
 
     [JSImport("hide_marker", "mapInterop.js")]
     public static partial JSObject HideMarker(string id);
+    [JSImport("createAndInitializeMap", "mapInterop.js")]
+    public static partial JSObject CreateAndInitializeMap(string elementId, double lat, double lng, int zoom,
+   int xoffset, int yoffset, int width, int height);
+
 }

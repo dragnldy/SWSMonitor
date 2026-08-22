@@ -15,7 +15,7 @@
 		<vm:MapWebViewModel />
 	</Design.DataContext>
 
-    <Grid ColumnDefinitions="400,800" RowDefinitions="800" Margin="0,0,0,0" Name="OuterView">
+    <Grid ColumnDefinitions="400,800" RowDefinitions="800" Margin="0,0,0,0" Name="OuterView" PointerPressed="OuterView_PointerPressed">
         <StackPanel Grid.Column="0" Grid.Row ="0" VerticalAlignment="Top" HorizontalAlignment="Stretch">
             <TextBlock Text="Beaches Monitored by SWS" FontSize="18" Margin="10" HorizontalAlignment="Center"/>
             <!-- The map control will stretch to fill this grid row -->
@@ -81,6 +81,7 @@
                             <TextBlock Text="{Binding SelectedBeach.VertRef}" TextWrapping="Wrap" FontSize="12" Margin="8,0,0,1"/>
                             <TextBlock Text="Additional Notes" Foreground="DarkGray" FontSize="14" FontWeight="Bold" FontStyle="Italic"/>
                             <TextBlock Text="{Binding SelectedBeach.AdditionalNotes}" TextWrapping="Wrap" FontSize="12"  Margin="8,0,0,1" />
+                            <Image Source="{Binding Bitmapimage}" Height="200" />
                         </StackPanel>
                         </Border>
                     </StackPanel>

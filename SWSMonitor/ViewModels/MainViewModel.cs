@@ -1,4 +1,6 @@
-﻿using Avalonia.Threading;
+﻿using Avalonia.Media.Imaging;
+using Avalonia.Threading;
+using DataLibrary.DataSources.FileServices;
 using ReactiveUI;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -170,6 +172,9 @@ public class MainViewModel : MainWindowModel
         {
             ShowStatus("Loading Glossaries...", false);
         });
+
+        // Initialize Google Drive Photo service
+        var googlePhotoService = new GooglePhotoService();
 
         await Task.Run(async () => await StaticData.PreLoadGlobalsAsync());
 
