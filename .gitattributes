@@ -4,3 +4,6 @@
 # Explicitly treat WASM and DLL files as binary
 *.wasm binary
 *.dll binary
+*.js.symbols binary
+*.blat binary
+*.dat binary
