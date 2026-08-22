@@ -1,9 +1,5 @@
-﻿using Avalonia.Animation;
-using Avalonia.Media.Imaging;
-using DynamicData;
-using ExCSS;
+﻿using Avalonia.Media.Imaging;
 using SkiaSharp;
-using SkiaSharp.Heic;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,7 +8,6 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using static System.Net.WebRequestMethods;
 
 namespace SWSMonitor;
 
@@ -127,7 +122,8 @@ public class GooglePhotoService
     }
     public static async Task<Bitmap?> GetGooglePhoto(string year, string beachname)
     {
-        GooglePhotoInfo? photoInfo = Photos.FirstOrDefault(p => p.YearOfPhoto == year && p.BeachNameOfPhoto == beachname);
+        GooglePhotoInfo? photoInfo = Photos.FirstOrDefault(p => !p.Name.ToLower().EndsWith(".heic") && !p.Name.ToLower().EndsWith(".heif") &&
+        p.YearOfPhoto == year && p.BeachNameOfPhoto == beachname);
         if (photoInfo == null || string.IsNullOrEmpty(photoInfo.Url)) return null;
 
         Bitmap? bitmap = await LoadGoogleDriveImageAsync(photoInfo.Id, photoInfo.Name);
@@ -171,8 +167,9 @@ public class GooglePhotoService
                 case ".heif": // Apple file formats, not natively supported by System.Drawing.Bitmap
                     using (MemoryStream ms = new MemoryStream(bytes))
                     {
-                        SKBitmap? bitmap2 = HeicDecoder.Decode(ms);
-                        return ConvertSkBitmapToBitmapUsingStream(bitmap2);
+                        //SKBitmap? bitmap2 = HeicDecoder.Decode(ms);
+                        //return ConvertSkBitmapToBitmapUsingStream(bitmap2);
+                        return null;
                     }
                     default:
                     TraceLogger.LogErrorAuto($"Unsupported image format: {fileExtension}");
